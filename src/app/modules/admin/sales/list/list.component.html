@@ -38,6 +38,8 @@
                         <th>{{ 'order.list.orderCode' | transloco }}</th>
                         <th>{{ 'order.list.date' | transloco }}</th>
                         <th>{{ 'order.list.client' | transloco }}</th>
+                        <th>{{ 'order.list.vat' | transloco }}</th>
+                        <th>{{ 'order.list.discount' | transloco }}</th>
                         <th>{{ 'order.list.total' | transloco }}</th>
                         <th>{{ 'order.list.status' | transloco }}</th>
                         <th>{{ 'order.list.createdBy' | transloco }}</th>
@@ -45,19 +47,38 @@
                     </tr>
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
-                    <tr *ngFor="let item of dataRow; let i = index">
+                    <tr *ngFor="let item of dataRow; let i = index" [ngClass]="{'bg-yellow-100': shouldHighlightRow(item)}">
                         <td>
-                            <button mat-icon-button color="secondary" *ngIf="!hiddenEdit()" (click)="editElement(item.id)">
-                                <mat-icon>visibility</mat-icon>
-                            </button> 
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:cog-8-tooth'"></mat-icon>
+                              </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item *ngIf="!hiddenEdit()" (click)="editElement(item.id)">
+                                  <mat-icon [svgIcon]="'heroicons_solid:pencil-square'"></mat-icon>
+                                  <span>ดูรายละเอียด</span>
+                                </button>
+                                <mat-divider></mat-divider>
+                                <button mat-menu-item (click)="updateStatus(item)">
+                                  <mat-icon [svgIcon]="'heroicons_solid:arrows-right-left'"></mat-icon>
+                                  <span>เปลี่ยนสถานะ</span>
+                                </button>
+                                <mat-divider></mat-divider>
+                                <button mat-menu-item (click)="viewPDF(item.id)">
+                                  <mat-icon [svgIcon]="'heroicons_solid:document'"></mat-icon>
+                                  <span>ใบสั่งซื้อ</span>
+                                </button>
+                             
+                              </mat-menu>
                         </td>
                         <td>{{ pages.begin + (i + 1) }}</td>
                         <td>{{ item.code ? item.code : "-" }}</td>
                         <td>{{ (item.date ? item.date : "-") | date : 'dd/MM/yyyy' }}</td>
                         <td>{{ item.client ? item.client.name : "-" }}</td>
+                        <td>{{ (item.price_vat ? item.price_vat : "-") | number : '1.2-2' }}</td>
+                        <td>{{ (item.discount ? item.discount : "-") | number : '1.2-2' }}</td>
                         <td>{{ (item.total_price ? item.total_price : "-") | number : '1.2-2' }}</td>
-                        <td>{{ item.status ? item.status : "-" }}</td>
-                        <td>{{ item.create_by ? item.create_by : "-" }}</td>
+                        <td>{{ getStatusName(item.status) }}</td>
+                        <td>{{ item.create ? item.create?.name : "-" }}</td>
                         <td>{{ (item.created_at !== null ? item.created_at : "-") | date : 'dd/MM/yyyy HH:mm:ss' }}</td>
                     </tr>
                 </tbody>

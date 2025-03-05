@@ -392,6 +392,12 @@
             "createdBy": "Created By",
             "creationDate": "Creation Date",
             "noData": "No data available!"
+        },
+        "update_status": {
+            "title": "Update Status",
+            "remark": "Remark",
+            "adjust_discount": "Adjust Discount",
+            "status": "Status"
         }
     },
 
@@ -493,6 +499,12 @@
         "form":{
             "buy": "Purchase Order",
             "buysee":"Veiw Purchase Order",
+            "approve":"Approve",
+            "code":"Order No.",
+            "status":"Status",
+            "vat":"VAT",
+            "discount":"Discount",
+            "adjust_discount":"Discount Approve",
             "cus": "Customer Information",
             "date": "Date",
             "name": "Customer Name",
@@ -508,7 +520,10 @@
             "unit": "Unit",
             "delete": "Delete",
             "ok": "Save",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "edit": "Edit",
+            "address": "Address",
+             "product_list": "Product List"
         },
         "edit":{
             "add": "Add Unit",

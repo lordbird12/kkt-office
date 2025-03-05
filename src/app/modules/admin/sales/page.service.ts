@@ -55,6 +55,15 @@ export class PageService {
                 })
             );
     }
+    updateOrder(data: any, id: any): Observable<any> {
+        return this._httpClient
+            .put<any>(environment.baseURL + '/api/orders/' + id, data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
 
     update(data: any, id: any): Observable<any> {
         return this._httpClient
@@ -138,7 +147,27 @@ export class PageService {
 
     updateStatus(data: any): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/update_status_order/', data)
+            .post<any>(environment.baseURL + '/api/update_status_order', data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
+    getUnit(): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_unit')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
+    getPDF(id: any): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/orders/' + id)
             .pipe(
                 tap((result) => {
                     this._data.next(result);

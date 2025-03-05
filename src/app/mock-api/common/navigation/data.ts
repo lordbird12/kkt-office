@@ -184,27 +184,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:cube',
                 link: '/admin/raw/list',
             },
-            {
-                id: 'products.banjupan',
-                // title: 'บรรจุภัณท์',
-                title: localStorage.getItem('lang') === 'tr' ? 'บรรจุภัณท์' : 'Packaging',
-                hidden: () => {
-                    const storedPermission = JSON.parse(
-                        localStorage.getItem('permission')
-                    );
-                    const menu = storedPermission?.find(
-                        (e) => e.menu_id === 12
-                    );
-                    if (menu?.view === 0) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                },
-                type: 'basic',
-                icon: 'heroicons_outline:cube',
-                link: '/admin/banjupan/list',
-            },
+         
             {
                 id: 'products.unit',
                 // title: 'หน่วยนับ',

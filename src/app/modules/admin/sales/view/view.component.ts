@@ -30,14 +30,15 @@ import {
     MatAutocompleteModule,
     MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormDialogComponent } from '../../product/form-dialog/form-dialog.component';
 import { FormUnitDialogComponent } from '../../unit/form-dialog/form-dialog.component';
 import { UnitProductComponent } from '../../unit/unit-product/form-dialog.component';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { UpdateDialogComponent } from '../update-status/update-dialog.component';
 @Component({
-    selector: 'form-product',
-    templateUrl: './form.component.html',
+    selector: 'view-order',
+    templateUrl: './view.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
@@ -57,10 +58,12 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
         MatChipsModule,
         MatDatepickerModule,
         MatAutocompleteModule,
-        TranslocoModule
+        TranslocoModule,
+        MatDialogModule
     ],
 })
-export class FormComponent {
+export class ViewOrderComponent {
+    status: string = 'NEW'
     statusOrder: any[] = [
         {
             value: 'Ordered',
@@ -83,7 +86,6 @@ export class FormComponent {
             name: 'ได้รับสินค้า'
         },
     ]
-    status: string = 'NEW'
     addForm: FormGroup;
     ProductControl = new FormControl('');
     formFieldHelpers: string[] = ['fuse-mat-dense'];
@@ -93,7 +95,7 @@ export class FormComponent {
     unitdata: any[] = [];
     filteredOptions: Observable<{ id: string; name: string }[]>[] = [];
     id: any
-    itemData: any;
+    itemData: any = {};
     /**
      * Constructor
      */
@@ -110,35 +112,22 @@ export class FormComponent {
 
     ) {
         this.unitdata = this._activatedRoute.snapshot.data.units.data
-        console.log(this.unitdata);
-        
-        this.addForm = this._formBuilder.group({
-            date: '',
-            total_price: '',
-            price_vat: '',
-            adjust_discount: '',
-            discount: '',
-            client_name: '',
-            client_phone: '',
-            client_email: '',
-            products: this._formBuilder.array([]),
-        });
         this.id = this._activatedRoute.snapshot.params.id;
         if(this.id) {
             this._service.getById(this.id).subscribe((resp: any)=>{
                 this.status = 'EDIT'
                 this.itemData = resp.data;
+                console.log(this.itemData);
+                
                 this.addForm.patchValue({
                     date: this.itemData?.date,
                     total_price: this.itemData?.total_price,
-                    price_vat: this.itemData?.price_vat,
-                    adjust_discount: this.itemData?.adjust_discount,
-                    discount: this.itemData?.discount,
                     client_name: this.itemData?.client?.name,
                     client_phone: this.itemData?.client?.phone,
                     client_email: this.itemData?.client?.email,   
                 })
-                if (this.itemData.order_lists.length > 0 ) {
+    
+                if (this.itemData?.order_lists.length > 0 ) {
                     for (let index = 0; index < this.itemData.order_lists.length; index++) {
                         const element = this.itemData.order_lists[index];
                         const a = this._formBuilder.group({
@@ -147,16 +136,24 @@ export class FormComponent {
                             cost: element?.cost,
                             price: element?.price,
                             product_name: element?.product?.name,
-                            unit_id: +element?.unit_id,
+                            unit_id: '',
                         });
                         this.products.push(a);
                     }
-                    this._changeDetectorRef.markForCheck()
                 }
+                this._changeDetectorRef.markForCheck()
             })
         }
         
-     
+        
+        this.addForm = this._formBuilder.group({
+            date: '',
+            total_price: '',
+            client_name: '',
+            client_phone: '',
+            client_email: '',
+            products: this._formBuilder.array([]),
+        });
         this.lang = translocoService.getActiveLang();
         this.langues = localStorage.getItem('lang');
     }
@@ -165,6 +162,30 @@ export class FormComponent {
 
     ngOnInit(): void {
 
+        if(this.status === 'EDIT') {
+            this.addForm.patchValue({
+                date: this.itemData?.date,
+                total_price: this.itemData?.total_price,
+                client_name: this.itemData?.clent?.name,
+                client_phone: this.itemData?.phone,
+                client_email: this.itemData?.email,   
+            })
+
+            if (this.itemData.order_lists.length > 0 ) {
+                for (let index = 0; index < this.itemData.order_lists.length; index++) {
+                    const element = this.itemData.order_lists[index];
+                    const a = this._formBuilder.group({
+                        product_id: '', //ชื่อ unit
+                        qty: element?.qty,
+                        cost: element?.cost,
+                        price: element?.price,
+                        product_name: element?.product?.name,
+                        unit_id: '',
+                    });
+                    this.products.push(a);
+                }
+            }
+        }
 
         this.GetProduct();
         this.filteredOptions[0] = this.ProductControl.valueChanges.pipe(
@@ -401,132 +422,6 @@ export class FormComponent {
 
     }
 
-    onSubmitEdit(): void {
-        if(this.langues=='tr'){
-            const dialogRef = this._fuseConfirmationService.open({
-                title: 'บันทึกข้อมูล',
-                message: 'คุณต้องการบันทึกข้อมูลใช่หรือไม่ ?',
-                icon: {
-                    show: true,
-                    name: 'heroicons_outline:exclamation-triangle',
-                    color: 'accent',
-                },
-                actions: {
-                    confirm: {
-                        show: true,
-                        label: 'ตกลง',
-                        color: 'primary',
-                    },
-                    cancel: {
-                        show: true,
-                        label: 'ยกเลิก',
-                    },
-                },
-                dismissible: true,
-            });
-    
-            dialogRef.afterClosed().subscribe((result) => {
-                if (result === 'confirmed') {
-                    let formValue = this.addForm.value;
-                    formValue.date = moment(formValue.date).format('YYYY-MM-DD');
-                    this._service.updateOrder(formValue, this.itemData.id).subscribe({
-                        next: (resp: any) => {
-                            this._router
-                                .navigateByUrl('admin/sales/list')
-                                .then(() => {});
-                        },
-                        error: (err: any) => {
-                            this._fuseConfirmationService.open({
-                                title: 'กรุณาระบุข้อมูล',
-                                message: err.error.message,
-                                icon: {
-                                    show: true,
-                                    name: 'heroicons_outline:exclamation',
-                                    color: 'warning',
-                                },
-                                actions: {
-                                    confirm: {
-                                        show: false,
-                                        label: 'ยืนยัน',
-                                        color: 'primary',
-                                    },
-                                    cancel: {
-                                        show: false,
-                                        label: 'ยกเลิก',
-                                    },
-                                },
-                                dismissible: true,
-                            });
-                            // console.log(err.error.message)
-                        },
-                    });
-                }
-            });
-        }
-        else if(this.langues=='en'){
-            const dialogRef = this._fuseConfirmationService.open({
-                title: 'Save data',
-                message: 'Do you want to save the data ?',
-                icon: {
-                    show: true,
-                    name: 'heroicons_outline:exclamation-triangle',
-                    color: 'accent',
-                },
-                actions: {
-                    confirm: {
-                        show: true,
-                        label: 'Confirm',
-                        color: 'primary',
-                    },
-                    cancel: {
-                        show: true,
-                        label: 'Cancel',
-                    },
-                },
-                dismissible: true,
-            });
-    
-            dialogRef.afterClosed().subscribe((result) => {
-                if (result === 'confirmed') {
-                    let formValue = this.addForm.value;
-                    formValue.date = moment(formValue.date).format('YYYY-MM-DD');
-                    this._service.updateOrder(formValue, this.itemData.id).subscribe({
-                        next: (resp: any) => {
-                            this._router
-                                .navigateByUrl('admin/sales/list')
-                                .then(() => {});
-                        },
-                        error: (err: any) => {
-                            this._fuseConfirmationService.open({
-                                title: 'Please specify',
-                                message: err.error.message,
-                                icon: {
-                                    show: true,
-                                    name: 'heroicons_outline:exclamation',
-                                    color: 'warning',
-                                },
-                                actions: {
-                                    confirm: {
-                                        show: false,
-                                        label: 'Confirm',
-                                        color: 'primary',
-                                    },
-                                    cancel: {
-                                        show: false,
-                                        label: 'Cancel',
-                                    },
-                                },
-                                dismissible: true,
-                            });
-                            // console.log(err.error.message)
-                        },
-                    });
-                }
-            });
-        }
-
-    }
-
     calculateTotal(formArray: FormArray): number {
         let total = 0;
 
@@ -600,9 +495,70 @@ export class FormComponent {
             });
     }
 
+    updateStatus(data): void {
+        
+        this.dialog
+            .open(UpdateDialogComponent, {
+                width: '40%',
+                height: 'auto',
+                autoFocus: false,
+                data : data
+             
+            })
+            .afterClosed()
+            .subscribe((foundItem) => {
+                if(foundItem) {
+                    this._service.getById(this.id).subscribe((resp: any)=>{
+                        this.status = 'EDIT'
+                        this.itemData = resp.data;
+                        console.log(this.itemData);
+                        
+                        this.addForm.patchValue({
+                            date: this.itemData?.date,
+                            total_price: this.itemData?.total_price,
+                            client_name: this.itemData?.client?.name,
+                            client_phone: this.itemData?.client?.phone,
+                            client_email: this.itemData?.client?.email,   
+                        })
+            
+                        if (this.itemData?.order_lists.length > 0 ) {
+                            for (let index = 0; index < this.itemData.order_lists.length; index++) {
+                                const element = this.itemData.order_lists[index];
+                                const a = this._formBuilder.group({
+                                    product_id: element?.product_id,
+                                    qty: element?.qty,
+                                    cost: element?.cost,
+                                    price: element?.price,
+                                    product_name: element?.product?.name,
+                                    unit_id: '',
+                                });
+                                this.products.push(a);
+                            }
+                        }
+                        this._changeDetectorRef.markForCheck()
+                    })
+                    
+                }
+            });
+    }
+
+    shouldHighlightRow(item: any): boolean {
+        return item.status === 'Ordered' && item.discount > 0;
+    }
+
     getStatusName(value: string): string {
         const foundStatus = this.statusOrder.find(s => s.value === value);
         return foundStatus ? foundStatus.name : '-';
     }
+
+    getUnitName(value: string): string {
+        const foundStatus = this.unitdata.find(s => s.id === +value);
+        return foundStatus ? foundStatus.name : '-';
+    }
+
+    editElement(element: any) {
+        this._router.navigateByUrl('admin/sales/edit/' + element)
+    }
+ 
 
 }

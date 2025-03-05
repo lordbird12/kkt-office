@@ -29,6 +29,10 @@ import { Router } from '@angular/router';
 import { PictureComponent } from '../../picture/picture.component';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatMenuModule } from '@angular/material/menu';
+import { environment } from 'environments/environment.development';
+import { MatDividerModule } from '@angular/material/divider';
+import { UpdateDialogComponent } from '../update-status/update-dialog.component';
 
 @Component({
     selector: 'employee-list',
@@ -54,7 +58,9 @@ import { MatTabsModule } from '@angular/material/tabs';
         MatTableModule,
         DataTablesModule,
         TranslocoModule,
-        MatTabsModule
+        MatTabsModule,
+        MatMenuModule,
+        MatDividerModule
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
@@ -120,7 +126,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
-        this._router.navigateByUrl('admin/sales/edit/' + element)
+        this._router.navigateByUrl('admin/sales/view/' + element)
     }
 
 
@@ -180,6 +186,8 @@ export class ListComponent implements OnInit, AfterViewInit {
                 { data: 'code' },
                 { data: 'date' },
                 { data: 'client' },
+                { data: 'vat' },
+                { data: 'discount' },
                 { data: 'total_price' },
                 { data: 'status' },
                 { data: 'create_by' },
@@ -222,5 +230,39 @@ export class ListComponent implements OnInit, AfterViewInit {
             this.selectedStatus = this.status[index - 1].value; // ดึงค่าของสถานะที่เลือก
         }
         this.rerender();
+    }
+
+    // ฟังก์ชันแปลงค่า status เป็นชื่อที่อ่านง่าย
+    getStatusName(value: string): string {
+        const foundStatus = this.status.find(s => s.value === value);
+        return foundStatus ? foundStatus.name : '-';
+    }
+
+    // ฟังก์ชันตรวจสอบว่าต้องเปลี่ยนสีพื้นหลังหรือไม่
+    shouldHighlightRow(item: any): boolean {
+        return item.status === 'Ordered' && item.discount > 0;
+    }
+
+    viewPDF(element: any) {
+        window.open(environment.baseURL + '/api/invoice/' + element, '_blank');
+
+    }
+
+    updateStatus(data): void {
+        this.dialog
+            .open(UpdateDialogComponent, {
+                width: '40%',
+                height: 'auto',
+                autoFocus: false,
+                data: data
+
+            })
+            .afterClosed()
+            .subscribe((foundItem) => {
+                if (foundItem) {
+               
+                    this.rerender()
+                }
+            });
     }
 }
