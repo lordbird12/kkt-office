@@ -36,9 +36,10 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { Service } from '../page.service';
 import { CommonModule } from '@angular/common';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { Subscription } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { environment } from 'environments/environment.development';
 @Component({
     selector: 'form-product',
     templateUrl: './form.component.html',
@@ -126,7 +127,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
         this.id = this._activatedRoute.snapshot.params.id
         // console.log(this.id , 'id');
-        
+
         this.formData = this._formBuilder.group({
             category_product_id: [''],
             sub_category_product_id: ['', Validators.required],
@@ -137,6 +138,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             cost: [0],
             type: [''],
             images: [],
+            panorama_images: [],
             area_id: [''], //โรงเก็บ
             shelve_id: [''], //ตู้เก็บของ
             floor_id: [''],  //ช่องเก็บของ
@@ -218,7 +220,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             this.maxProductsLength = this.Unit.length;
         });
 
-        
+
 
         // this._Service.getShelf().subscribe((resp) => {
         //     this.itemShelve = resp.data;
@@ -228,7 +230,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * After view init
      */
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
 
     /**
      * On destroy
@@ -272,7 +274,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-    onfloorSelected(event: any,i): void {
+    onfloorSelected(event: any, i): void {
         const selectedfloorId = event.value;
 
         this._Service
@@ -342,7 +344,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(this.formData.value);
     }
     Cancel(): void {
-        this._router.navigateByUrl('admin/product/list').then(() => {});
+        this._router.navigateByUrl('admin/product/list').then(() => { });
     }
 
     // Submit(): void {
@@ -424,7 +426,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     Submit(): void {
-        if(this.langues=='tr'){
+        if (this.langues == 'tr') {
             console.log(this.formData.value);
             const confirmation = this._fuseConfirmationService.open({
                 title: 'เพิ่มข้อมูล',
@@ -449,13 +451,15 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             });
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
-                    this._Service.Savedata(this.formData.value).subscribe({
+                    let formValue  = this.formData.value
+                    formValue.panorama_images = this.images
+                    this._Service.Savedata(formValue).subscribe({
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/product/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
-    
+
                         error: (err: any) => {
                             console.log(err);
                             this.formData.enable();
@@ -486,8 +490,8 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
             });
         }
-        else if(this.langues=='en'){
-            console.log(this.formData.value);
+        else if (this.langues == 'en') {
+            
             const confirmation = this._fuseConfirmationService.open({
                 title: 'Add data',
                 message: 'Do you want to add data ?',
@@ -511,13 +515,15 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             });
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
-                    this._Service.Savedata(this.formData.value).subscribe({
+                    let formValue  = this.formData.value
+                    formValue.panorama_images = this.images
+                    this._Service.Savedata(formValue).subscribe({
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/product/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
-    
+
                         error: (err: any) => {
                             console.log(err);
                             this.formData.enable();
@@ -548,7 +554,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
             });
         }
- 
+
     }
 
 
@@ -567,4 +573,43 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         }, 3000);
     }
+
+    filesPC: { [key: number]: File } = {}; // แยกไฟล์แต่ละแถว
+
+
+    onSelect1(event: any) {
+        for (let file of event.addedFiles) {
+            this.uploadFile(file);
+        }
+    }
+    url_env : string = environment.baseURL + '/'
+    images: string[] = []; // เก็บ URL รูปภาพที่อัปโหลด
+    async uploadFile(file: File) {
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+            // ตัวอย่างการส่งไปยัง API (เปลี่ยน URL ตาม backend ของคุณ)
+            const formData1 = new FormData();
+            formData1.append('image', file);
+            formData1.append('path', 'asset/images/');
+            this._Service.uploadImg(formData1).subscribe((resp) => {
+              
+                this.images.push(resp); // อัปเดตรายการ images
+                console.log(this.images);
+                this._changeDetectorRef.markForCheck();
+
+            })
+        } catch (error) {
+            console.error('Upload failed:', error);
+        }
+    }
+
+    onRemoveImagePC(index: number) {
+        if (index > -1) {
+          this.images.splice(index, 1); // ลบรูปออกจาก images[]
+          this.files.splice(index, 1);  // ลบไฟล์ออกจาก files[]
+        }
+      }
+
+
 }

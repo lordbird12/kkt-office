@@ -292,22 +292,33 @@
 
 
                     <div class="-mx-3 md:flex mb-6">
-
                         <div class="md:min-w-full px-3 mb-6 md:mb-0">
                             <div class="border-t border-gray-200">
                                 <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                                     <div class=" flex flex-wrap justify-start">
-                                        <ngx-dropzone (change)="onSelects($event)"
-                                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                            <ngx-dropzone-label>{{'banjupan.form.image' | transloco
-                                                }}</ngx-dropzone-label>
-                                            <div *ngFor="let f of files">
-                                                <ngx-dropzone-image-preview [file]="f" [removable]="true"
-                                                    (removed)="onRemove(f)"></ngx-dropzone-image-preview>
+                                        <ngx-dropzone class="w-full h-32" accept="image/*" (change)="onSelect1($event)">
+                                            <ngx-dropzone-label>Select Image</ngx-dropzone-label>
+                    
+                                            <div *ngIf="files.length > 0" class="flex flex-wrap">
+                                                <ngx-dropzone-image-preview [file]="files[i]" [removable]="true"
+                                                    (removed)="onRemoveImagePC(i)">
+                                                </ngx-dropzone-image-preview>
                                             </div>
                                         </ngx-dropzone>
                                     </div>
                                 </dd>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="-mx-3 md:flex mb-6">
+                        <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                            <div class="grid grid-cols-3 gap-4 mt-4">
+                                <div *ngFor="let img of images; let i = index">
+                                    <img [src]="url_env + img" class="w-full h-auto rounded-md shadow-md"/>
+                                    <button (click)="onRemoveImagePC(i)" class="bg-red-500 text-white px-2 py-1 mt-2 rounded-md">
+                                        ลบรูป
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

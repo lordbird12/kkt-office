@@ -125,6 +125,7 @@ export class EditComponent implements OnInit {
         private translocoService: TranslocoService
 
     ) {
+        const id = this.activatedRoute.snapshot.paramMap.get('id');
         this.formData = this._formBuilder.group({
             id: '',
             category_product_id: [''],
@@ -152,7 +153,7 @@ export class EditComponent implements OnInit {
             path: 'images/asset/',
         });
         this.formRaw = this._formBuilder.group({
-            product_id: '',
+            product_id: id,
             raws: this._formBuilder.array([]),
         });
         this._Service.getProduct().subscribe((resp: any) => {

@@ -55,6 +55,7 @@ export class Service {
                 })
             );
     }
+    
 
     update(data: any, id: any): Observable<any> {
         return this._httpClient
