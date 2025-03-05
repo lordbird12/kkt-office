@@ -24,10 +24,11 @@ import { MatTableModule } from '@angular/material/table';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
-import { DataTablesModule } from 'angular-datatables';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { PictureComponent } from '../../picture/picture.component';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
     selector: 'employee-list',
@@ -52,15 +53,40 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
-        TranslocoModule
+        TranslocoModule,
+        MatTabsModule
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
+    selectedStatus: string = '';  // เก็บสถานะที่เลือก
+    selectedStatusIndex = 0;
     // public dataRow: any[];
     dataRow: any[] = [];
+    status: any[] = [
+        {
+            value: 'Ordered',
+            name: 'รอดำเนินการ'
+        },
+        {
+            value: 'Approve',
+            name: 'อนุมัติ'
+        },
+        {
+            value: 'Recived',
+            name: 'รอจัดส่ง'
+        },
+        {
+            value: 'Finish',
+            name: 'จัดส่ง'
+        },
+        {
+            value: 'ToClient',
+            name: 'ได้รับสินค้า'
+        },
+    ]
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
@@ -119,6 +145,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
+    // โหลดตารางข้อมูล
     loadTable(): void {
         const that = this;
         this.dtOptions = {
@@ -127,31 +154,25 @@ export class ListComponent implements OnInit, AfterViewInit {
             serverSide: true,
             processing: true,
             language: {
-                url:  this.languageUrl,
+                url: this.languageUrl,
             },
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.type = 'Good';
-                that._service
-                    .getPage(dataTablesParameters)
-                    .subscribe((resp: any) => {
-                        this.dataRow = resp.data;
-                        this.pages.current_page = resp.current_page;
-                        this.pages.last_page = resp.last_page;
-                        this.pages.per_page = resp.per_page;
-                        if (resp.current_page > 1) {
-                            this.pages.begin =
-                                resp.per_page * resp.current_page - 1;
-                        } else {
-                            this.pages.begin = 0;
-                        }
+                dataTablesParameters.status = this.selectedStatus || ''; // ส่งสถานะไปที่ API
+                that._service.getPage(dataTablesParameters).subscribe((resp: any) => {
+                    this.dataRow = resp.data;
+                    this.pages.current_page = resp.current_page;
+                    this.pages.last_page = resp.last_page;
+                    this.pages.per_page = resp.per_page;
+                    this.pages.begin = resp.current_page > 1 ? resp.per_page * (resp.current_page - 1) : 0;
 
-                        callback({
-                            recordsTotal: resp.total,
-                            recordsFiltered: resp.total,
-                            data: [],
-                        });
-                        this._changeDetectorRef.markForCheck();
+                    callback({
+                        recordsTotal: resp.total,
+                        recordsFiltered: resp.total,
+                        data: [],
                     });
+
+                    this._changeDetectorRef.markForCheck();
+                });
             },
             columns: [
                 { data: 'action', orderable: false },
@@ -160,6 +181,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 { data: 'date' },
                 { data: 'client' },
                 { data: 'total_price' },
+                { data: 'status' },
                 { data: 'create_by' },
                 { data: 'created_at' },
             ],
@@ -169,6 +191,14 @@ export class ListComponent implements OnInit, AfterViewInit {
     deleteElement() {
         // เขียนโค้ดสำหรับการลบออกองคุณ
     }
+    @ViewChild(DataTableDirective)
+    dtElement!: DataTableDirective;
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+    }
+
 
     showPicture(imgObject: any): void {
         this.dialog
@@ -183,5 +213,14 @@ export class ListComponent implements OnInit, AfterViewInit {
                 // Go up twice because card routes are setup like this; "card/CARD_ID"
                 // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
             });
+    }
+
+    onStatusChange(index: number): void {
+        if (index === 0) {
+            this.selectedStatus = ''; // เลือก "ทั้งหมด"
+        } else {
+            this.selectedStatus = this.status[index - 1].value; // ดึงค่าของสถานะที่เลือก
+        }
+        this.rerender();
     }
 }
