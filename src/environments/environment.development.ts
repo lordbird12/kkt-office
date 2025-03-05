@@ -1,5 +1,5 @@
 export const environment = {
-    baseURL: "https://laongherbalgroup.com/api_demo/public"
+    baseURL: "https://asha-tech.co.th/kkt-api/public"
     // baseURL: 'https://laongherbalgroup.com/api/public',
     
 };
