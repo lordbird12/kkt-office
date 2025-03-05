@@ -453,6 +453,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (result === 'confirmed') {
                     let formValue  = this.formData.value
                     formValue.panorama_images = this.images
+                    formValue.images = this.images
                     this._Service.Savedata(formValue).subscribe({
                         next: (resp: any) => {
                             this._router
@@ -517,6 +518,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (result === 'confirmed') {
                     let formValue  = this.formData.value
                     formValue.panorama_images = this.images
+                    formValue.images = this.images
                     this._Service.Savedata(formValue).subscribe({
                         next: (resp: any) => {
                             this._router
