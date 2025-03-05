@@ -1,0 +1,309 @@
+<div class="md:max-w-auto mx-auto">
+    <h1 mat-dialog-title class="text-xl font-semibold mb-4">{{ 'banjupan.form.add' | transloco }}</h1>
+    <div mat-dialog-content>
+        <form [formGroup]="formData">
+            <!-- Main -->
+            <div class="flex-auto pl-6 pr-6 pt-6 sm:pl-10 sm:pr-10 sm:pt-10">
+                <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-2">
+    
+                    <div class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+                        <span
+                            class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
+                            <!-- ข้อมูลสินค้า -->
+                            <div>{{ 'banjupan.form.productdetail' | transloco }}</div>
+                        </span>
+                        <div class="-mx-3 md:flex mb-6">
+    
+                            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>{{ 'banjupan.form.category' | transloco }}</mat-label>
+                                    <mat-select [formControlName]="'category_product_id'"
+                                        (selectionChange)="somethingChanged($event)">
+                                        <mat-option [value]="''">
+                                            <span>{{'banjupan.form.selectproduct' | transloco }}</span>
+                                        </mat-option>
+                                        <mat-option *ngFor="let item of CategoryData" [value]="item.id">
+                                            {{item.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>{{ 'banjupan.form.subcategory' | transloco }}</mat-label>
+                                    <mat-select [formControlName]="'sub_category_product_id'">
+                                        <mat-option [value]="''">
+                                            <span>{{'banjupan.form.selectproduct' | transloco }}</span>
+                                        </mat-option>
+                                        <mat-option *ngFor="let item of SubCategoryData" [value]="item.id">
+                                            {{item.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>{{ 'banjupan.form.suppliers' | transloco }}</mat-label>
+                                    <mat-select [formControlName]="'supplier_id'">
+                                        <mat-option [value]="''">
+                                            <span>{{'banjupan.form.selectsuppliers' | transloco }}</span>
+                                        </mat-option>
+                                        <mat-option *ngFor="let item of itemSupplier" [value]="item.id">
+                                            {{item.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="md:w-1/2 px-3">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>{{ 'banjupan.form.type' | transloco }}</mat-label>
+                                    <mat-select [formControlName]="'type'">
+                                        <mat-option [value]="''">
+                                            <span>{{'banjupan.form.selecttype' | transloco }}</span>
+                                        </mat-option>
+                                        <mat-option value="Good">สินค้าพร้อมจำหน่าย</mat-option>
+                                        <mat-option value="Raw">อะไหล่สินค้า</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>{{'banjupan.form.name' | transloco }}</mat-label>
+                                    <input matInput [formControlName]="'name'" [placeholder]="'กรอกชื่อสินค้า'">
+                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex mb-2">
+                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                                <mat-form-field class="w-full">
+                                    <mat-label>{{'banjupan.form.detail' | transloco }}</mat-label>
+                                    <textarea matInput [placeholder]="'กรอกข้อมูลที่อยู่'" [formControlName]="'detail'"
+                                        [rows]="3"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                                <mat-form-field class="w-full">
+                                    <mat-label>{{'banjupan.form.price' | transloco }}</mat-label>
+                                    <input matInput type="number" [placeholder]="'กรอกราคาสินค้า'"
+                                        [formControlName]="'cost'">
+                                </mat-form-field>
+                            </div>
+    
+                        </div>
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="md:w-1/4 px-3 mb-6 md:mb-0">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>{{'banjupan.form.sale' | transloco }}</mat-label>
+                                    <input matInput type="number" [placeholder]="'กรอกราคาขาย'"
+                                        [formControlName]="'sale_price'">
+                                </mat-form-field>
+                            </div>
+                            <!-- <div class="md:w-1/4 px-3 mb-6 md:mb-0">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>จำนวน</mat-label>
+                                    <input matInput type="number" [placeholder]="'กรอกจำนวน'" [formControlName]="'qty'">
+                                </mat-form-field>
+                            </div> -->
+                            <div class="md:w-1/4 px-3 mb-6 md:mb-0">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>{{'banjupan.form.min' | transloco }}</mat-label>
+                                    <input matInput type="number" [placeholder]="'ขั้นต่ำ'" [formControlName]="'min'">
+                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                </mat-form-field>
+                            </div>
+                            <div class="md:w-1/4 px-3 mb-6 md:mb-0">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>{{'banjupan.form.max' | transloco }}</mat-label>
+                                    <input matInput type="number" [placeholder]="'สูงสุด'" [formControlName]="'max'">
+                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="md:min-w-1/2 px-3 mb-6 md:mb-0">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>{{'banjupan.form.status' | transloco }}</mat-label>
+                                    <mat-select [formControlName]="'stock_status'">
+                                        <mat-option *ngFor="let item of stockStatus" [value]="item.id">
+                                            {{item.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex mb-6">
+    
+                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                                <mat-form-field class="w-full">
+                                    <mat-label>{{'banjupan.form.additionalBinDetails' | transloco }}</mat-label>
+                                    <textarea matInput [placeholder]="'รายละเอียดช่องเก็บเสริม'"
+                                        [formControlName]="'more_address'" [rows]="3"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+                        <span
+                            class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
+                            <!-- จัดการสต๊อคสินค้า -->
+                            {{'banjupan.form.stock' | transloco }}
+                        </span>
+                        <div formArrayName="products">
+                            <div class="-mx-3 md:flex mb-2" *ngFor="let item of products.controls; let i = index"
+                                [formGroupName]="i">
+                                <div class="flex flex-col w-full">
+                                    <div class="flex flex-row w-full">
+                                        <span class="text-lg font-bold">{{i +1}}</span>
+                                        <div class=" flex flex-row gap-3 md:w-1/4 px-3">
+                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                <mat-label>{{'banjupan.form.nounit' | transloco }}</mat-label>
+                                                <input matInput formControlName="qty" [placeholder]="'จำนวน'">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class=" flex flex-row gap-3 md:w-1/4 px-3">
+                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                <mat-label>Lot</mat-label>
+                                                <input matInput formControlName="lot" [placeholder]="'เลข Lot'">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class=" flex flex-row gap-3 md:w-1/4 px-3">
+                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                <mat-label>{{'banjupan.form.type_array' | transloco }}</mat-label>
+                                                <input matInput formControlName="type" [placeholder]="'รูปแบบสินค้า'">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class=" flex flex-row gap-3 md:w-1/4 px-3">
+                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                <mat-label>{{'banjupan.form.unit' | transloco }}</mat-label>
+                                                <mat-select [formControlName]="'unit_id'" required>
+                                                    <mat-option value="" disabled>{{'banjupan.form.selectunit' | transloco }}</mat-option>
+                                                    <mat-option *ngFor="let unit of Unit" [value]="unit.id">
+                                                        {{unit.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <button class="px-6 ml-3 mt-6" mat-flat-button [color]="'warn'"
+                                                (click)="removeRow(i)">
+                                                <!-- ลบ -->
+                                                {{'banjupan.form.delete' | transloco }}
+                                            </button>   
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-row w-full gap-6 ml-5">
+                                        <div class="-mx-3 md:flex mb-6 md:w-1/4">
+                                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                    <mat-label>{{'banjupan.form.selectWarehouse' | transloco }}</mat-label>
+                                                    <mat-select [formControlName]="'area_id'" (selectionChange)="onchange($event, i)">
+                                                        <mat-option *ngFor="let item of itemArea" [value]="item.id">
+                                                            {{item.name}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="-mx-3 md:flex mb-6 md:w-1/4">
+                                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                    <mat-label>{{'banjupan.form.selectCabinet' | transloco }}</mat-label>
+                                                    <mat-select [formControlName]="'shelve_id'" (selectionChange)="onShelfSelected($event , i)">
+                                                        <mat-option *ngFor="let item of itemShelve[i]" [value]="item.id">
+                                                            {{item.name}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="-mx-3 md:flex mb-6 md:w-1/4">
+                                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                    <mat-label>{{'banjupan.form.selectBin' | transloco }}</mat-label>
+                                                    <mat-select [formControlName]="'floor_id'" (selectionChange)="onfloorSelected($event, i)">
+                                                        <mat-option *ngFor="let item of itemFloor[i]" [value]="item.id">
+                                                            {{ item.name }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="-mx-3 md:flex mb-6 md:w-1/4">
+                                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                    <mat-label>{{'banjupan.form.selectShelf' | transloco }}</mat-label>
+                                                    <mat-select [formControlName]="'channel_id'">
+                                                        <mat-option *ngFor="let item of itemChannel[i]" [value]="item.id">
+                                                            {{ item.name }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>   
+                               
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex mb-6">
+                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                                <div
+                                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="addRow('')"
+                                        [disabled]="products.length >= maxProductsLength">
+                                        <!-- เพิ่มรายการหน่วย -->
+                                        {{'banjupan.form.subadd' | transloco }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                       
+    
+                        <div class="-mx-3 md:flex mb-6">
+    
+                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                                <div class="border-t border-gray-200">
+                                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                        <div class=" flex flex-wrap justify-start">
+                                            <ngx-dropzone (change)="onSelects($event)"
+                                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                <ngx-dropzone-label>{{'banjupan.form.image' | transloco
+                                                    }}</ngx-dropzone-label>
+                                                <div *ngFor="let f of files">
+                                                    <ngx-dropzone-image-preview [file]="f" [removable]="true"
+                                                        (removed)="onRemove(f)"></ngx-dropzone-image-preview>
+                                                </div>
+                                            </ngx-dropzone>
+                                        </div>
+                                    </dd>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions class="flex justify-end mt-4 gap-2">
+        <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit()">
+            <!-- บันทึก -->
+            {{ 'banjupan.form.ok' | transloco }}
+        </button>
+        <button class="px-6 ml-3" mat-flat-button [color]="'warn'" (click)="onCancelClick()">
+            <!-- ยกเลิก -->
+            {{ 'banjupan.form.cancel' | transloco }}
+        </button>
+        <!-- <button mat-button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ml-2"
+            (click)="Submit()">บันทึก</button>
+        &nbsp;
+        <button mat-button class="px-4 py-2 bg-gray-300 text-gray-600 rounded hover:bg-gray-400"
+            (click)="onCancelClick()">ยกเลิก</button> -->
+    </div>
+</div>

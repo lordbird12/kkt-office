@@ -1,0 +1,526 @@
+{
+    "ไม่": "  {{'banjupan.form.' | transloco }}  ",
+    "welcome-back": "Hoşgeldin",
+    "Project": "Proje",
+    "Analytics": "Analitik",
+    "dashboard":{
+        "Homepage": "หน้าแรก",
+        "Welcome": "ยินดีต้อนรับ ผู้ดูแลระบบ",
+        "Completed" : "เสร็จสิ้น",
+        "noti": "คุณมี 15 การแจ้งเตือน",
+        "PurchaseOrder": "ใบสั่งซื้อ",
+        "Quotation": "ใบเสนอราคา",
+        "BillSale": "ใบขาย",
+        "BillingAmount": "ยอดวางบิล",
+        "WeeklySales": "ยอดขายประจำสัปดาห์",
+        "Retrospect": "ย้อนหลัง",
+        "Current": "ปัจจุบัน",
+        "SummaryInformation": "ข้อมูลสรุป",
+        "Yesterday": "เมื่อวาน",
+        "2daysago": "เมื่อ 2 วันที่แล้ว",
+        "3daysago": "เมื่อ 3 วันที่แล้ว",
+        "Fromyesterday": "จากเมื่อวาน",
+        "Closedtoday": "ที่ปิดวันนี้",
+        "Implemented": "ที่ดำเนินการ",
+        "nvc":" ใหม่ vs เก่า",
+        "NewIssues": "วัสดุ",
+        "Closed": "สินค้า",
+        "Fixed": "บรรจุภัณฑ์",
+        "noFix": "จะไม่แก้ไข",
+        "Reopened": "เปิดใหม่",
+        "NeedsTriage": "ต้องการคัดแยก"
+      },
+
+    "information": "ข้อมูลพนักงาน",
+    "footer": "หมอละออง",
+
+    "banjupan": {
+        "list": {
+            "Packinglist": "รายการบรรจุภัณฑ์",
+            "addpackaging": "เพิ่มบรรจุภัณฑ์",
+            "search": "ค้นหา",
+            "table": {
+                "manage": "จัดการ",
+                "no": "ลำดับ",
+                "name": "ชื่อ",
+                "number": "จำนวน",
+                "storage": "คลังเก็บ",
+                "storagecabinet": "ตู้เก็บ",
+                "floor": "ชั้น",
+                "channel": "ช่อง",
+                "image": "รูป",
+                "Createdby": "สร้างโดย",
+                "Creationdate": "วันที่สร้าง"
+            }
+        },
+        "form": {
+            "ok": "บันทึก",
+            "cancel": "ยกเลิก",
+            "add": "เพิ่มสินค้า",
+            "productdetail": "ข้อมูลสินค้า",
+            "category": "หมวดหมู่สินค้าหลัก",
+            "subcategory": "หมวดหมู่ย่อย",
+            "suppliers": "ซัพพลายเออร์",
+            "type": "ประเภทสินค้า",
+            "name": "ชื่อสินค้า",
+            "detail": "รายละเอียด",
+            "price": "ราคาสินค้า",
+            "sale": "ราคาขาย",
+            "min": "ขั้นต่ำ",
+            "max": "สูงสุด",
+            "status": "สถานะการเช็คสต็อค",
+            "storage": "การจัดเก็บ",
+            "selectWarehouse": "เลือกโรงเก็บ",
+            "selectCabinet": "เลือกตู้เก็บของ",
+            "selectBin": "เลือกช่องเก็บของ",
+            "selectShelf": "เลือกชั้นเก็บของ",
+            "additionalBinDetails": "รายละเอียดช่องเก็บเสริม",
+            "image": "เลือกรูปภาพ",
+            "stock": "จัดการสต๊อคสินค้า",
+            "subadd": "เพิ่มรายการหน่วย",
+            "nounit": "จำนวน",
+            "type_array": "รูปแบบสินค้า",
+            "unit": "หน่วย",
+            "selectunit": "เลือกหน่วย",
+            "delete": "ลบ",
+            "selectproduct": "เลือกหมวดหมู่สินค้า",
+            "selecttype": "เลือกประเภทสินค้า",
+            "selectsuppliers": "เลือกซัพพลายเออร์"
+        }
+    },
+
+    "employee": {
+        "list": {
+            "employee": "รายการพนักงาน",
+            "addemployee": "เพิ่มพนักงาน",
+            "manage": "จัดการ",
+            "no": "ลำดับ",
+            "name": "ชื่อ",
+            "email": "อีเมล",
+            "permission": "สิทธ์",
+            "phone": "เบอร์โทร",
+            "createdBy": "สร้างโดย",
+            "creationDate": "วันที่สร้าง"
+        },
+        "form": {
+            "edit": "แก้ไขพนักงาน",
+            "addEmployee": "เพิ่มพนักงาน",
+            "permission": "สิทธิ์การใช้งาน",
+            "fullName": "ชื่อ-นามสกุล",
+            "enterFullName": "กรอกชื่อ-นามสกุล",
+            "email": "อีเมล",
+            "enterEmail": "กรอกอีเมล",
+            "phone": "โทรศัพท์",
+            "enterPhone": "กรอกหมายเลขโทรศัพท์",
+            "username": "ชื่อผู้ใช้",
+            "enterUsername": "กรอกชื่อผู้ใช้",
+            "password": "รหัสผ่าน",
+            "enterPassword": "กรอกรหัสผ่าน",
+            "selectProfilePicture": "เลือกรูปโปรไฟล์",
+            "confirm": "ตกลง",
+            "cancel": "ยกเลิก"
+        },
+        "edit": {
+            "title": "แก้ไขสิทธิ์การใช้งาน",
+            "name": "ชื่อสิทธิ์",
+            "all": "ทั้งหมด",
+            "see": "มองเห็น",
+            "save": "บันทึก",
+            "edit": "แก้ไข",
+            "delete": "ลบ",
+            "ok":"ตกลง",
+            "cancel":"ยกเลิก"
+
+        }
+    },
+
+    "rights": {
+        "list": {
+            "rights": "รายการสิทธิ์",
+            "addRights": "เพิ่มสิทธิ์",
+            "manage": "จัดการ",
+            "no": "ลำดับ",
+            "rightsName": "ชื่อสิทธิ์",
+            "createdBy": "สร้างโดย",
+            "creationDate": "วันที่สร้าง"
+        }
+    },
+
+    "customer": {
+        "list": {
+            "title": "รายการลูกค้า",
+            "addCustomer": "เพิ่มลูกค้า",
+            "manage": "จัดการ",
+            "no": "ลำดับ",
+            "name": "ชื่อ",
+            "createdBy": "สร้างโดย",
+            "creationDate": "วันที่สร้าง"
+        },
+        "form": {
+            "title": "เพิ่มลูกค้า",
+            "header": "ข้อมูลลูกค้า",
+            "nameLabel": "ชื่อลูกค้า",
+            "namePlaceholder": "กรอกชื่อลูกค้า",
+            "phoneLabel": "เบอร์ติดต่อ",
+            "phonePlaceholder": "กรอกเบอร์ติดต่อ",
+            "emailLabel": "อีเมล",
+            "emailPlaceholder": "กรอกอีเมล",
+            "addressLabel": "ที่อยู่",
+            "addressPlaceholder": "กรอกที่อยู่ลูกค้า",
+            "saveButton": "บันทึก",
+            "cancelButton": "ยกเลิก"
+        }
+    },
+
+    "supplier": {
+        "list": {
+            "title": "รายการซัพพลายเออร์",
+            "addSupplier": "เพิ่มซัพพลายเออร์",
+            "manage": "จัดการ",
+            "no": "ลำดับ",
+            "orderCode": "รหัสสั่งซื้อ",
+            "name": "ชื่อ",
+            "details": "รายละเอียด",
+            "address": "ที่อยู่",
+            "createdBy": "สร้างโดย",
+            "creationDate": "วันที่สร้าง"
+        },
+        "add": {
+            "title": "เพิ่มซัพพลายเออร์",
+            "editsup": "แก้ไขซัพพลายเออร์",
+            "nameLabel": "ชื่อซัพพลายเออร์",
+            "namePlaceholder": "กรอกชื่อซัพพลายเออร์",
+            "taxLabel": "เลขภาษี",
+            "taxPlaceholder": "กรอกเลขภาษี",
+            "emailLabel": "อีเมล",
+            "emailPlaceholder": "กรอกอีเมล",
+            "phoneLabel": "เบอร์ติดต่อ",
+            "phonePlaceholder": "กรอกเบอร์ติดต่อ",
+            "addressLabel": "ที่อยู่",
+            "addressPlaceholder": "กรอกที่อยู่",
+            "detailLabel": "รายละเอียด",
+            "detailPlaceholder": "กรอกรายละเอียดเพิ่มเติม",
+            "submitButton": "ตกลง",
+            "cancelButton": "ยกเลิก"
+        }
+    },
+
+    "warehouse": {
+        "list": {
+            "title": "รายการคลังสินค้า",
+            "addWarehouse": "เพิ่มคลังสินค้า",
+            "manage": "จัดการ",
+            "no": "ลำดับ",
+            "name": "ชื่อคลังสินค้า",
+            "description": "อธิบาย",
+            "storage": "ตู้เก็บ",
+            "image": "รูป",
+            "createdBy": "สร้างโดย",
+            "creationDate": "วันที่สร้าง"
+        },
+        "form": {
+            "addWarehouseTitle": "เพิ่มคลังสินค้า",
+            "warehouseName": "ชื่อคลังสินค้า",
+            "enterWarehouseName": "กรอกข้อมูลชื่อคลังสินค้า",
+            "details": "รายละเอียด",
+            "enterDetails": "กรอกข้อมูลรายละเอียดคลังสินค้า",
+            "selectImage": "เลือกรูป",
+            "confirm": "ตกลง",
+            "cancel": "ยกเลิก"
+        },
+        "edit": {
+            "title": "แก้ไขคลังสินค้า",
+            "name": "ชื่อคลังสินค้า",
+            "detail": "รายละเอียด",
+            "enterName": "กรอกชื่อคลังสินค้า",
+            "enterDetail": "กรอกรายละเอียดคลังสินค้า",
+            "image": "รูปคลังสินค้า",
+            "saveButton": "บันทึก",
+            "cancelButton": "ยกเลิก",
+            "overviewTab": "แสดงภาพรวม",
+            "listTab": "แสดงแบบรายการ",
+            "store":"ชั้นเก็บสินค้า",
+            "storelist":"รายการตู้",
+            "addstore":"เพิ่มตู้",
+            "no":"ลำดับ",
+            "names":"ชื่อตู้",
+            "details":"รายละเอียด",
+            "floor":"ชั้น",
+            "channel":"ช่องเก็บ",
+            "images":"รูป",
+            "sdate":"วันที่สร้าง",
+            "manage":"จัดการ",
+            "qtype":"ชื่อกลุ่มคำถาม",
+            "qname":"ชื่อคำถาม",
+            "aname":"ชื่อคำตอบ",
+            "editstore":"แก้ไขตู้เก็บสินค้า",
+            "namestore":"แก้ไขตู้เก็บสินค้า",
+            "addfloor":"เพิ่มชั้น",
+            "nodata":"ไม่มีข้อมูลช่อง",
+            "namefloor":"ชื่อชั้น",
+            "ok":"ยืนยัน",
+            "cancel":"ยกเลิก",
+            "new":"เพิ่มช่อง",
+            "nchannel":"ชื่อช่อง",
+            "editfloor":"แก้ไขชั้น",
+            "editchannel":"แก้ไขช่อง"
+
+        }
+    },
+
+    "category": {
+        "list": {
+            "title": "รายการประเภทสินค้า",
+            "addCategory": "เพิ่มประเภทสินค้า",
+            "manage": "จัดการ",
+            "no": "ลำดับ",
+            "prefix": "รหัสนำหน้า",
+            "name": "ชื่อประเภท",
+            "description": "อธิบาย",
+            "createdBy": "สร้างโดย",
+            "creationDate": "วันที่สร้าง"
+        },
+        "form": {
+            "addCategoryTitle": "เพิ่มประเภทสินค้า",
+            "categoryName": "ชื่อประเภทสินค้า",
+            "enterCategoryName": "กรอกข้อมูลชื่อประเภทสินค้า",
+            "description": "ชื่อนำหน้ารหัส",
+            "enterDescription": "กรอกข้อมูลชื่อนำหน้ารหัส",
+            "confirm": "ตกลง",
+            "cancel": "ยกเลิก"
+        },
+        "edit": {
+            "title": "แก้ไขประเภทสินค้า",
+            "name": "รหัสนำหน้า",
+            "description": "กรอกรหัสนำหน้า",
+            "typename": "ชื่อประเภทสินค้า",
+            "enterDescription": "กรอกชื่อประเภทสินค้า",
+            "saveButton": "บันทึก",
+            "cancelButton": "ยกเลิก",
+            "categoryList": "รายการหมวดหมู่ย่อย",
+            "addCategoryButton": "เพิ่มหมวดหมู่ย่อย",
+            "index": "ลำดับ",
+            "prefixCode": "รหัสนำหน้า",
+            "names": "ชื่อ",
+            "creationDate": "วันที่สร้าง",
+            "manage": "จัดการ",
+            "nodata":"ไม่มีข้อมูล !",
+            "namecoede":"ชื่อนำหน้ารหัส",
+            "editsubcategory":"แก้ไขหมวดหมู่ย่อย",
+            "namesubcategory":"ชื่อหมวดหมู่ย่อย",
+            "editsubcategorys":"กรอกข้อมูลชื่อนำหน้ารหัส",
+            "namesubcategorys":"กรอกข้อมูลชื่อหมวดหมู่ย่อย"
+        }
+    },
+
+    "product": {
+        "list": {
+            "title": "รายการสินค้า",
+            "exportExcel": "Excel",
+            "addProduct": "เพิ่มสินค้า",
+            "manage": "จัดการ",
+            "no": "ลำดับ",
+            "productName": "ชื่อสินค้า",
+            "quantity": "จำนวน",
+            "warehouse": "คลังเก็บ",
+            "cabinet": "ตู้เก็บ",
+            "floor": "ชั้น",
+            "slot": "ช่อง",
+            "image": "รูป",
+            "createdBy": "สร้างโดย",
+            "creationDate": "วันที่สร้าง",
+            "noData": "ไม่มีข้อมูล!"
+        },
+        "dialog":{
+            "code":"รหัสอะไหล่",
+            "name":"ชื่ออะไหล่",
+            "no":"จำนวน",
+            "detail":"รายละเอียด",
+            "close": "ปิด"
+        },
+        "edit":{
+            "title":"แก้ไขสินค้า",
+            "ok":"บันทึก",
+            "cancel":"ยกเลิก",
+            "addproduct":"ข้อมูลอะไหล่",
+            "add":"เพิ่ม",
+            "name":"อะไหล่สินค้า",
+            "detail":"รายละเอียด",
+            "no":"จำนวน",
+            "delete":"ลบ"
+        }
+    },
+
+    "material": {
+        "list": {
+            "title": "รายการอะไหล่",
+            "exportExcel": "Excel",
+            "addMaterial": "เพิ่มอะไหล่",
+            "manage": "จัดการ",
+            "no": "ลำดับ",
+            "productName": "ชื่อสินค้า",
+            "quantity": "จำนวน",
+            "warehouse": "คลังเก็บ",
+            "cabinet": "ตู้เก็บ",
+            "floor": "ชั้น",
+            "slot": "ช่อง",
+            "image": "รูป",
+            "createdBy": "สร้างโดย",
+            "creationDate": "วันที่สร้าง"
+        }
+    },
+
+    "unit": {
+        "list": {
+            "title": "รายการหน่วยนับ",
+            "addUnit": "เพิ่มหน่วยนับ",
+            "manage": "จัดการ",
+            "no": "ลำดับ",
+            "code": "รหัส",
+            "name": "ชื่อหน่วยนับ",
+            "creationDate": "วันที่สร้าง",
+            "ok":"ตกลง",
+            "cancel":"ยกเลิก"
+        }
+    },
+
+    "order": {
+        "list": {
+            "title": "รายการสั่งซื้อ",
+            "addOrder": "เพิ่มคำสั่งซื้อ",
+            "manage": "จัดการ",
+            "no": "ลำดับ",
+            "orderCode": "รหัสคำสั่งซื้อ",
+            "date": "วันที่",
+            "client": "ลูกค้า",
+            "total": "รวม",
+            "createdBy": "สร้างโดย",
+            "creationDate": "วันที่สร้าง",
+            "noData": "ไม่มีข้อมูล!"
+        }
+    },
+
+    "in-out": {
+        "list": {
+            "title": "รับเข้า-เบิกออก",
+            "addButton": "เพิ่มรายการ",
+            "allTab": "ทั้งหมด",
+            "inTab": "รายการรับเข้า",
+            "outTab": "รายการรับเบิกออก",
+            "manageColumn": "จัดการ",
+            "orderColumn": "ลำดับ",
+            "productionCodeColumn": "รหัสการผลิต",
+            "ordertypeColumn": "ประเภท",
+            "sourceColumn": "แหล่งที่มา",
+            "statusColumn": "สถานะ",
+            "detailColumn": "รายการสินค้า",
+            "createdByColumn": "สร้างโดย",
+            "creationDateColumn": "วันที่สร้าง",
+            "report": "รายงานสรุปผล"
+        },
+        "report": {
+            "title": "รายงานรับเข้า - เบิกออก",
+            "no": "ลำดับ",
+            "date": "วันที่",
+            "code": "รหัสสินค้า",
+            "name": "ชื่อสินค้า",
+            "type": "ประเภท",
+            "in": "รับเข้า",
+            "out": "เบิกออก",
+            "qty": "จำนวน",
+            "create_by": "ผู้ทำรายการ"
+        }
+    },
+
+    "factories": {
+        "list": {
+          "title": "รายการสั่งผลิต",
+          "addButton": "เพิ่มรายการ",
+          "management": "จัดการ",
+          "sequence": "ลำดับ",
+          "status": "สถานะ",
+          "productionCode": "รหัสการผลิต",
+          "orderCode": "รหัสสั่งซื้อ",
+          "product": "สินค้า",
+          "quantity": "จำนวน",
+          "details": "รายละเอียด",
+          "acknowledge": "รับทราบ",
+          "createdBy": "สร้างโดย",
+          "createdAt": "วันที่สร้าง",
+          "wait":"รอดำเนินการ",
+          "doing":"กำลังผลิต",
+          "done":"ผลิตสำเร็จ",
+          "store":"จัดเก็บเข้าคลัง",
+          "waitdelivery":"รอจัดส่งลูกค้า"
+        },
+        "form": {
+            "title": "เพิ่มรายการผลิต",
+            "saveButton": "บันทึก",
+            "cancelButton": "ยกเลิก",
+            "productionDetails": "รายละเอียดการสั่งผลิต",
+            "dateLabel": "วันที่",
+            "productNameLabel": "ชื่ออะไหล่",
+            "selectProductPlaceholder": "เลือกสินค้า",
+            "quantityLabel": "จำนวน",
+            "number":"จำนวน",
+            "additionalDetailsLabel": "รายละเอียดเพิ่มเติม",
+            "moredetails":"กรอกรายละเอียดเพิ่มเติม",
+            "selectProductLabel": "เลือกสินค้า",
+            "unitLabel": "หน่วย",
+            "selectUnitOption": "เลือกหน่วย",
+            "deleteButton": "ลบ",
+            "addButton": "เพิ่มรายการ"
+          }
+      },
+
+      "stock":{
+        "form":{
+            "inout":"รับเข้า-เบิกออก",
+            "ok":"บันทึก",
+            "cancel":"ยกเลิก",
+            "detail":"รายละเอียด",
+            "date":"วันที่",
+            "type":"ประเภทรายการ",
+            "found":"แหล่งที่มา",
+            "buy":"คำสั่งซื้อ",
+            "more":"รายละเอียดเพิ่มเติม",
+            "add":"เพิ่มรายการ",
+            "product":"เลือกสินค้า",
+            "no":"จำนวน",
+            "lot":"ล็อต",
+            "format":"รูปแบบสินค้า",
+            "unit":"หน่วย",
+            "delete":"ลบ"
+        }
+      },
+
+      "sales":{
+        "form":{
+            "buy":"คำสั่งซื้อ",
+            "buysee":"ดูข้อมูลคำสั่งซื้อ",
+            "cus":"ข้อมูลลูกค้า",
+            "date":"วันที่",
+            "name":"ชื่อลูกค้า",
+            "phone":"เบอร์โทร",
+            "email":"อีเมล",
+            "datail":"รายละเอียดสินค้า",
+            "all":"ยอดรวม",
+            "add":"เพิ่ม",
+            "product":"เลือกสินค้า",
+            "no":"จำนวน",
+            "price":"ราคาทุน",
+            "sale":"ราคาขาย",
+            "unit":"หน่วย",
+            "delete":"ลบ",
+            "ok":"บันทึก",
+            "cancel":"ยกเลิก"
+        },
+        "edit":{
+            "add":"เพิ่มหน่วยนับ",
+            "unit":"หน่วยนับ",
+            "no":"จำนวน",
+            "lot":"ล็อต",
+            "format":"รูปแบบสินค้า"
+        }
+      }
+}

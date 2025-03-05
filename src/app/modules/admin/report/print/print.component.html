@@ -1,0 +1,83 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- Loader -->
+    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 flemin-w-0">
+            <!-- Title -->
+            <div class="flex flex-row mt-2 justify-between">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <!-- รับเข้า-เบิกออก -->
+                    {{ 'in-out.report.title' | transloco }}
+                </h2>
+                <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <!-- <button class="px-6 ml-3" mat-flat-button [color]="'primary'" *ngIf="!hiddenSave()"
+                        (click)="addElement()">
+                        <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+                        &nbsp;
+                        {{ 'in-out.list.addButton' | transloco }}
+                    </button> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
+        <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+            <mat-tab-group class="flex sm:px-2" [animationDuration]="'0'">
+                <mat-tab label="{{ 'in-out.list.report' | transloco }}">
+                    <ng-template matTabContent>
+                        <button (click)="printTable()">Print Table</button>
+                        <table #printableTable datatable [dtOptions]="dtOptions"
+                            class="table row-border hover w-full bg-white whitespace-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'in-out.report.no' | transloco }}</th>
+                                    <th>{{ 'in-out.report.date' | transloco }}</th>
+                                    <th>{{ 'in-out.report.code' | transloco }}</th>
+                                    <th>{{ 'in-out.report.name' | transloco }}</th>
+                                    <th class="text-center">{{ 'in-out.report.in' | transloco }}</th>
+                                    <th class="text-center">{{ 'in-out.report.out' | transloco }}</th>
+                                    <th class="text-center">{{ 'in-out.report.create_by' | transloco }}</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="reportDaily?.length != 0">
+                                    <tr *ngFor="let item of reportDaily; let i = index">
+                                        <td>{{i + 1}}</td>
+                                        <td>{{ item.date | date : 'dd/MM/yyyy' }}</td>
+                                        <td>{{ item.product_code ? item.product_code : "-" }}</td>
+                                        <td>{{ item.product_name ? item.product_name : "-" }}</td>
+                                        <td class="text-green-600 text-right">{{ item.in ? (item.in | number) : 0 }}</td>
+                                        <td class="text-red-600 text-right">{{ item.out ? (item.out | number) : 0 }}</td>
+                                        <td class="text-center">{{ item.create_by ? item.create_by : "-" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="text-right font-semibold">Total Out</td>
+                                        <td class="text-green-600 text-right">{{ getTotalIn() | number}} </td>
+                                        <td class="text-red-600 text-right"> {{ getTotalOut() | number }} </td>
+                                        <td></td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="4" class="text-right font-semibold">Total Quantity</td>
+                                        <td colspan="2" class="font-bold text-center">{{ getTotalQty() | number}}</td>
+                                        <td></td>
+                                      </tr>
+                            </tbody>
+                            <tbody *ngIf="reportDaily?.length == 0">
+                                <tr>
+                                    <td colspan="10" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
+
+        </div>
+    </div>
+</div>

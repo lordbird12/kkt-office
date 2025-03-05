@@ -1,0 +1,117 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 flemin-w-0">
+            <!-- Title -->
+            <div class="flex flex-row mt-2 justify-between">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    เพิ่มลูกค้า
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="grid gap-4 w-full sm:grid-cols-1">
+            <form class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+                <span
+                    class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
+                    ข้อมูลลูกค้า
+                </span>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>รหัสลูกค้า</mat-label>
+                            <input matInput [placeholder]="'กรอกรหัสลูกค้า'">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-1/2 px-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>เลขประจำตัวผู้เสียภาษี</mat-label>
+                            <input matInput [placeholder]="'กรอกเลขประจำตัวผู้เสียภาษี'">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-full px-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>ชื่อบริษัท</mat-label>
+                            <input matInput [placeholder]="'กรอกชื่อบริษัท'">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full px-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>ชื่อลูกค้า</mat-label>
+                            <input matInput [placeholder]="'กรอกชื่อลูกค้า'">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>เบอร์ติดต่อ</mat-label>
+                            <input matInput [placeholder]="'กรอกเบอร์ติดต่อ'">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-1/2 px-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>เบอร์ติดต่อสำรอง</mat-label>
+                            <input matInput [placeholder]="'กรอกเบอร์ติดต่อสำรอง'">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-full px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>อีเมล</mat-label>
+                            <input matInput [placeholder]="'กรอกอีเมล'">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-2">
+                    <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                        <mat-form-field class="w-full">
+                            <mat-label>ที่อยู่</mat-label>
+                            <textarea matInput [placeholder]="'กรอกข้อมูลที่อยู่'" [rows]="3"></textarea>
+                            <mat-icon class="icon-size-5" matPrefix>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    aria-hidden="true" fit="" height="100%" width="100%"
+                                    preserveAspectRatio="xMidYMid meet" focusable="false">
+                                    <path fill-rule="evenodd"
+                                        d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
+                                        clip-rule="evenodd"></path>
+                                </svg></mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-2">
+                    <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                        <mat-form-field class="w-full">
+                            <mat-label>รายละเอียดเพิ่มเติม</mat-label>
+                            <textarea matInput [placeholder]="'กรอกรายละเอียดเพิ่มเติม'" [rows]="3"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex justify-end mt-2">
+                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSubmit()">
+                        บันทึก
+                    </button>
+                    <button class="px-6 ml-3" mat-flat-button [color]="'warn'" (click)="backTo()">
+                        ยกเลิก
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

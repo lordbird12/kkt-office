@@ -1,0 +1,46 @@
+/* สไตล์ทั่วไปสำหรับตาราง */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+  }
+  
+  .table th, .table td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .text-green-600 {
+    color: green;
+  }
+  
+  .text-red-600 {
+    color: red;
+  }
+  
+  .font-semibold {
+    font-weight: 600;
+  }
+  
+  .font-bold {
+    font-weight: bold;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .text-right {
+    text-align: right;
+  }
+  
+  .table-container {
+    margin: 20px;
+  }
+  

@@ -1,0 +1,174 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 flemin-w-0">
+            <!-- Title -->
+            <div class="flex flex-row mt-2 justify-between">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <!-- เพิ่มรายการผลิต -->
+                    {{ 'factories.form.title' | transloco }}
+                </h2>
+                <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSubmit()">
+                         <!-- บันทึก -->
+                         {{ 'factories.form.saveButton' | transloco }}
+                    </button>
+                    <button class="px-6 ml-3" mat-flat-button [color]="'warn'" (click)="backTo()">
+                        <!-- ยกเลิก -->
+                        {{ 'factories.form.cancelButton' | transloco }}
+                    </button>
+                </div>
+            </div>
+            <!-- <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Fields
+                </h2>
+            </div> -->
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+
+        <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
+            <form class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2" [formGroup]="editForm">
+                <span class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
+                    <!-- รายละเอียดการสั่งผลิต -->
+                    {{ 'factories.form.productionDetails' | transloco }}
+                </span>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/4 px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>{{ 'factories.form.dateLabel' | transloco }}</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="date">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <!-- <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>เลือกประเภทสินค้า</mat-label>
+                            <mat-select (selectionChange)="changeCategory($event.value)" [formControl]="Category">
+                                <mat-option *ngFor="let item of categoryData; let i = index" value="{{item.id}}">{{item.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div> -->
+
+                <!-- <div class="-mx-3 md:flex mb-2">
+                    <div class="md:w-2/3 px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" appearance="fill" class="w-full">
+                            <mat-label>เลือกสินค้า</mat-label>
+                            <input type="text" placeholder="เลือกสินค้า" matInput [formControl]="ProductControl" readonly/>
+                    
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-1/3 px-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>จำนวน</mat-label>
+                            <input matInput [formControlName]="'qty'" [placeholder]="'จำนวน'">
+               
+                        </mat-form-field>
+                    </div>
+                </div> -->
+                <div formArrayName="raws">
+                    <div class="-mx-3 md:flex mb-2" *ngFor="let item of raws.controls; let i = index"
+                    [formGroupName]="i">
+                        <div class="md:w-2/3 px-3 mb-6 md:mb-0">
+                            <mat-form-field [ngClass]="formFieldHelpers" appearance="fill" class="w-full">
+                                <mat-label>{{ 'factories.form.productNameLabel' | transloco }}</mat-label>
+                                <input type="text" placeholder="เลือกสินค้า" matInput formControlName="product_name" />
+                            </mat-form-field>
+                        </div>
+                        <div class="md:w-1/3 px-3">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'factories.form.quantityLabel' | transloco }}<span *ngIf="this.editForm.value.raws[i].stock_status === '1'">กรุณาระบุจำนวน</span></mat-label>
+                                <input matInput formControlName="remark_qty" [placeholder]="'factories.form.number' | transloco" [readonly]="this.editForm.value.raws[i].stock_status === '0'">
+                            </mat-form-field>
+                        </div>
+                      
+                    </div>
+                </div>
+           
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ 'factories.form.additionalDetailsLabel' | transloco }}</mat-label>
+                            <textarea matInput [formControlName]="'detail'" [placeholder]="'factories.form.moredetails' | transloco " [rows]="3"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <hr>
+                <div formArrayName="products">
+                    <div class="-mx-3 md:flex mb-2" *ngFor="let item of products.controls; let i = index"
+                        [formGroupName]="i">
+                        <span class="text-lg font-bold">{{i +1}}</span>
+
+                        <!-- <div *ngIf="!this.Id" class="md:w-1/4 px-3 mb-6 md:mb-0">
+                          
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>ประเภทสินค้า</mat-label>
+                                <mat-select [formControlName]="'type'" (selectionChange)="somethingChanged($event)">
+                                    <mat-option value="">เลือกประเภท</mat-option>
+                                    <mat-option *ngFor="let cate of categoryData"
+                                        [value]="cate.id">{{cate.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> -->
+                        <div class="md:w-2/4 px-3 mb-6 md:mb-0">
+                      
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>{{ 'factories.form.selectProductLabel' | transloco }}</mat-label>
+                    
+                                    <input matInput type="text"
+                                    [matAutocomplete]="auto"
+                                    formControlName="product_name">
+                                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectProduct($event, i)">
+                                        <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option.name">
+                                            {{option.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <div class=" flex flex-row gap-3 md:w-1/4 px-3">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'factories.form.quantityLabel' | transloco }}</mat-label>
+                                <input matInput formControlName="qty" [placeholder]="'factories.form.number' | transloco">
+                            </mat-form-field>
+                        </div>
+                        <div class=" flex flex-row gap-3 md:w-1/4 px-3">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'factories.form.unitLabel' | transloco }}</mat-label>
+                                <mat-select [formControlName]="'unit_id'" required>
+                                    <mat-option value="">{{ 'factories.form.selectUnitOption' | transloco }}</mat-option>
+                                    <mat-option *ngFor="let unit of unitData"
+                                        [value]="unit.id">{{unit.name}}</mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                            <button class="px-6 ml-3 mt-6" mat-flat-button [color]="'warn'" (click)="removeRow(i)">
+                                 <!-- ลบ -->
+                                 {{ 'factories.form.deleteButton' | transloco }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                        <div
+                            class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                            <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="addRow('')">
+                                <!-- เพิ่มรายการ -->
+                                {{ 'factories.form.addButton' | transloco }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

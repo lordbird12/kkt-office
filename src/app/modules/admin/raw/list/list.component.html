@@ -1,0 +1,202 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- Loader -->
+    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="flex flex-row mt-2 justify-between">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ 'material.list.title' | transloco }}
+                </h2>
+                <div class="flex items-center">
+                    <button class="px-6 ml-3 bg-green-700 text-white" mat-flat-button *ngIf="!hiddenSave()" (click)="excelExport()">
+                        <mat-icon svgIcon="mat_solid:file_download"></mat-icon>
+                        &nbsp;{{ 'material.list.exportExcel' | transloco }}
+                    </button>
+                    <button class="px-6 ml-3" mat-flat-button color="primary" *ngIf="!hiddenSave()" (click)="addElement()">
+                        <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+                        &nbsp;{{ 'material.list.addMaterial' | transloco }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10 bg-white">
+        <div class="flex flex-col flex-auto p-5 sm:overflow-y-auto">
+            <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
+                <thead>
+                    <tr>
+                        <th class="w-[100px]">{{ 'material.list.manage' | transloco }}</th>
+                        <th class="w-[10px]">{{ 'material.list.no' | transloco }}</th>
+                        <th>{{ 'material.list.productName' | transloco }}</th>
+                        <th>{{ 'material.list.quantity' | transloco }}</th>
+                        <th>{{ 'material.list.warehouse' | transloco }}</th>
+                        <th>{{ 'material.list.cabinet' | transloco }}</th>
+                        <th>{{ 'material.list.floor' | transloco }}</th>
+                        <th>{{ 'material.list.slot' | transloco }}</th>
+                        <th>{{ 'material.list.image' | transloco }}</th>
+                        <th>{{ 'material.list.createdBy' | transloco }}</th>
+                        <th>{{ 'material.list.creationDate' | transloco }}</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dataRow?.length != 0">
+                    <tr *ngFor="let item of dataRow; let i = index">
+                        <td>
+                            <button mat-icon-button *ngIf="!hiddenEdit()" (click)="editElement(item.id)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button *ngIf="!hiddenDelete()" (click)="delete(item.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                        <td>{{ pages.begin + (i + 1) }}</td>
+                        <td>{{ item.name ? item.name : "-" }}</td>
+                        <td>
+                            <div *ngFor="let product of item.product_units; let p = index">
+                                <div *ngIf="product.qty > item.min && product.qty <= item.max" class="w-fit m-1 bg-green-200 text-green-700 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                    {{ product.qty ? product.qty : "-" }} | {{product.unit ? product.unit : "-"}}
+                                </div>
+                                <div *ngIf="product.qty < item.min" class="w-fit m-1 bg-red-200 text-red-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-300 dark:text-red-900">
+                                    {{ product.qty ? product.qty : "-" }} | {{product.unit ? product.unit : "-"}}
+                                </div>
+                                <div *ngIf="product.qty > item.max" class="w-fit m-1 bg-gray-200 text-gray-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-300 dark:text-gray-900">
+                                    {{ product.qty ? product.qty : "-" }} | {{product.unit ? product.unit : "-"}}
+                                </div>
+                                <br>
+                            </div>
+
+                        </td>
+                        <td>{{ item.area ? item.area.name : "-" }}</td>
+                        <td>{{ item.shelf ? item.shelf.name : "-" }}</td>
+                        <td>{{ item.floor ? item.floor.name : "-" }}</td>
+                        <td>{{ item.channel ? item.channel.name : "-" }} {{item.more_address ? "("+item.more_address+")":""}}
+                        </td>
+                        <td>
+                            <button mat-button (click)="showPicture(item.images[0].image)">
+                                <mat-icon>image</mat-icon>
+                            </button>
+                        </td>
+                        <td>{{ item.create_by ? item.create_by : "admin" }}</td>
+                        <td>{{ item.created_at !== null ? item.created_at: "-"}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="dataRow?.length == 0">
+                    <tr>
+                        <td colspan="11" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- <div class="flex flex-col flex-auto min-w-0">
+    
+    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 flemin-w-0">
+            
+            <div class="flex flex-row mt-2 justify-between">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    รายการอะไหล่
+                </h2>
+                <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <button class=" px-6 ml-3 bg-green-700 text-white" mat-flat-button *ngIf="!hiddenSave() " (click)="excelExport() ">
+                        <mat-icon svgIcon="mat_solid:file_download"></mat-icon>
+                        &nbsp;
+                        Excel
+                    </button>
+                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" *ngIf="!hiddenSave()" (click)="addElement()">
+                        <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+                        &nbsp;
+                        เพิ่มอะไหล่
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
+        <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+            <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
+                <thead>
+                    <tr>
+                        <th class="w-[100px]">จัดการ</th>
+                        <th class="w-[10px]">ลำดับ</th>
+                        <th>ชื่อสินค้า</th>
+                        <th>จำนวน</th>
+                        <th>คลังเก็บ</th>
+                        <th>ตู้เก็บ</th>
+                        <th>ชั้น</th>
+                        <th>ช่อง</th>
+                        <th>รูป</th>
+                        <th>สร้างโดย</th>
+                        <th>วันที่สร้าง</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dataRow?.length != 0">
+                    <tr *ngFor="let item of dataRow; let i = index">
+                        <td>
+                            <button mat-icon-button *ngIf="!hiddenEdit() " (click)="editElement(item.id) ">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button *ngIf="!hiddenEdit() " (click)="viewElement(item.id) ">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                            <button mat-icon-button *ngIf="!hiddenDelete() " (click)="delete(item.id) ">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                        <td>{{ pages.begin + (i + 1) }}</td>
+                        <td>{{ item.name ? item.name : "-" }}</td>
+                        <td>
+
+                            <div *ngFor="let product of item.product_units; let p = index">
+                                <div *ngIf="product.qty > item.min && product.qty <= item.max" class="w-fit m-1 bg-green-200 text-green-700 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                    {{ product.qty ? product.qty : "-" }} | {{product.unit ? product.unit : "-"}}
+                                </div>
+                                <div *ngIf="product.qty < item.min" class="w-fit m-1 bg-red-200 text-red-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-300 dark:text-red-900">
+                                    {{ product.qty ? product.qty : "-" }} | {{product.unit ? product.unit : "-"}}
+                                </div>
+                                <div *ngIf="product.qty > item.max" class="w-fit m-1 bg-gray-200 text-gray-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-300 dark:text-gray-900">
+                                    {{ product.qty ? product.qty : "-" }} | {{product.unit ? product.unit : "-"}}
+                                </div>
+                                <br>
+                            </div>
+
+                        </td>
+                        <td>{{ item.area ? item.area.name : "-" }}</td>
+                        <td>{{ item.shelf ? item.shelf.name : "-" }}</td>
+                        <td>{{ item.floor ? item.floor.name : "-" }}</td>
+                        <td>{{ item.channel ? item.channel.name : "-" }} {{item.more_address ? "("+item.more_address+")":""}}
+                        </td>
+                        <td>
+                            <button mat-button (click)="showPicture(item.images[0].image)">
+                                <mat-icon>image</mat-icon>
+                            </button>
+                        </td>
+                        <td>{{ item.create_by ? item.create_by : "-" }}</td>
+                        <td>{{ item.created_at !== null ? item.created_at: "-"}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="dataRow?.length == 0">
+                    <tr>
+                        <td colspan="11" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> -->

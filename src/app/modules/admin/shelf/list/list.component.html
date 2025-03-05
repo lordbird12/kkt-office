@@ -1,0 +1,88 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- Loader -->
+    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 flemin-w-0">
+            <!-- Title -->
+            <div class="flex flex-row mt-2 justify-between">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    รายการตู้เก็บสินค้า
+                </h2>
+                <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="addElement()">
+                        <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+                        &nbsp;
+                        เพิ่มตู้เก็บสินค้า
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
+        <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+            <table datatable [dtOptions]="dtOptions" class="table row-border hover">
+                <thead>
+                    <tr>
+                        <th>ลำดับ</th>
+                        <th>ชื่อ</th>
+                        <th>รายละเอียด</th>
+                        <th>ชั้น</th>
+                        <th>ช่องเก็บ</th>
+                        <th>รูป</th>
+                        <th>วันที่สร้าง</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dataRow?.length != 0">
+                    <tr *ngFor="
+                            let item of dataRow;
+                            let i = index
+                        ">
+                               <td>
+                                <button mat-icon-button color="accent" (click)="editElement(item)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="accent" (click)="deleteElement(item)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        <td style="width: 5%">
+                            {{ pages.begin + (i + 1) }}
+                        </td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.detail }}</td>
+                        <td>
+                            {{ item.floors.length}}
+                        </td>
+                        <td>
+                            {{ item.channels.length}}
+                        </td>
+                        <td>
+                            <button mat-button (click)="showPicture(item.image)">
+                                <mat-icon>image</mat-icon>
+                            </button>
+                        </td>
+
+                        <td>
+                            {{ item.created_at | date : "dd-MM-yyyy hh:mm a " }}
+                        </td>
+
+                    </tr>
+                </tbody>
+                <tbody *ngIf="dataRow?.length == 0">
+                    <tr>
+                        <td colspan="9" class="no-data-available text-center">
+                            ไม่มีข้อมูล !
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

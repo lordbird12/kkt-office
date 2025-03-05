@@ -1,0 +1,27 @@
+<div class="flex flex-col w-full  overflow-y-scroll">
+    <div class="flex flex-row mt-2 justify-between mb-4">
+        <span class="text-xl md:text-2xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+            รายการสินค้า
+        </span>
+        <button class="rounded-full w-5 h-5" mat-flat-button (click)="onClose()">
+            <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+        </button>
+
+
+    </div>
+    <div *ngIf="_data.lines.length > 0">
+        <div class="flex flex-row gap-3 w-full justify-between items-center border-b-2 border-slate-300"
+            *ngFor="let item of _data?.lines; let i = index">
+            <div class="flex h-10 items-center w-3/5">
+                {{i + 1}}. {{ item.product?.name ?? '-'}}
+            </div>
+            <div class="flex h-10 items-center justify-end w-1/5">
+                {{ item.qty ?? '0'}}
+            </div>
+            <div class="flex h-10 items-center justify-end w-1/5">
+                {{ item.unit?.name ?? '-'}}
+            </div>
+        </div>
+    </div>
+
+</div>

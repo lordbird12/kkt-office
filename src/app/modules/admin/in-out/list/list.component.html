@@ -1,0 +1,443 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- Loader -->
+    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 flemin-w-0">
+            <!-- Title -->
+            <div class="flex flex-row mt-2 justify-between">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <!-- รับเข้า-เบิกออก -->
+                    {{ 'in-out.list.title' | transloco }}
+                </h2>
+                <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" *ngIf="!hiddenSave()"
+                        (click)="addElement()">
+                        <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+                        &nbsp;
+                        <!-- เพิ่มรายการ -->
+                        {{ 'in-out.list.addButton' | transloco }}
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
+        <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+            <mat-tab-group class="flex sm:px-2" [animationDuration]="'0'">
+                <mat-tab label="{{ 'in-out.list.allTab' | transloco }}">
+                    <ng-template matTabContent>
+                        <table datatable [dtOptions]="dtOptions"
+                            class="table row-border hover w-full bg-white whitespace-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="w-[100px]">{{ 'in-out.list.manageColumn' | transloco }}</th>
+                                    <th class="w-[10px]">{{ 'in-out.list.orderColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.ordertypeColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.sourceColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.statusColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.detailColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.createdByColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.creationDateColumn' | transloco }}</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="dataRow?.length != 0">
+                                <ng-container *ngFor="let item of dataRow; let i = index">
+                                    <tr>
+                                        <td>
+                                            <button ng mat-icon-button color="secondary" (click)="pdf(item.id)">
+                                                <mat-icon>picture_as_pdf</mat-icon>
+                                            </button>
+                                            <button
+                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                mat-icon-button color="secondary" (click)="goTo(item.id)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                            <button *ngIf="item.status == 'Finish'" mat-icon-button color="secondary"
+                                                (click)="goTo(item.id)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button color="secondary"
+                                                *ngIf="[1,11].includes(+userData.permission_id)"
+                                                (click)="delete(item.id)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                            <button
+                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                mat-icon-button color="accent" matTooltip="เปลี่ยนสถานะ"
+                                                matTooltipClass="example-tooltip-uppercase"
+                                                aria-label="Button that shows a red tooltip"
+                                                (click)="changeStatus('Finish',item.id)">
+                                                <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
+                                            </button>
+
+                                            <button
+                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                mat-icon-button color="accent" matTooltip="ยกเลิก"
+                                                matTooltipClass="example-tooltip-uppercase"
+                                                aria-label="Button that shows a red tooltip"
+                                                (click)="changeStatus('Cancel',item.id)">
+                                                <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+
+                                            </button>
+                                        </td>
+                                        <td>{{ pages.begin + (i + 1) }}</td>
+                                        <!-- <td>{{ item.type ? item.type : "-" }}</td> -->
+                                        <td>
+                                            <span *ngIf="item.type === 'IN'"
+                                                  class="bg-green-100 text-green-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                                                รับเข้า
+                                            </span>
+                                            <span *ngIf="item.type === 'OUT'"
+                                                  class="bg-red-100 text-red-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+                                                เบิกออก
+                                            </span>
+                                            <span *ngIf="item.type !== 'IN' && item.type !== 'OUT'">
+                                                -
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <span *ngIf="item.source == 'Factory'"
+                                                class="bg-blue-100 text-blue-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-900">
+                                                สั่งโดยโรงงาน
+                                            </span>
+                                            <span *ngIf="item.source != 'Factory'"
+                                                class="bg-yellow-100 text-yellow-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+                                                สั่งโดยออเดอร์ลูกค้า
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span *ngIf="item.status == 'Ordered'"
+                                                class="bg-yellow-100 text-yellow-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+                                                รอดำเนินการ
+                                            </span>
+                                            <span *ngIf="item.status == 'Finish'"
+                                                class="bg-green-100 text-green-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                                                สำเร็จ
+                                            </span>
+
+                                            <span *ngIf="item.status == 'Cancel'"
+                                                class="bg-red-100 text-red-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+                                                ยกเลิก
+                                            </span>
+                                        </td>
+                                        <!-- <td>{{ item.remark ? item.remark : "-" }}</td> -->
+                                        <td>
+                                            <button mat-icon-button color="secondary" (click)="toggleItem(item)">
+                                                <mat-icon svgIcon="heroicons_outline:list-bullet"></mat-icon>
+                                            </button>
+                                        </td>
+                                        <td>{{ item.create_by ? item.create_by : "admin" }}</td>
+                                        <td>{{ item.created_at | date:'dd/MM/yyyy HH:mm:ss' || "-" }}</td>
+                                    </tr>
+                                    <tr *ngIf="expandedItem === item" [ngClass]="{'bg-slate-200': item.lines && item.lines.length > 0, 'bg-gray-200': !(item.lines && item.lines.length > 0)}">
+                                        <td colspan="8">
+                                            <ng-container *ngIf="item.lines && item.lines.length > 0; else noData">
+                                                <div class="flex flex-row gap-3 w-full justify-between items-center border-b-2 border-slate-300"
+                                                    *ngFor="let line of item.lines; let i = index">
+                                                    <div class="flex h-10 items-center w-3/5">
+                                                        {{i + 1}}. {{ line.product?.name ?? '-'}} {{ line.qty ?? '0'}} {{ line.unit?.name ?? '-'}}
+                                                    </div>
+                                                    <!-- <div class="flex h-10 items-center justify-end w-1/5">
+                                                        {{ line.qty ?? '0'}}
+                                                    </div>
+                                                    <div class="flex h-10 items-center justify-end w-1/5">
+                                                        {{ line.unit?.name ?? '-'}}
+                                                    </div> -->
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #noData>
+                                                <div class="flex h-10 items-center w-3/5">ไม่มีข้อมูล</div>
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                            <tbody *ngIf="dataRow?.length == 0">
+                                <tr>
+                                    <td colspan="10" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="{{ 'in-out.list.inTab' | transloco }}">
+                    <ng-template matTabContent>
+                        <table datatable [dtOptions]="dtOptions1"
+                            class="table row-border hover w-full bg-white whitespace-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="w-[100px]">{{ 'in-out.list.manageColumn' | transloco }}</th>
+                                    <th class="w-[10px]">{{ 'in-out.list.orderColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.ordertypeColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.sourceColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.statusColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.detailColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.createdByColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.creationDateColumn' | transloco }}</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="dataRow?.length != 0">
+                                <ng-container *ngFor="let item of dataRow; let i = index">
+                                    <tr>
+                                        <td>
+                                            <button mat-icon-button color="secondary" (click)="pdf(item.id)">
+                                                <mat-icon>picture_as_pdf</mat-icon>
+                                            </button>
+                                            <button
+                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                mat-icon-button color="secondary" (click)="goTo(item.id)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                            <button *ngIf="item.status == 'Finish'" mat-icon-button color="secondary"
+                                                (click)="goTo(item.id)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button color="secondary"
+                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                (click)="delete(item.id)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                            <button *ngIf="item.status == 'Ordered'" mat-icon-button color="accent"
+                                                matTooltip="เปลี่ยนสถานะ" matTooltipClass="example-tooltip-uppercase"
+                                                aria-label="Button that shows a red tooltip"
+                                                (click)="changeStatus('Finish',item.id)">
+                                                <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
+                                            </button>
+
+                                            <button
+                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                mat-icon-button color="accent" matTooltip="ยกเลิก"
+                                                matTooltipClass="example-tooltip-uppercase"
+                                                aria-label="Button that shows a red tooltip"
+                                                (click)="changeStatus('Cancel',item.id)">
+                                                <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+
+                                            </button>
+                                        </td>
+                                        <td>{{ pages.begin + (i + 1) }}</td>
+                                        <!-- <td>{{ item.type ? item.type : "-" }}</td> -->
+                                        <td>
+                                            <span *ngIf="item.type === 'IN'"
+                                                  class="bg-green-100 text-green-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                                                รับเข้า
+                                            </span>
+                                            <span *ngIf="item.type === 'OUT'"
+                                                  class="bg-red-100 text-red-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+                                                เบิกออก
+                                            </span>
+                                            <span *ngIf="item.type !== 'IN' && item.type !== 'OUT'">
+                                                -
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="item.source == 'Factory'"
+                                                class="bg-blue-100 text-blue-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-900">
+                                                สั่งโดยโรงงาน
+                                            </span>
+                                            <span *ngIf="item.source != 'Factory'"
+                                                class="bg-yellow-100 text-yellow-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+                                                สั่งโดยออเดอร์ลูกค้า
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <span *ngIf="item.status == 'Ordered'"
+                                                class="bg-yellow-100 text-yellow-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+                                                รอดำเนินการ
+                                            </span>
+                                            <span *ngIf="item.status == 'Finish'"
+                                                class="bg-green-100 text-green-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                                                สำเร็จ
+                                            </span>
+
+                                            <span *ngIf="item.status == 'Cancel'"
+                                                class="bg-red-100 text-red-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+                                                ยกเลิก
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button mat-icon-button color="secondary" (click)="toggleItem(item)">
+                                                <mat-icon svgIcon="heroicons_outline:list-bullet"></mat-icon>
+                                            </button>
+                                        </td>
+                                        <td>{{ item.create_by ? item.create_by : "-" }}</td>
+                                        <td>{{ item.created_at | date:'dd/MM/yyyy HH:mm:ss' || "-" }}</td>
+                                    </tr>
+
+                                    <tr *ngIf="expandedItem === item" [ngClass]="{'bg-slate-200': item.lines && item.lines.length > 0, 'bg-gray-200': !(item.lines && item.lines.length > 0)}">
+                                        <td colspan="8">
+                                            <ng-container *ngIf="item.lines && item.lines.length > 0; else noData">
+                                                <div class="flex flex-row gap-3 w-full justify-between items-center border-b-2 border-slate-300"
+                                                    *ngFor="let line of item.lines; let i = index">
+                                                    <div class="flex h-10 items-center w-3/5">
+                                                        {{i + 1}}. {{ line.product?.name ?? '-'}} {{ line.qty ?? '0'}} {{ line.unit?.name ?? '-'}}
+                                                    </div>
+                                                    <!-- <div class="flex h-10 items-center justify-end w-1/5">
+                                                        {{ line.qty ?? '0'}}
+                                                    </div>
+                                                    <div class="flex h-10 items-center justify-end w-1/5">
+                                                        {{ line.unit?.name ?? '-'}}
+                                                    </div> -->
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #noData>
+                                                <div class="flex h-10 items-center w-3/5">ไม่มีข้อมูล</div>
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+
+                                </ng-container>
+                            </tbody>
+                            <tbody *ngIf="dataRow?.length == 0">
+                                <tr>
+                                    <td colspan="10" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="{{ 'in-out.list.outTab' | transloco }}">
+                    <ng-template matTabContent>
+                        <table datatable [dtOptions]="dtOptions2"
+                            class="table row-border hover w-full bg-white whitespace-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="w-[100px]">{{ 'in-out.list.manageColumn' | transloco }}</th>
+                                    <th class="w-[10px]">{{ 'in-out.list.orderColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.ordertypeColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.sourceColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.statusColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.detailColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.createdByColumn' | transloco }}</th>
+                                    <th>{{ 'in-out.list.creationDateColumn' | transloco }}</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="dataRow?.length != 0">
+                                <ng-container *ngFor="let item of dataRow; let i = index">
+                                    <tr>
+                                        <td>
+                                            <button mat-icon-button color="secondary" (click)="pdf(item.id)">
+                                                <mat-icon>picture_as_pdf</mat-icon>
+                                            </button>
+                                            <button
+                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                mat-icon-button color="secondary" (click)="goTo(item.id)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                            <button *ngIf="item.status == 'Finish'" mat-icon-button color="secondary"
+                                                (click)="goTo(item.id)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </button>
+                                            <button mat-icon-button color="secondary"
+                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                (click)="delete(item.id)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                            <button
+                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                mat-icon-button color="accent" matTooltip="เปลี่ยนสถานะ"
+                                                matTooltipClass="example-tooltip-uppercase"
+                                                aria-label="Button that shows a red tooltip"
+                                                (click)="changeStatus('Finish',item.id)">
+                                                <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
+                                            </button>
+
+                                            <button
+                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                mat-icon-button color="accent" matTooltip="ยกเลิก"
+                                                matTooltipClass="example-tooltip-uppercase"
+                                                aria-label="Button that shows a red tooltip"
+                                                (click)="changeStatus('Cancel',item.id)">
+                                                <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+
+                                            </button>
+                                        </td>
+                                        <td>{{ pages.begin + (i + 1) }}</td>
+                                        <!-- <td>{{ item.type ? item.type : "-" }}</td> -->
+                                        <td>
+                                            <span *ngIf="item.type === 'IN'"
+                                                  class="bg-green-100 text-green-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                                                รับเข้า
+                                            </span>
+                                            <span *ngIf="item.type === 'OUT'"
+                                                  class="bg-red-100 text-red-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+                                                เบิกออก
+                                            </span>
+                                            <span *ngIf="item.type !== 'IN' && item.type !== 'OUT'">
+                                                -
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="item.source == 'Factory'"
+                                                class="bg-blue-100 text-blue-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-900">
+                                                สั่งโดยโรงงาน
+                                            </span>
+                                            <span *ngIf="item.source != 'Factory'"
+                                                class="bg-yellow-100 text-yellow-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+                                                สั่งโดยออเดอร์ลูกค้า
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="item.status == 'Ordered'"
+                                                class="bg-yellow-100 text-yellow-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+                                                รอดำเนินการ
+                                            </span>
+                                            <span *ngIf="item.status == 'Finish'"
+                                                class="bg-green-100 text-green-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                                                สำเร็จ
+                                            </span>
+
+                                            <span *ngIf="item.status == 'Cancel'"
+                                                class="bg-red-100 text-red-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+                                                ยกเลิก
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button mat-icon-button color="secondary" (click)="toggleItem(item)">
+                                                <mat-icon svgIcon="heroicons_outline:list-bullet"></mat-icon>
+                                            </button>
+                                            <!-- <button ng mat-icon-button color="secondary" (click)="viewOrder(item)">
+                                                <mat-icon svgIcon="heroicons_outline:list-bullet"></mat-icon>
+                                            </button> -->
+                                        </td>
+                                        <td>{{ item.create_by ? item.create_by : "-" }}</td>
+                                        <td>{{ item.created_at | date:'dd/MM/yyyy HH:mm:ss' || "-" }}</td>
+                                    </tr>
+                                    <tr *ngIf="expandedItem === item" [ngClass]="{'bg-slate-200': item.lines && item.lines.length > 0, 'bg-gray-200': !(item.lines && item.lines.length > 0)}">
+                                        <td colspan="8">
+                                            <ng-container *ngIf="item.lines && item.lines.length > 0; else noData">
+                                                <div class="flex flex-row gap-3 w-full justify-between items-center border-b-2 border-slate-300"
+                                                    *ngFor="let line of item.lines; let i = index">
+                                                    <div class="flex h-10 items-center w-3/5">
+                                                        {{i + 1}}. {{ line.product?.name ?? '-'}} {{ line.qty ?? '0'}} {{ line.unit?.name ?? '-'}}
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #noData>
+                                                <div class="flex h-10 items-center w-3/5">ไม่มีข้อมูล</div>
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                            <tbody *ngIf="dataRow?.length == 0">
+                                <tr>
+                                    <td colspan="10" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

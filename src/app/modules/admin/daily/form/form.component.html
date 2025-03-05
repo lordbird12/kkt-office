@@ -1,0 +1,185 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 flemin-w-0">
+            <!-- Title -->
+            <div class="flex flex-row mt-2 justify-between">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    
+                    <!-- {{id ? 'ดูข้อมูลคำสั่งซื้อ': 'สร้างคำสั่งซื้อ'  }} -->
+                    {{ id ? ('sales.form.buysee' | transloco) : ('sales.form.buy' | transloco) }}
+                </h2>
+                <!-- <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
+                        บันทึก
+                    </button>
+                    <button class="px-6 ml-3" mat-flat-button [color]="'warn'">
+                        ยกเลิก
+                    </button>
+                </div> -->
+            </div>
+            <!-- <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Fields
+                </h2>
+            </div> -->
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
+            <form class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2" [formGroup]="addForm">
+                <span class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
+                    <!-- ข้อมูลลูกค้า -->
+                    {{ 'sales.form.cus' | transloco }}
+                </span>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>{{ 'sales.form.date' | transloco }}</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="date">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+                </div>
+                <mat-divider class="mb-3"></mat-divider>
+                <div class="-mx-3 md:flex mb-6 mt-3">
+                    <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>{{ 'sales.form.name' | transloco }}</mat-label>
+                            <input matInput [placeholder]=" 'sales.form.name' | transloco " formControlName="client_name">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-1/3 px-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>{{ 'sales.form.phone' | transloco }}</mat-label>
+                            <input matInput [placeholder]=" 'sales.form.phone' | transloco " formControlName="client_phone">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-1/3 px-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>{{ 'sales.form.email' | transloco }}</mat-label>
+                            <input matInput [placeholder]="'sales.form.email' | transloco " formControlName="client_email">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
+            <form class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2" [formGroup]="addForm">
+                <ng-container formArrayName="products">
+                    <div class="flex flex-row justify-between">
+                        <span class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
+                            <!-- รายละเอียดสินค้า -->
+                            {{ 'sales.form.datail' | transloco }}
+                        </span>
+
+                    </div>
+                    <div class="-mx-3 md:flex mb-6" *ngFor="let item of products.controls; let i = index" [formGroupName]="i">
+                        <div class="md:w-2/6 px-3 mb-6 md:mb-0">
+                            <!-- <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>สินค้า</mat-label>
+                                <mat-select formControlName="product_id" (selectionChange)="onpush($event,i, item)">
+                                    <mat-option value="0">
+                                        <mat-icon svgIcon="heroicons_solid:plus"></mat-icon> เพิ่มสินค้า
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of productData" [value]="item.id">
+                                        {{item.name}}
+                                    </mat-option>
+
+                                </mat-select>
+                            </mat-form-field> -->
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'sales.form.product' | transloco }}</mat-label>
+
+                                <input matInput type="text" [matAutocomplete]="auto" formControlName="product_name">
+                                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onpush($event, i,item)">
+                                    <mat-option [value]="0">
+                                        <mat-icon svgIcon="heroicons_solid:plus"></mat-icon> เพิ่มสินค้า
+                                    </mat-option>
+                                    <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option.name">
+                                        {{option.name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <div class="md:w-1/6 px-3 mb-6 md:mb-0">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'sales.form.no' | transloco }}</mat-label>
+                                <input matInput [placeholder]=" 'sales.form.no' | transloco " formControlName="qty" (keyup)="sumpriceqty(item)">
+                            </mat-form-field>
+                        </div>
+                        <div class="md:w-1/6 px-3 mb-6 md:mb-0">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'sales.form.price' | transloco }}</mat-label>
+                                <input matInput [placeholder]=" 'sales.form.price' | transloco " formControlName="cost">
+                            </mat-form-field>
+                        </div>
+                        <div class="md:w-1/6 px-3 mb-6 md:mb-0">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'sales.form.sale' | transloco }}</mat-label>
+                                <input matInput [placeholder]=" 'sales.form.sale' | transloco " formControlName="price" (change)="testfunction($event)">
+                            </mat-form-field>
+                        </div>
+                        <div class="md:w-1/6 px-3 mb-6 md:mb-0">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'sales.form.unit' | transloco }}</mat-label>
+                                <mat-select [formControlName]="'unit_id'" required>
+                                    <mat-option [value]="0" (click)="UnitAdd(i,item)">
+                                        <mat-icon svgIcon="heroicons_solid:plus"></mat-icon> เพิ่มหน่วย
+                                    </mat-option>
+                                    <!-- <mat-option value="">เลือกหน่วย</mat-option> -->
+                                    <mat-option *ngFor="let unit of unitdata[i]" [value]="unit.unit.id">{{unit.unit.name}}</mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                            <!-- <button class="px-6 ml-3 mt-6" mat-flat-button [color]="'warn'" (click)="removeArray(i)">
+                                ลบ
+                            </button> -->
+                        </div>
+                        <div class="md:w-1/6 px-3 mb-6 md:mb-0 flex justify-end">
+                            <button class=" px-6 mt-7" mat-flat-button [color]="'warn'" (click)="removeArray(i)" *ngIf="status === 'NEW'">
+                                <!-- ลบ -->
+                                {{ 'sales.form.delete' | transloco }}
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="flex flex-row mt-2 justify-end">
+                    <div class="flex md:flex mb-6 mt-3 w-80">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>{{ 'sales.form.all' | transloco }}</mat-label>
+                            <input matInput [placeholder]=" 'sales.form.all' | transloco " formControlName="total_price">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex flex-row mt-2 justify-between">
+                    <div class="flextext-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate" *ngIf="status === 'NEW'">
+                        <button class="px-6" mat-flat-button [color]="'primary'" (click)="addRaw()">
+                            <!-- เพิ่ม -->
+                            {{ 'sales.form.add' | transloco }}
+                        </button>
+                    </div>
+                    <div class="flex justify-end text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                        <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSubmit()" *ngIf="status === 'NEW'">
+                            <!-- บันทึก -->
+                            {{ 'sales.form.add' | transloco }}
+                        </button>
+                        <button class="px-6 ml-3" mat-flat-button [color]="'warn'" (click)="location.back()">
+                            <!-- ยกเลิก -->
+                            {{ 'sales.form.cancel' | transloco }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

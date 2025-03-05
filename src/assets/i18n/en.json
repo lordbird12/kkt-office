@@ -1,0 +1,521 @@
+{
+    "welcome-back": "Welcome back",
+    "Project": "Project",
+    "Analytics": "Analytics",
+    "dashboard":{
+        "Homepage": "Homepage",
+        "Welcome": "Welcome Admin",
+        "noti": "You have 15 notifications.",
+        "Completed" : "Completed",
+        "PurchaseOrder": "Purchase Order",
+        "Quotation": "Quotation",
+        "BillSale": "Bill Sale",
+        "BillingAmount": "Bill Amount",
+        "WeeklySales": "Weekly Sales",
+        "Retrospect": "Retrospect",
+        "Current": "Current",
+        "SummaryInformation": "Summary Information",
+        "Yesterday": "Yesterday",
+        "2daysago": "2 days ago",
+        "3daysago": "3 days ago",
+        "Fromyesterday": "From yesterday",
+        "Closedtoday": "Closed today",
+        "Implemented": "Implemented",
+        "nvc":"New vs Closed",
+        "NewIssues": "material",
+        "Closed": "products",
+        "Fixed": "packaging",
+        "noFix":"Won't Fix",
+        "Reopened": "Re-opened",
+        "NeedsTriage": "Needs Triage"
+      },
+    "information": "Employee information",
+    "footer":"La-Ong-Herbal",
+
+    "banjupan": {
+        "list": {
+            "Packinglist": "Packing list",
+            "addpackaging": "Add Packaging",
+            "table": {
+                "manage": "Manage",
+                "no": "No",
+                "name": "Name",
+                "number": "Quantity",
+                "storage": "Storage",
+                "storagecabinet": "Storage Cabinet",
+                "floor": "Floor",
+                "channel": "Channel",
+                "image": "Image",
+                "Createdby": "Created by",
+                "Creationdate": "Creation date"
+            }
+        },
+        "form": {
+            "ok": "Save",
+            "cancel": "Cancel",
+            "add": "Add Product",
+            "productdetail": "Product Details",
+            "category": "Main Category",
+            "subcategory": "Sub Category",
+            "suppliers": "Suppliers",
+            "type": "Product Type",
+            "name": "Product Name",
+            "detail": "Detail",
+            "price": "Price",
+            "sale": "Sale Price",
+            "min": "Minimum",
+            "max": "Maximum",
+            "status": "Stock Status",
+            "storage": "Storage",
+            "selectWarehouse": "Select Warehouse",
+            "selectCabinet": "Select Cabinet",
+            "selectBin": "Select Bin",
+            "selectShelf": "Select Shelf",
+            "additionalBinDetails": "Additional Bin Details",
+            "image": "Select Image",
+            "stock":"Manage product stock",
+            "subadd":"Add unit list",
+            "nounit": "Quantity",
+            "type_array": "Templete",
+            "unit": "Unit",
+            "selectunit": "Select Unit",
+            "delete": "Delete",
+            "selectproduct": "Select Product Category",
+            "selecttype": "Select Product Type",
+            "selectsuppliers": "Select Suppliers"
+        }
+    },
+    "employee":{
+        "list":{
+            "employee": "Employee",
+            "addemployee": "Add Employee",
+            "manage": "Manage",
+            "no": "No.",
+            "name": "Name",
+            "email": "Email",
+            "permission": "Permission",
+            "phone": "Phone Number",
+            "createdBy": "Created By",
+            "creationDate": "Creation Date"
+
+        },
+        "form": {
+            "edit": "Edit employees",
+            "addEmployee": "Add Employee",
+            "permission": "Permission",
+            "fullName": "Full Name",
+            "enterFullName": "Enter full name",
+            "email": "Email",
+            "enterEmail": "Enter email address",
+            "phone": "Phone",
+            "enterPhone": "Enter phone number",
+            "username": "Username",
+            "enterUsername": "Enter username",
+            "password": "Password",
+            "enterPassword": "Enter password",
+            "selectProfilePicture": "Select Profile Picture",
+            "confirm": "Confirm",
+            "cancel": "Cancel"
+        },
+        "edit": {
+            "title": "Edit Permissions",
+            "name": "Permission Name",
+            "all": "All",
+            "see": "View",
+            "save": "Save",
+            "edit": "Edit",
+            "delete": "Delete",
+            "ok": "OK",
+            "cancel": "Cancel"
+        }
+    },
+
+    "rights": {
+        "list": {
+            "rights": "Rights List",
+            "addRights": "Add Rights",
+            "manage": "Manage",
+            "no": "No.",
+            "rightsName": "Rights Name",
+            "createdBy": "Created By",
+            "creationDate": "Creation Date"
+        }
+    },
+
+    "customer": {
+        "list": {
+            "title": "Customer List",
+            "addCustomer": "Add Customer",
+            "manage": "Manage",
+            "no": "No.",
+            "name": "Name",
+            "createdBy": "Created By",
+            "creationDate": "Creation Date"
+        },
+        "form": {
+            "title": "Add Customer",
+            "header": "Customer Information",
+            "nameLabel": "Customer Name",
+            "namePlaceholder": "Enter customer name",
+            "phoneLabel": "Contact Number",
+            "phonePlaceholder": "Enter contact number",
+            "emailLabel": "Email",
+            "emailPlaceholder": "Enter email",
+            "addressLabel": "Address",
+            "addressPlaceholder": "Enter customer address",
+            "saveButton": "Save",
+            "cancelButton": "Cancel"
+        }
+    },
+
+    "supplier": {
+        "list": {
+            "title": "Supplier List",
+            "addSupplier": "Add Supplier",
+            "manage": "Manage",
+            "no": "No.",
+            "orderCode": "Order Code",
+            "name": "Name",
+            "details": "Details",
+            "address": "Address",
+            "createdBy": "Created By",
+            "creationDate": "Creation Date"
+        },
+        "add": {
+            "title": "Add Supplier",
+            "editsup": "Edit Supplier",
+            "nameLabel": "Supplier Name",
+            "namePlaceholder": "Enter supplier name",
+            "taxLabel": "Tax ID",
+            "taxPlaceholder": "Enter tax ID",
+            "emailLabel": "Email",
+            "emailPlaceholder": "Enter email",
+            "phoneLabel": "Contact Number",
+            "phonePlaceholder": "Enter contact number",
+            "addressLabel": "Address",
+            "addressPlaceholder": "Enter address",
+            "detailLabel": "Details",
+            "detailPlaceholder": "Enter additional details",
+            "submitButton": "Submit",
+            "cancelButton": "Cancel"
+        }
+    },
+
+    "warehouse": {
+        "list": {
+            "title": "Warehouse List",
+            "addWarehouse": "Add Warehouse",
+            "manage": "Manage",
+            "no": "No.",
+            "name": "Warehouse Name",
+            "description": "Description",
+            "storage": "Storage Unit",
+            "image": "Image",
+            "createdBy": "Created By",
+            "creationDate": "Creation Date"
+        },
+        "form": {
+            "addWarehouseTitle": "Add Warehouse",
+            "warehouseName": "Warehouse Name",
+            "enterWarehouseName": "Enter warehouse name",
+            "details": "Details",
+            "enterDetails": "Enter details about the warehouse",
+            "selectImage": "Select Image",
+            "confirm": "Confirm",
+            "cancel": "Cancel"
+        },
+        "edit": {
+            "title": "Edit Warehouse",
+            "name": "Warehouse Name",
+            "detail": "Details",
+            "enterName": "Enter warehouse name",
+            "enterDetail": "Enter details about the warehouse",
+            "image": "Warehouse picture",
+            "saveButton": "Save",
+            "cancelButton": "Cancel",
+            "overviewTab": "Overview",
+            "listTab": "List View",
+            "store":"cabinet list",
+            "storelist": "Locker List",
+            "addstore": "Add Locker",
+            "no": "No.",
+            "names": "Locker Name",
+            "details": "Details",
+            "floor": "Floor",
+            "channel": "Channel",
+            "images": "Image",
+            "sdate": "Created Date",
+            "manage": "Manage",
+            "qtype":"Question group name",
+            "qname":"Question name",
+            "aname": "Answer Name",
+            "editstore": "Edit Locker",
+            "namestore": "Edit Locker",
+            "addfloor": "Add Floor",
+            "nodata": "No Channel Data",
+            "namefloor":"Floor name",
+            "ok":"Confirm",
+            "cancel":"Cancel",
+            "new":"Add Chsnnel",
+            "nchannel":"Channel Name",
+            "editfloor":"Edit Floor",
+            "editchannel":"Edit Channel"
+        }
+    },
+
+    "category": {
+        "list": {
+            "title": "Category List",
+            "addCategory": "Add Category",
+            "manage": "Manage",
+            "no": "No.",
+            "prefix": "Prefix Code",
+            "name": "Category Name",
+            "description": "Description",
+            "createdBy": "Created By",
+            "creationDate": "Creation Date"
+        },
+        "form": {
+            "addCategoryTitle": "Add Category",
+            "categoryName": "Category Name",
+            "enterCategoryName": "Enter Category Name",
+            "description": "Description",
+            "enterDescription": "Enter Description",
+            "confirm": "Confirm",
+            "cancel": "Cancel"
+        },
+        "edit": {
+            "title": "Edit Category",
+            "name": "Prefix Code",
+            "description": "Enter Prefix Code",
+            "typename": "Category Name",
+            "enterDescription": "Enter Category Name",
+            "saveButton": "Save",
+            "cancelButton": "Cancel",
+            "categoryList": "Subcategory List",
+            "addCategoryButton": "Add Subcategory",
+            "index": "No.",
+            "prefixCode": "Prefix Code",
+            "names": "Name",
+            "creationDate": "Creation Date",
+            "manage": "Manage",
+            "nodata":"No Data !",
+            "namecoede":"Name before code",
+            "editsubcategory":"Edit Subcategory",
+            "namesubcategory":"Name Subcategory",
+            "editsubcategorys":"Enter Prefix Code",
+            "namesubcategorys":"Enter SubCategory Name"
+        }
+    },
+
+    "product": {
+        "list": {
+            "title": "Product List",
+            "exportExcel": "Export to Excel",
+            "addProduct": "Add Product",
+            "manage": "Manage",
+            "no": "No.",
+            "productName": "Product Name",
+            "quantity": "Quantity",
+            "warehouse": "Warehouse",
+            "cabinet": "Cabinet",
+            "floor": "Floor",
+            "slot": "Slot",
+            "image": "Image",
+            "createdBy": "Created By",
+            "creationDate": "Creation Date",
+            "noData": "No data available!"
+        },
+        "dialog":{
+            "code": "Ingredient Code",
+            "name": "Ingredient Name",
+            "no": "Quantity",
+            "detail": "Details",
+            "close": "Close"
+        },
+        "edit":{
+            "title": "Edit Product",
+            "ok": "Save",
+            "cancel": "Cancel",
+            "addproduct": "Ingredient Information",
+            "add": "Add",
+            "name": "Product Ingredient",
+            "detail": "Details",
+            "no": "Quantity",
+            "delete": "Delete"
+        }
+    },
+
+    "material": {
+        "list": {
+            "title": "Material List",
+            "exportExcel": "Export to Excel",
+            "addMaterial": "Add Material",
+            "manage": "Manage",
+            "no": "No.",
+            "productName": "Material Name",
+            "quantity": "Quantity",
+            "warehouse": "Warehouse",
+            "cabinet": "Cabinet",
+            "floor": "Floor",
+            "slot": "Slot",
+            "image": "Image",
+            "createdBy": "Created By",
+            "creationDate": "Creation Date"
+        }
+    },
+
+    "unit": {
+        "list": {
+            "title": "Unit List",
+            "addUnit": "Add Unit",
+            "manage": "Manage",
+            "no": "No.",
+            "code": "Code",
+            "name": "Unit Name",
+            "creationDate": "Creation Date",
+            "ok":"submit",
+            "cancel":"cancel"
+        }
+    },
+
+    "order": {
+        "list": {
+            "title": "Order List",
+            "addOrder": "Add Order",
+            "manage": "Manage",
+            "no": "No",
+            "orderCode": "Order Code",
+            "date": "Date",
+            "client": "Client",
+            "total": "Total",
+            "createdBy": "Created By",
+            "creationDate": "Creation Date",
+            "noData": "No data available!"
+        }
+    },
+
+    "in-out": {
+        "list": {
+            "title": "Receive-Issue",
+            "addButton": "Add Entry",
+            "allTab": "All",
+            "inTab": "Received Entries",
+            "outTab": "Issued Entries",
+            "manageColumn": "Manage",
+            "orderColumn": "No.",
+            "productionCodeColumn": "Production Code",
+            "ordertypeColumn": "Type",
+            "sourceColumn": "Source",
+            "statusColumn": "Status",
+            "detailColumn": "Product List ",
+            "createdByColumn": "Created By",
+            "creationDateColumn": "Creation Date",
+            "report": "Summary Report"
+        },
+        "report": {
+            "title": "Report Stock",
+            "no": "No",
+            "date": "Date",
+            "code": "Code",
+            "name": "Name",
+            "type": "Type",
+            "in": "IN",
+            "out": "OUT",
+            "qty": "QTY",
+            "create_by": "Create By"
+        }
+    },
+
+    "factories": {
+        "list": {
+            "title": "Production Orders List",
+            "addButton": "Add Entry",
+            "management": "Manage",
+            "sequence": "No.",
+            "status": "Status",
+            "productionCode": "Production Code",
+            "orderCode": "Order Code",
+            "product": "Product",
+            "quantity": "Quantity",
+            "details": "Details",
+            "acknowledge": "Acknowledge",
+            "createdBy": "Created By",
+            "createdAt": "Creation Date",
+            "wait": "Pending",
+            "doing": "Producting",
+            "done": "Production Completed",
+            "store": "Stored in Warehouse",
+            "waitdelivery": "Waiting for Delivery"
+        },
+        "form": {
+            "title": "Add Production Entry",
+            "saveButton": "Save",
+            "cancelButton": "Cancel",
+            "productionDetails": "Production Order Details",
+            "dateLabel": "Date",
+            "productNameLabel": "Material Name",
+            "selectProductPlaceholder": "Select Product",
+            "quantityLabel": "Quantity",
+            "number":"Quantity",
+            "additionalDetailsLabel": "Additional Details",
+            "moredetails":"Fill in additional details",
+            "selectProductLabel": "Select Product",
+            "unitLabel": "Unit",
+            "selectUnitOption": "Select Unit",
+            "deleteButton": "Delete",
+            "addButton": "Add Entry"
+        }
+      },
+
+      "stock":{
+        "form":{
+            "inout": "In-Out",
+            "ok": "Save",
+            "cancel": "Cancel",
+            "detail": "Details",
+            "date": "Date",
+            "type": "Item Type",
+            "found": "Source",
+            "buy": "Purchase Order",
+            "more": "Additional Details",
+            "add": "Add Item",
+            "product": "Select Product",
+            "no": "Quantity",
+            "lot": "Lot",
+            "format": "Product Format",
+            "unit": "Unit",
+            "delete": "Delete"
+        }
+      },
+
+      "sales":{
+        "form":{
+            "buy": "Purchase Order",
+            "buysee":"Veiw Purchase Order",
+            "cus": "Customer Information",
+            "date": "Date",
+            "name": "Customer Name",
+            "phone": "Phone Number",
+            "email": "Email",
+            "datail": "Product Details",
+            "all": "Total",
+            "add": "Add",
+            "product": "Select Product",
+            "no": "Quantity",
+            "price": "Cost Price",
+            "sale": "Sale Price",
+            "unit": "Unit",
+            "delete": "Delete",
+            "ok": "Save",
+            "cancel": "Cancel"
+        },
+        "edit":{
+            "add": "Add Unit",
+            "unit": "Unit",
+            "no": "Quantity",
+            "lot": "Lot",
+            "format": "Product Format"
+        }
+      }
+}

@@ -1,0 +1,196 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- Loader -->
+    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+    <!-- <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 flemin-w-0">
+
+        </div>
+    </div> -->
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="grid gap-4 w-full sm:grid-cols-1">
+
+            <form class="bg-card rounded-lg md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2" [formGroup]="form">
+                <div class="flex flex-row my-5 justify-between">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                        <!-- แก้ไขคลังสินค้า -->
+                        {{ 'warehouse.edit.title' | transloco }}
+                    </h2>
+                </div>
+                <div class="-mx-3 md:flex mb-5">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>{{ 'warehouse.edit.name' | transloco }}</mat-label>
+                            <input matInput [placeholder]="'กรอกชื่อคลังสินค้า'" formControlName="name">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-2">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>{{ 'warehouse.edit.detail' | transloco }}</mat-label>
+                            <input matInput [placeholder]="'กรอกรายละเอียดคลังสินค้า'" formControlName="detail">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-2" *ngIf="this.image_url">
+                    <div class="flex bg-white-300 px-3 mb-6 md:mb-0 justify-center w-1/2">
+                        <img class="object-fill h-48 w-96 mb-5 rounded-md" [src]="this.image_url">
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-2">
+                    <ngx-dropzone class="max-h-40 w-1/2" (change)="onSelect($event)">
+                        <ngx-dropzone-label>{{ 'warehouse.edit.image' | transloco }}</ngx-dropzone-label>
+                        <ngx-dropzone-image-preview *ngFor="let f of files" [removable]="true" [file]="f" (removed)="onRemove(f)">
+                        </ngx-dropzone-image-preview>
+                    </ngx-dropzone>
+                </div>
+                <div class="flex justify-end mt-5">
+                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="update()">
+                        <!-- บันทึก -->
+                        {{ 'warehouse.edit.saveButton' | transloco }}
+                    </button>
+                    <button class="px-6 ml-3" mat-flat-button [color]="'warn'" (click)="backTo()">
+                        <!-- ยกเลิก -->
+                        {{ 'warehouse.edit.cancelButton' | transloco }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-10 mb-10  bg-white">
+        <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+            <!-- grid -->
+            <mat-tab label="{{ 'warehouse.edit.overviewTab' | transloco }}">
+                <ng-template matTabContent>
+                    <!-- Products list -->
+                    <div class="flex flex-col w-full lg:w-4/4 sm:pl-8 mb-3">
+                        <h1>{{ 'warehouse.edit.store' | transloco }}</h1>
+                    </div>
+
+                    <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                            <ng-container *ngIf="dataGrid?.length != 0">
+                                <ng-container *ngFor="
+                                        let item of dataGrid;
+                                        let i = index
+                                    ">
+                                    <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="flex items-start justify-between">
+                                            <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                                                {{ item.name }}
+                                            </div>
+                                            <div class="ml-2 -mt-2 -mr-3">
+                                                <button mat-icon-button (click)="editElement(item.id)">
+                                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:eye'">
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col items-center mt-2">
+                                            <div class="text-5xl sm:text-6xl font-bold tracking-tight leading-none text-gold-500">
+                                                {{ item.summary | currency : " " : "symbol" }}
+                                            </div>
+
+                                            <div class="text-lg font-medium text-gold-600 dark:text-gold-500">
+                                                <img *ngIf="item.image" [src]="item.image" class="h-50 w-auto" />
+                                                <br> {{item.description}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- </ng-container>
+                                    </ng-container> -->
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-template>
+            </mat-tab>
+
+            <!-- table -->
+            <mat-tab label="{{ 'warehouse.edit.listTab' | transloco }}">
+                <ng-template matTabContent>
+                    <!-- Products list -->
+                    <div class="flex flex-col flex-auto p-5 overflow-hidden sm:overflow-y-auto">
+                        <div class="flex flex-row my-2 justify-between">
+                            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                <!-- รายการตู้ -->
+                                {{ 'warehouse.edit.storelist' | transloco }}
+                            </h2>
+                            <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="newShelf(this.Id)">
+                                    <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+                                    &nbsp;
+                                    <!-- เพิ่มตู้ -->
+                                    {{ 'warehouse.edit.addstore' | transloco }}
+                                </button>
+                            </div>
+                        </div>
+                        <table datatable [dtOptions]="dtOptions" class="table row-border hover">
+                            <thead>
+                                <tr>{{ 'warehouse.edit.' | transloco }}
+                                    <th>{{ 'warehouse.edit.no' | transloco }}</th>
+                                    <th>{{ 'warehouse.edit.names' | transloco }}</th>
+                                    <th>{{ 'warehouse.edit.details' | transloco }}</th>
+                                    <th>{{ 'warehouse.edit.floor' | transloco }}</th>
+                                    <th>{{ 'warehouse.edit.channel' | transloco }}</th>
+                                    <th>{{ 'warehouse.edit.images' | transloco }}</th>
+                                    <th>{{ 'warehouse.edit.sdate' | transloco }}</th>
+                                    <th>{{ 'warehouse.edit.manage' | transloco }}</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="dataRow?.length != 0">
+                                <tr *ngFor="
+                                        let item of dataRow;
+                                        let i = index
+                                    ">
+                                    <td style="width: 5%">
+                                        {{ pages.begin + (i + 1) }}
+                                    </td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.detail }}</td>
+                                    <td>
+                                        {{ item.floors.length}}
+                                    </td>
+                                    <td>
+                                        {{ item.channels.length}}
+                                    </td>
+                                    <td>
+                                        <button *ngIf="item.image" mat-button (click)="showPicture(item.image)">
+                                            <mat-icon>image</mat-icon>
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        {{ item.created_at | date : "dd-MM-yyyy hh:mm a " }}
+                                    </td>
+                                    <td style="width: 15%">
+                                        <button mat-button (click)="editElement(item.id)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                        <button mat-button (click)="deleteShelf(item.id)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="dataRow?.length == 0">
+                                <tr>
+                                    <td colspan="9" class="no-data-available text-center">
+                                        ไม่มีข้อมูล !
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
