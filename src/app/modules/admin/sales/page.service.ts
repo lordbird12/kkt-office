@@ -135,4 +135,15 @@ export class PageService {
                 })
             );
     }
+
+    updateStatus(data: any): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/update_status_order/', data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
 }
