@@ -1,0 +1,99 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-row mt-2 justify-between">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ 'แก้ไขโปรโมชั่น' | transloco }}
+                </h2>
+                <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSubmit()">
+                        {{ 'บันทึก' | transloco }}
+                    </button>
+                    <button class="px-6 ml-3" mat-flat-button [color]="'warn'" (click)="backTo()">
+                        {{ 'ยกเลิก' | transloco }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
+            <form class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2"
+                [formGroup]="editForm">
+                <span class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
+                    {{ 'รายละเอียดโปรโชั่น' | transloco }}
+                </span>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ 'สินค้า' | transloco }}</mat-label>
+                            <input matInput formControlName="product_id" type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ 'สินค้าแถม' | transloco }}</mat-label>
+                            <input matInput formControlName="product_free_id" type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ 'จำนวนซื้อขั้นต่ำ' | transloco }}</mat-label>
+                            <input matInput formControlName="min_qty_buy" type="number">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ 'ส่วนลด (บาท)' | transloco }}</mat-label>
+                            <input matInput formControlName="free_or_discount_amount" type="number">
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ 'ประเภทโปรโมชั่น' | transloco }}</mat-label>
+                            <mat-select formControlName="type">
+                                <mat-option value="free">แถม</mat-option>
+                                <mat-option value="discount">ส่วนลด</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ 'วันที่เริ่มต้น' | transloco }}</mat-label>
+                            <input matInput [matDatepicker]="startPicker" formControlName="start_date">
+                            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #startPicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ 'วันที่สิ้นสุด' | transloco }}</mat-label>
+                            <input matInput [matDatepicker]="endPicker" formControlName="end_date">
+                            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #endPicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ 'สถานะ' | transloco }}</mat-label>
+                            <mat-select formControlName="status">
+                                <mat-option value="On">เปิดใช้งาน</mat-option>
+                                <mat-option value="Off">ปิดใช้งาน</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <hr>
+            </form>
+        </div>
+    </div>
+</div>

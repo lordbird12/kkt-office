@@ -191,6 +191,7 @@ export class EditComponent implements OnInit {
         this.products.removeAt(index);
     }
     async ngOnInit(): Promise<void> {
+        
         const resp = await lastValueFrom(
             forkJoin({
                 category: this._Service.getCategories(),
@@ -209,14 +210,14 @@ export class EditComponent implements OnInit {
         this.activatedRoute.params.subscribe(async (params) => {
             console.log(params);
             const id = params.id;
-
+     
             try {
                 const itemResponse = await this._Service
                     .getById(id)
                     .toPromise();
                 this.item = itemResponse;
-
-                console.log(this.item);
+               
+                console.log(this.item, 'data');
                 const selectedCategoryId = this.item.category_product_id;
                 const selectedShelf = this.item.shelve_id;
                 const selectedFloor = this.item.floor_id;
@@ -241,7 +242,7 @@ export class EditComponent implements OnInit {
                     category_product_id: +this.item?.category_product_id,
                     sub_category_product_id: +this.item?.sub_category_product_id,
                     supplier_id: +this.item?.supplier_id,
-                    area_id: +this.item?.area_id,
+                    area_id: this.item?.area?.id,
                     shelve_id: +this.item?.shelve_id,
                     floor_id: +this.item?.floor_id,
                     channel_id: +this.item?.channel_id,
@@ -250,7 +251,7 @@ export class EditComponent implements OnInit {
                     image: '',
                 });
                 this.item.product_units.forEach((element) => {
-                    console.log(element, 'element');
+                  
                     let unitIdNumber = Number(element.unit_id);
                     const a = this._formBuilder.group({
                         qty: element.qty,
@@ -261,30 +262,28 @@ export class EditComponent implements OnInit {
                         channel_id: element?.channel_id,
                         type: element?.type,
                         lot: element?.lot,
-                        
                     });
                     this.products.push(a);
                 });
-                this._changeDetectorRef.detectChanges();
                 this.formRaw.patchValue({
                     product_id: id,
                 });
-                if (this.item.raws) {
-                    this.item.raws.forEach((element) => {
-                        const a = this._formBuilder.group({
-                            product_id: +element.product.id,
-                            qty: element.qty,
-                            detail: element.detail,
-                        });
-                        this.raws.push(a);
+                this.item?.raws.forEach((element) => {
+                    const a = this._formBuilder.group({
+                        product_id: +element.product.id,
+                        qty: element.qty,
+                        detail: element.detail,
                     });
-                }
+                    this.raws.push(a);
+                });
+                console.log(this.formData.value, 'last Form');
+                
+                this._changeDetectorRef.markForCheck()
+                
             } catch (error) {
                 console.error('An error occurred:', error);
             }
         });
-
-      
     }
 
     get raws() {
@@ -309,7 +308,11 @@ export class EditComponent implements OnInit {
     ngAfterViewInit(): void {}
 
     onchange(event: any) {
-        this.itemShelve = this.itemArea.filter((item) => item.id === event);
+        console.log(event);
+        
+        this.itemShelve = this.itemArea.filter((item) => item.id === event.value);
+        console.log(this.itemShelve);
+        
     }
 
     /**
@@ -574,7 +577,7 @@ export class EditComponent implements OnInit {
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     const formValue = this.formRaw.value;
-                    this._Service.Updatedata(formValue).subscribe({
+                    this._Service.updateRaw(formValue).subscribe({
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/product/list')
@@ -636,7 +639,7 @@ export class EditComponent implements OnInit {
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     const formValue = this.formRaw.value;
-                    this._Service.Updatedata(formValue).subscribe({
+                    this._Service.updateRaw(formValue).subscribe({
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/product/list')

@@ -260,6 +260,11 @@ export const appRoutes: Route[] = [
                         loadChildren: () =>
                             import('app/modules/admin/report/page.routes'),
                     },
+                    {
+                        path: 'promotion',
+                        loadChildren: () =>
+                            import('app/modules/admin/promotion/page.routes'),
+                    },
                 ],
             },
         ],

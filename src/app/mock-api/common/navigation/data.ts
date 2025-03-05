@@ -279,6 +279,26 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:home-modern',
                 link: '/admin/sales/list',
             },
+            {
+                id: 'sales.promotion',
+                // title: 'รายการคำสั่งซื้อ',
+                title: localStorage.getItem('lang') === 'tr' ? 'รายการโปรโมชั่น' : 'Promotion list',
+
+                hidden: () => {
+                    const storedPermission = JSON.parse(
+                        localStorage.getItem('permission')
+                    );
+                    const menu = storedPermission?.find((e) => e.menu_id === 7);
+                    if (menu?.view === 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                type: 'basic',
+                icon: 'heroicons_outline:home-modern',
+                link: '/admin/promotion/list',
+            },
         ],
     },
     {

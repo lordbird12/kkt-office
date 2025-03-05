@@ -221,7 +221,7 @@ export class Service {
     }
     updateRaw(formData: any): Observable<any> {
         return this._httpClient
-            .post(environment.baseURL + '/api/update_product', formData)
+            .post(environment.baseURL + '/api/product_raw', formData)
             .pipe(
                 switchMap((response: any) => {
                     return of(response.data);
