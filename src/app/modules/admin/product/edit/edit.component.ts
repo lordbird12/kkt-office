@@ -1,21 +1,17 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { NgClass } from '@angular/common';
 import {
-    AfterViewInit,
     ChangeDetectorRef,
     Component,
-    OnDestroy,
     OnInit,
     ViewEncapsulation,
 } from '@angular/core';
 import {
     FormArray,
     FormBuilder,
-    FormControl,
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
-    UntypedFormBuilder,
     Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,7 +31,6 @@ import { Service } from '../page.service';
 import { CommonModule } from '@angular/common';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { Subscription, forkJoin, lastValueFrom } from 'rxjs';
-import { categories } from 'app/mock-api/apps/ecommerce/inventory/data';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { environment } from 'environments/environment.development';
 
@@ -108,11 +103,9 @@ export class EditComponent implements OnInit {
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
         private _Service: Service,
-        private _matDialog: MatDialog,
         private _router: Router,
         public activatedRoute: ActivatedRoute,
-        private _authService: AuthService,
-        private translocoService: TranslocoService
+        translocoService: TranslocoService
 
     ) {
         const id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -162,7 +155,7 @@ export class EditComponent implements OnInit {
         return this.formData.get('products') as FormArray;
     }
 
-    addRow(data: any) {
+    addRow() {
         const value = this._formBuilder.group({
             qty: '', //จำนวน
             unit_id: '', //หน่วยนับ
@@ -245,15 +238,6 @@ export class EditComponent implements OnInit {
 
                     // Process product_units using for...of
                     for (const element of this.item.product_units) {
-                        const unitResp = await lastValueFrom(
-                            forkJoin({
-                                floor: this._Service.getFloor(element?.area_id),
-                                shelf: this._Service.getChannel(
-                                    element?.shelve_id,
-                                    element?.floor_id
-                                ),
-                            })
-                        );
 
                         const a = this._formBuilder.group({
                             qty: element.qty,
@@ -353,8 +337,6 @@ export class EditComponent implements OnInit {
             this.itemFloor[i] = resp.data;
             console.log('itemfloor', this.itemFloor);
         });
-
-
     }
     isUnitAlreadySelected(unitId: string, currentIndex: number): boolean {
         for (let i = 0; i < this.products.length; i++) {
@@ -427,7 +409,6 @@ export class EditComponent implements OnInit {
     url_logo: string;
     onSelect(event: { addedFiles: File[] }): void {
         this.files.push(...event.addedFiles);
-        const file = this.files[0];
 
         setTimeout(() => {
             this._changeDetectorRef.detectChanges();
@@ -468,7 +449,7 @@ export class EditComponent implements OnInit {
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     this._Service.Updatedata(this.formData.value, this.Id).subscribe({
-                        next: (resp: any) => {
+                        next: () => {
                             this._router
                                 .navigateByUrl('admin/product/list')
                                 .then(() => { });
@@ -529,7 +510,7 @@ export class EditComponent implements OnInit {
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     this._Service.Updatedata(this.formData.value, this.Id).subscribe({
-                        next: (resp: any) => {
+                        next: () => {
                             this._router
                                 .navigateByUrl('admin/product/list')
                                 .then(() => { });
@@ -596,7 +577,7 @@ export class EditComponent implements OnInit {
                 if (result === 'confirmed') {
                     const formValue = this.formRaw.value;
                     this._Service.updateRaw(formValue).subscribe({
-                        next: (resp: any) => {
+                        next: () => {
                             this._router
                                 .navigateByUrl('admin/product/list')
                                 .then(() => { });
@@ -658,7 +639,7 @@ export class EditComponent implements OnInit {
                 if (result === 'confirmed') {
                     const formValue = this.formRaw.value;
                     this._Service.updateRaw(formValue).subscribe({
-                        next: (resp: any) => {
+                        next: () => {
                             this._router
                                 .navigateByUrl('admin/product/list')
                                 .then(() => { });

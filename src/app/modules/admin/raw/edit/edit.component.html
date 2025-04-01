@@ -184,13 +184,13 @@
                             <div class="flex flex-col w-full">
                                 <div class="flex flex-row w-full">
                                     <span class="text-lg font-bold">{{i +1}}</span>
-                                    <div class=" flex flex-row gap-3 md:w-1/4 px-3">
+                                    <div class=" flex flex-row gap-3 md:w-2/4 px-3">
                                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                             <mat-label>{{'banjupan.form.nounit' | transloco }}</mat-label>
                                             <input matInput formControlName="qty" [placeholder]="'จำนวน'">
                                         </mat-form-field>
                                     </div>
-                                    <div class=" flex flex-row gap-3 md:w-1/4 px-3">
+                                    <!-- <div class=" flex flex-row gap-3 md:w-1/4 px-3">
                                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                             <mat-label>Lot</mat-label>
                                             <input matInput formControlName="lot" [placeholder]="'เลข Lot'">
@@ -201,8 +201,8 @@
                                             <mat-label>{{'banjupan.form.type_array' | transloco }}</mat-label>
                                             <input matInput formControlName="type" [placeholder]="'รูปแบบสินค้า'">
                                         </mat-form-field>
-                                    </div>
-                                    <div class=" flex flex-row gap-3 md:w-1/4 px-3">
+                                    </div> -->
+                                    <div class=" flex flex-row gap-3 md:w-2/4 px-3">
                                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                             <mat-label>{{'banjupan.form.unit' | transloco }}</mat-label>
                                             <mat-select [formControlName]="'unit_id'" required>

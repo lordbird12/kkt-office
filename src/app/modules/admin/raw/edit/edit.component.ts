@@ -64,18 +64,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 })
 export class EditComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    fixedSubscriptInput: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
-    dynamicSubscriptInput: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
-    fixedSubscriptInputWithHint: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
-    dynamicSubscriptInputWithHint: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
+
 
     item1Data: any = [];
     item2Data: any = [];
@@ -227,17 +216,10 @@ export class EditComponent implements OnInit {
                     forkJoin({
                         subcategory:
                             this._Service.getSubCategories(selectedCategoryId),
-                        shelf: this._Service.getChannel(
-                            selectedShelf,
-                            selectedFloor
-                        ),
-                        floor: this._Service.getFloor(selectedShelf),
+       
                     })
                 );
-                this.SubCategoryData = resp.subcategory.data;
-                this.itemFloor = resp.floor.data;
-                this.itemChannel = resp.shelf.data;
-
+            
                 this.formData.patchValue({
                     ...this.item,
                     category_product_id: +this.item.category_product_id,
@@ -319,8 +301,11 @@ export class EditComponent implements OnInit {
      */
     ngAfterViewInit(): void {}
 
-    onchange(event: any) {
-        this.itemShelve = this.itemArea.filter((item) => item.id === event);
+    onchange(event: any, i: number) {
+        const data = this.itemArea.find((item) => item.id === event.value);
+        this.itemShelve[i] = data.shelfs;
+        console.log(this.itemShelve);
+
     }
 
     /**
@@ -337,11 +322,11 @@ export class EditComponent implements OnInit {
             this.SubCategoryData = resp.data;
         });
     }
-    onShelfSelected(event: any): void {
+    onShelfSelected(event: any, i): void {
         this.selectedShelfId = event.value;
         console.log('selectshelf', this.selectedShelfId);
         this._Service.getFloor(this.selectedShelfId).subscribe((resp) => {
-            this.itemFloor = resp.data;
+            this.itemFloor[i] = resp.data;
             console.log('itemfloor', this.itemFloor);
         });
     }
@@ -358,14 +343,13 @@ export class EditComponent implements OnInit {
 
         return false;
     }
-    onfloorSelected(event: any): void {
+    onfloorSelected(event: any, i): void {
         const selectedfloorId = event.value;
-        console.log('selectfloor', selectedfloorId);
 
         this._Service
             .getChannel(this.selectedShelfId, selectedfloorId)
             .subscribe((resp) => {
-                this.itemChannel = resp.data;
+                this.itemChannel[i] = resp.data;
                 console.log('itemchannel', this.itemChannel);
             });
     }
