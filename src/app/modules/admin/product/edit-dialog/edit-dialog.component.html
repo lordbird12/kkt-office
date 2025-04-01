@@ -1,4 +1,4 @@
-<div class="md:max-w-lg mx-auto">
+<div class="w-full">
     <h1 mat-dialog-title class="text-xl font-semibold mb-4"> {{ 'product.edit.name' | transloco }}</h1>
 
 
@@ -33,11 +33,11 @@
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{item.product.code}}
                     </th>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 ">
                         {{item.product.name}}
                     </td>
-                    <td class="px-6 py-4">
-                        {{item.product.qty}}
+                    <td class="px-6 py-4 text-center">
+                        {{item.qty}}
                     </td>
                     <td class="px-6 py-4">
                         {{item.product.detail}}

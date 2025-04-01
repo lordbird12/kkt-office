@@ -85,7 +85,7 @@
                                                         aria-label="Button that shows a red tooltip"
                                                         (click)="changeStatus('Finish',item.id)">
                                                         <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
-                                                        <span>เปลี่ยนสถานะ</span>
+                                                        <span>อนุมัติ</span>
                                                     </button>
 
                                                     <button
@@ -204,39 +204,51 @@
                                 <ng-container *ngFor="let item of dataRow; let i = index">
                                     <tr>
                                         <td>
-                                            <button mat-icon-button color="secondary" (click)="pdf(item.id)">
-                                                <mat-icon>picture_as_pdf</mat-icon>
+                                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                                *ngIf="!hiddenEdit() || !hiddenDelete()">
+                                                <mat-icon svgIcon="heroicons_solid:cog-6-tooth"></mat-icon>
                                             </button>
-                                            <button
-                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
-                                                mat-icon-button color="secondary" (click)="goTo(item.id)">
-                                                <mat-icon>edit</mat-icon>
-                                            </button>
-                                            <button *ngIf="item.status == 'Finish'" mat-icon-button color="secondary"
-                                                (click)="goTo(item.id)">
-                                                <mat-icon>visibility</mat-icon>
-                                            </button>
-                                            <button mat-icon-button color="secondary"
-                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
-                                                (click)="delete(item.id)">
-                                                <mat-icon>delete</mat-icon>
-                                            </button>
-                                            <button *ngIf="item.status == 'Ordered'" mat-icon-button color="accent"
-                                                matTooltip="เปลี่ยนสถานะ" matTooltipClass="example-tooltip-uppercase"
-                                                aria-label="Button that shows a red tooltip"
-                                                (click)="changeStatus('Finish',item.id)">
-                                                <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
-                                            </button>
-
-                                            <button
-                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
-                                                mat-icon-button color="accent" matTooltip="ยกเลิก"
-                                                matTooltipClass="example-tooltip-uppercase"
-                                                aria-label="Button that shows a red tooltip"
-                                                (click)="changeStatus('Cancel',item.id)">
-                                                <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
-
-                                            </button>
+                                            <mat-menu #menu="matMenu">
+                                                <ng-container *ngIf="!hiddenEdit()">
+                                                    <button mat-menu-item color="secondary" (click)="pdf(item.id)">
+                                                        <mat-icon>picture_as_pdf</mat-icon>
+                                                        PDF
+                                                    </button>
+                                                    <button
+                                                        *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                        mat-menu-item color="secondary" (click)="goTo(item.id)">
+                                                        <mat-icon>edit</mat-icon>
+                                                        แก้ไข
+                                                    </button>
+                                                    <button *ngIf="item.status == 'Finish'" mat-menu-item color="secondary"
+                                                        (click)="goTo(item.id)">
+                                                        <mat-icon>visibility</mat-icon>
+                                                        ดูรายละเอียด
+                                                    </button>
+                                                    <button mat-menu-item color="secondary"
+                                                        *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                        (click)="delete(item.id)">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                    <button *ngIf="item.status == 'Ordered'" mat-menu-item color="accent"
+                                                        matTooltip="เปลี่ยนสถานะ" matTooltipClass="example-tooltip-uppercase"
+                                                        aria-label="Button that shows a red tooltip"
+                                                        (click)="changeStatus('Finish',item.id)">
+                                                        <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
+                                                        อนุมัติ
+                                                    </button>
+        
+                                                    <button
+                                                        *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                        mat-menu-item color="accent" matTooltip="ยกเลิก"
+                                                        matTooltipClass="example-tooltip-uppercase"
+                                                        aria-label="Button that shows a red tooltip"
+                                                        (click)="changeStatus('Cancel',item.id)">
+                                                        <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+                                                        ยกเลิก
+                                                    </button>
+                                                </ng-container>
+                                            </mat-menu>
                                         </td>
                                         <td>{{ pages.begin + (i + 1) }}</td>
                                         <!-- <td>{{ item.type ? item.type : "-" }}</td> -->
@@ -342,41 +354,54 @@
                                 <ng-container *ngFor="let item of dataRow; let i = index">
                                     <tr>
                                         <td>
-                                            <button mat-icon-button color="secondary" (click)="pdf(item.id)">
-                                                <mat-icon>picture_as_pdf</mat-icon>
+                                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                                *ngIf="!hiddenEdit() || !hiddenDelete()">
+                                                <mat-icon svgIcon="heroicons_solid:cog-6-tooth"></mat-icon>
                                             </button>
-                                            <button
-                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
-                                                mat-icon-button color="secondary" (click)="goTo(item.id)">
-                                                <mat-icon>edit</mat-icon>
-                                            </button>
-                                            <button *ngIf="item.status == 'Finish'" mat-icon-button color="secondary"
-                                                (click)="goTo(item.id)">
-                                                <mat-icon>visibility</mat-icon>
-                                            </button>
-                                            <button mat-icon-button color="secondary"
-                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
-                                                (click)="delete(item.id)">
-                                                <mat-icon>delete</mat-icon>
-                                            </button>
-                                            <button
-                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
-                                                mat-icon-button color="accent" matTooltip="เปลี่ยนสถานะ"
-                                                matTooltipClass="example-tooltip-uppercase"
-                                                aria-label="Button that shows a red tooltip"
-                                                (click)="changeStatus('Finish',item.id)">
-                                                <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
-                                            </button>
-
-                                            <button
-                                                *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
-                                                mat-icon-button color="accent" matTooltip="ยกเลิก"
-                                                matTooltipClass="example-tooltip-uppercase"
-                                                aria-label="Button that shows a red tooltip"
-                                                (click)="changeStatus('Cancel',item.id)">
-                                                <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
-
-                                            </button>
+                                            <mat-menu #menu="matMenu">
+                                                <ng-container *ngIf="!hiddenEdit()">
+                                                    <button  mat-menu-item color="secondary" (click)="pdf(item.id)">
+                                                        <mat-icon>picture_as_pdf</mat-icon>
+                                                        PDF
+                                                    </button>
+                                                    <button
+                                                        *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                         mat-menu-item color="secondary" (click)="goTo(item.id)">
+                                                        <mat-icon>edit</mat-icon>
+                                                        แก้ไข
+                                                    </button>
+                                                    <button *ngIf="item.status == 'Finish'"  mat-menu-item color="secondary"
+                                                        (click)="goTo(item.id)">
+                                                        <mat-icon>visibility</mat-icon>
+                                                        ดูรายละเอียด
+                                                    </button>
+                                                    <button  mat-menu-item color="secondary"
+                                                        *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                        (click)="delete(item.id)">
+                                                        <mat-icon>delete</mat-icon>
+                                                        ลบ
+                                                    </button>
+                                                    <button
+                                                        *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                         mat-menu-item color="accent" matTooltip="เปลี่ยนสถานะ"
+                                                        matTooltipClass="example-tooltip-uppercase"
+                                                        aria-label="Button that shows a red tooltip"
+                                                        (click)="changeStatus('Finish',item.id)">
+                                                        <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
+                                                        อนุมัติ
+                                                    </button>
+        
+                                                    <button
+                                                        *ngIf="item.status == 'Ordered' && [1,11].includes(+userData.permission_id)"
+                                                         mat-menu-item color="accent" matTooltip="ยกเลิก"
+                                                        matTooltipClass="example-tooltip-uppercase"
+                                                        aria-label="Button that shows a red tooltip"
+                                                        (click)="changeStatus('Cancel',item.id)">
+                                                        <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+                                                        ยกเลิก
+                                                    </button>
+                                                </ng-container>
+                                            </mat-menu>
                                         </td>
                                         <td>{{ pages.begin + (i + 1) }}</td>
                                         <!-- <td>{{ item.type ? item.type : "-" }}</td> -->
