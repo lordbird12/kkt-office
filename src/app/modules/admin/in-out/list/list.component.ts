@@ -34,6 +34,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ViewOrderComponent } from '../../view-order/view-order.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
     selector: 'employee-list',
@@ -59,7 +60,8 @@ import { ViewOrderComponent } from '../../view-order/view-order.component';
         MatTableModule,
         DataTablesModule,
         MatTabsModule,
-        TranslocoModule
+        TranslocoModule,
+        MatMenuModule
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {

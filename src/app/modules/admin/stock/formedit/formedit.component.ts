@@ -133,9 +133,8 @@ export class FormeditComponent {
         if (this.Id) {
             this._service.getById(this.Id).subscribe((resp: any) => {
                 this.itemData = resp.data;
-                console.log(this.itemData, 'itemdata');
                 this.Lines = this.itemData.stock_lines;
-                console.log(this.Lines);
+                // console.log('Line',this.Lines);
                 let order = Number(this.itemData.order_id);
                 this.ProductControl.setValue(this.itemData.product?.name);
                 this.addForm.patchValue({
@@ -144,18 +143,14 @@ export class FormeditComponent {
                 });
                 let i = 0;
                 for (const data of this.Lines) {
-
-                    let unitIdNumber = Number(data.unit_id);
-                    let product = Number(data.product_id);
-                    const selectedProduct = this.productData.find(productdata => productdata.id === product);
+                    const selectedProduct = this.productData.find(product => product.id === +data.product_id)
                     const productControl = new FormControl(selectedProduct.name); // ใช้ selectedProduct.name แทนที่จะเป็น new FormControl('')
-
                     const a = this._formBuilder.group({
                         type: data.product?.type,
-                        product_id: product,
+                        product_id: +data.product_id,
                         product_name: productControl,
                         qty: data.qty,
-                        unit_id: unitIdNumber,
+                        unit_id: +data.unit_id,
                     });
                     this.products.push(a);
 

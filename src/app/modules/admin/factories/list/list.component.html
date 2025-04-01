@@ -78,7 +78,7 @@
                                         *ngIf="!hiddenEdit()">
                                             <mat-icon>edit</mat-icon>
                                         </button>
-                                        <button mat-icon-button color="accent" 
+                                        <button mat-icon-button 
                                         (click)="changeStatus('Cancel',item.id)" 
                                         *ngIf="!hiddenEdit()"
                                         matTooltip="ยกเลิก"
@@ -185,7 +185,7 @@
                                             (click)="changeStatus('Process',item.id)">
                                             <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
                                         </button>
-                                        <!-- <button mat-icon-button color="accent" (click)="approveElement(item.id)">
+                                        <!-- <button mat-icon-button (click)="approveElement(item.id)">
                                             <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
                                         </button> -->
                                         <button *ngIf="[1,11,13].includes(+userData.permission_id)" mat-icon-button
@@ -271,11 +271,11 @@
                             <tbody *ngIf="dataRow?.length != 0">
                                 <tr *ngFor="let item of dataRow; let i = index">
                                     <td>
-                                        <!-- <button mat-icon-button color="accent" *ngIf="!hiddenEdit()"
+                                        <!-- <button mat-icon-button *ngIf="!hiddenEdit()"
                                             (click)="editElement(item.id)">
                                             <mat-icon>edit</mat-icon>
                                         </button>
-                                        <button mat-icon-button color="accent" *ngIf="!hiddenDelete()"
+                                        <button mat-icon-button *ngIf="!hiddenDelete()"
                                             (click)="deleteElement(item)">
                                             <mat-icon>delete</mat-icon>
                                         </button> -->
@@ -370,12 +370,12 @@
                             <tbody *ngIf="dataRow?.length != 0">
                                 <tr *ngFor="let item of dataRow; let i = index">
                                     <td>
-                                        <!-- <button mat-icon-button color="accent" *ngIf="!hiddenEdit()"
+                                        <!-- <button mat-icon-button *ngIf="!hiddenEdit()"
                                             (click)="editElement(item.id)">
                                             <mat-icon>edit</mat-icon>
                                         </button>
 
-                                        <button mat-icon-button color="accent" *ngIf="!hiddenDelete()"
+                                        <button mat-icon-button *ngIf="!hiddenDelete()"
                                             (click)="deleteElement(item)">
                                             <mat-icon>delete</mat-icon>
                                         </button> -->
@@ -469,19 +469,19 @@
                             <tbody *ngIf="dataRow?.length != 0">
                                 <tr *ngFor="let item of dataRow; let i = index">
                                     <td>
-                                        <!-- <button mat-icon-button color="accent" *ngIf="!hiddenEdit()"
+                                        <!-- <button mat-icon-button *ngIf="!hiddenEdit()"
                                             (click)="editElement(item.id)">
                                             <mat-icon>edit</mat-icon>
                                         </button>
-                                        <button mat-icon-button color="accent" *ngIf="!hiddenDelete()"
+                                        <button mat-icon-button *ngIf="!hiddenDelete()"
                                             (click)="deleteElement(item)">
                                             <mat-icon>delete</mat-icon>
                                         </button> -->
 
-                                        <!-- <button mat-icon-button color="accent" (click)="editElement(item.id)">
+                                        <!-- <button mat-icon-button (click)="editElement(item.id)">
                                             <mat-icon>edit</mat-icon>
                                         </button> -->
-                                        <!-- <button mat-icon-button color="accent" (click)="changeStatus('Cancel',item.id)">
+                                        <!-- <button mat-icon-button (click)="changeStatus('Cancel',item.id)">
                                             <mat-icon svgIcon="heroicons_outline:arrow-path"></mat-icon>
                                         </button> -->
                                         <button *ngIf="[1,11].includes(+userData.permission_id)" mat-icon-button
@@ -571,19 +571,19 @@
                             <tbody *ngIf="dataRow?.length != 0">
                                 <tr *ngFor="let item of dataRow; let i = index">
                                     <td>
-                                        <!-- <button mat-icon-button color="accent" *ngIf="!hiddenEdit()"
+                                        <!-- <button mat-icon-button *ngIf="!hiddenEdit()"
                                             (click)="editElement(item.id)">
                                             <mat-icon>edit</mat-icon>
                                         </button>
-                                        <button mat-icon-button color="accent" *ngIf="!hiddenDelete()"
+                                        <button mat-icon-button *ngIf="!hiddenDelete()"
                                             (click)="deleteElement(item)">
                                             <mat-icon>delete</mat-icon>
                                         </button> -->
 
-                                        <!-- <button mat-icon-button color="accent" (click)="editElement(item.id)">
+                                        <!-- <button mat-icon-button (click)="editElement(item.id)">
                                             <mat-icon>edit</mat-icon>
                                         </button> -->
-                                        <!-- <button mat-icon-button color="accent" (click)="changeStatus('Cancel',item.id)">
+                                        <!-- <button mat-icon-button (click)="changeStatus('Cancel',item.id)">
                                             <mat-icon svgIcon="heroicons_outline:arrow-path"></mat-icon>
                                         </button> -->
 
@@ -667,13 +667,13 @@
                                 <tr *ngFor="let item of dataRow; let i = index">
                                     <td>
 
-                                        <!-- <button mat-icon-button color="accent" *ngIf="!hiddenEdit()"
+                                        <!-- <button mat-icon-button *ngIf="!hiddenEdit()"
                                             (click)="editElement(item.id)">
                                         </button>
-                                        // <button mat-icon-button color="accent" (click)="editElement(item.id)">
+                                        // <button mat-icon-button (click)="editElement(item.id)">
                                             // <mat-icon>edit</mat-icon>
                                             // </button>
-                                        <button mat-icon-button color="accent" *ngIf="!hiddenDelete()"
+                                        <button mat-icon-button *ngIf="!hiddenDelete()"
                                             (click)="deleteElement(item)">
                                             <mat-icon>delete</mat-icon>
                                         </button> -->

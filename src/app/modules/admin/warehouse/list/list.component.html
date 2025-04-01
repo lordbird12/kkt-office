@@ -41,10 +41,10 @@
                 <tbody *ngIf="dataRow?.length != 0">
                     <tr *ngFor="let item of dataRow; let i = index">
                         <td>
-                            <button mat-icon-button color="accent" *ngIf="!hiddenEdit()" (click)="editElement(item)">
+                            <button mat-icon-button *ngIf="!hiddenEdit()" (click)="editElement(item)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button color="accent" *ngIf="!hiddenDelete()" (click)="delete(item.id)">
+                            <button mat-icon-button *ngIf="!hiddenDelete()" (click)="delete(item.id)">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </td>
@@ -120,10 +120,10 @@
                 <tbody *ngIf="dataRow?.length != 0">
                     <tr *ngFor="let item of dataRow; let i = index">
                         <td>
-                            <button mat-icon-button color="accent" *ngIf="!hiddenEdit()" (click)="editElement(item)">
+                            <button mat-icon-button *ngIf="!hiddenEdit()" (click)="editElement(item)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button color="accent" *ngIf="!hiddenDelete()"
+                            <button mat-icon-button *ngIf="!hiddenDelete()"
                                 (click)="deleteElement(item)">
                                 <mat-icon>delete</mat-icon>
                             </button>
