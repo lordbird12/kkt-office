@@ -4,7 +4,8 @@
     <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
@@ -12,11 +13,13 @@
                     {{ 'product.list.title' | transloco }}
                 </h2>
                 <div class="flex items-center">
-                    <button class="px-6 ml-3 bg-green-700 text-white" mat-flat-button *ngIf="!hiddenSave()" (click)="excelExport()">
+                    <button class="px-6 ml-3 bg-green-700 text-white" mat-flat-button *ngIf="!hiddenSave()"
+                        (click)="excelExport()">
                         <mat-icon svgIcon="mat_solid:file_download"></mat-icon>
                         &nbsp;{{ 'product.list.exportExcel' | transloco }}
                     </button>
-                    <button class="px-6 ml-3" mat-flat-button color="primary" *ngIf="!hiddenSave()" (click)="addElement()">
+                    <button class="px-6 ml-3" mat-flat-button color="primary" *ngIf="!hiddenSave()"
+                        (click)="addElement()">
                         <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
                         &nbsp;{{ 'product.list.addProduct' | transloco }}
                     </button>
@@ -47,27 +50,44 @@
                 <tbody *ngIf="dataRow?.length != 0">
                     <tr *ngFor="let item of dataRow; let i = index">
                         <td>
-                            <button mat-icon-button *ngIf="!hiddenEdit() " (click)="editElement(item.id) ">
-                                <mat-icon>edit</mat-icon>
+                            <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="!hiddenEdit() || !hiddenDelete()">
+                                <mat-icon svgIcon="heroicons_solid:cog-6-tooth"></mat-icon>
                             </button>
-                            <button mat-icon-button *ngIf="!hiddenEdit() " (click)="viewElement(item.id) ">
-                                <mat-icon>search</mat-icon>
-                            </button>
-                            <button mat-icon-button *ngIf="!hiddenDelete() " (click)="delete(item.id) ">
-                                <mat-icon>delete</mat-icon>
-                            </button>
+                            <mat-menu #menu="matMenu">
+                                <ng-container *ngIf="!hiddenEdit()">
+                                    <button mat-menu-item (click)="editElement(item.id)">
+                                        <mat-icon>edit</mat-icon>
+                                        <span>แก้ไข</span>
+                                    </button>
+                                    <button mat-menu-item (click)="viewElement(item.id)">
+                                        <mat-icon>search</mat-icon>
+                                        <span>ดูข้อมูล</span>
+                                    </button>
+                                </ng-container>
+
+                                <ng-container *ngIf="!hiddenDelete()">
+                                    <button mat-menu-item (click)="delete(item.id)">
+                                        <mat-icon>delete</mat-icon>
+                                        <span>ลบ</span>
+                                    </button>
+                                </ng-container>
+                            </mat-menu>
                         </td>
+
                         <td>{{ pages.begin + (i + 1) }}</td>
                         <td>{{ item.name ? item.name : "-" }}</td>
                         <td>
                             <div *ngFor="let product of item.product_units; let p = index">
-                                <div *ngIf="product.qty > item.min && product.qty <= item.max" class="w-fit m-1 bg-green-200 text-green-700 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                <div *ngIf="product.qty > item.min && product.qty <= item.max"
+                                    class="w-fit m-1 bg-green-200 text-green-700 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
                                     {{ product.qty ? product.qty : "-" }} | {{product.unit ? product.unit : "-"}}
                                 </div>
-                                <div *ngIf="product.qty < item.min" class="w-fit m-1 bg-red-200 text-red-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-300 dark:text-red-900">
+                                <div *ngIf="product.qty < item.min"
+                                    class="w-fit m-1 bg-red-200 text-red-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-300 dark:text-red-900">
                                     {{ product.qty ? product.qty : "-" }} | {{product.unit ? product.unit : "-"}}
                                 </div>
-                                <div *ngIf="product.qty > item.max" class="w-fit m-1 bg-gray-200 text-gray-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-300 dark:text-gray-900">
+                                <div *ngIf="product.qty > item.max"
+                                    class="w-fit m-1 bg-gray-200 text-gray-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-300 dark:text-gray-900">
                                     {{ product.qty ? product.qty : "-" }} | {{product.unit ? product.unit : "-"}}
                                 </div>
                                 <br>
@@ -77,7 +97,8 @@
                         <td>{{ item.area ? item.area.name : "-" }}</td>
                         <td>{{ item.shelf ? item.shelf.name : "-" }}</td>
                         <td>{{ item.floor ? item.floor.name : "-" }}</td>
-                        <td>{{ item.channel ? item.channel.name : "-" }} {{item.more_address ? "("+item.more_address+")":""}}
+                        <td>{{ item.channel ? item.channel.name : "-" }} {{item.more_address ?
+                            "("+item.more_address+")":""}}
                         </td>
                         <td>
                             <button mat-button (click)="showPicture(item.images[0].image)">
@@ -90,7 +111,8 @@
                 </tbody>
                 <tbody *ngIf="dataRow?.length == 0">
                     <tr>
-                        <td colspan="11" class="no-data-available text-center">{{ 'product.list.noData' | transloco }}</td>
+                        <td colspan="11" class="no-data-available text-center">{{ 'product.list.noData' | transloco }}
+                        </td>
                     </tr>
                 </tbody>
             </table>

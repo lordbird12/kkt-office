@@ -21,77 +21,54 @@
         <div class="flex-auto p-6 sm:p-10">
             <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
                 <div class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
-                    <div class="-mx-3 md:flex mb-3">
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label>{{ 'supplier.add.nameLabel' | transloco }}</mat-label>
-                                <input matInput [formControlName]="'name'" [placeholder]="'กรอกชื่อซัพพลายเออร์'">
-                                <!-- <mat-hint>This is a hint text</mat-hint> -->
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="-mx-3 md:flex mb-6">
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label>{{ 'supplier.add.taxLabel' | transloco }}</mat-label>
-                                <input matInput [formControlName]="'tax'" [placeholder]="'กรอกเลขภาษี'">
-                                <!-- <mat-hint>This is a hint text</mat-hint> -->
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="-mx-3 md:flex mb-6">
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label>{{ 'supplier.add.emailLabel' | transloco }}</mat-label>
-                                <input [formControlName]="'email'" matInput [placeholder]="'กรอกอีเมล'">
-                                <!-- <mat-hint>This is a hint text</mat-hint> -->
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="-mx-3 md:flex mb-6">
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label>{{ 'supplier.add.phoneLabel' | transloco }}</mat-label>
-                                <input [formControlName]="'phone'" matInput [placeholder]="'กรอกเบอร์ติดต่อ'">
-                                <!-- <mat-hint>This is a hint text</mat-hint> -->
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="-mx-3 md:flex mb-6">
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <mat-form-field class="w-full">
-                                <mat-label>{{ 'supplier.add.addressLabel' | transloco }}</mat-label>
-                                <textarea matInput [placeholder]="'กรอกที่อยู่'" [rows]="5"
-                                    formControlName="address"></textarea>
 
-
-                            </mat-form-field>
-                        </div>
+                    <!-- Grid แบบ 2 คอลัมน์ -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  
+                      <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-label>{{ 'supplier.add.nameLabel' | transloco }}</mat-label>
+                        <input matInput [formControlName]="'name'" [placeholder]="'กรอกชื่อซัพพลายเออร์'">
+                      </mat-form-field>
+                  
+                      <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-label>{{ 'supplier.add.taxLabel' | transloco }}</mat-label>
+                        <input matInput [formControlName]="'tax'" [placeholder]="'กรอกเลขภาษี'">
+                      </mat-form-field>
+                  
+                      <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-label>{{ 'supplier.add.emailLabel' | transloco }}</mat-label>
+                        <input matInput [formControlName]="'email'" [placeholder]="'กรอกอีเมล'">
+                      </mat-form-field>
+                  
+                      <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-label>{{ 'supplier.add.phoneLabel' | transloco }}</mat-label>
+                        <input matInput [formControlName]="'phone'" [placeholder]="'กรอกเบอร์ติดต่อ'">
+                      </mat-form-field>
+                  
+                      <mat-form-field class="w-full md:col-span-2">
+                        <mat-label>{{ 'supplier.add.addressLabel' | transloco }}</mat-label>
+                        <textarea matInput formControlName="address" [rows]="5" [placeholder]="'กรอกที่อยู่'"></textarea>
+                      </mat-form-field>
+                  
+                      <mat-form-field class="w-full md:col-span-2">
+                        <mat-label>{{ 'supplier.add.detailLabel' | transloco }}</mat-label>
+                        <textarea matInput formControlName="detail" [rows]="5" [placeholder]="'กรอกรายละเอียด'"></textarea>
+                      </mat-form-field>
+                  
                     </div>
-                    <div class="-mx-3 md:flex mb-2">
-                        <div class="md:min-w-full px-3 mb-6 md:mb-0">
-                            <mat-form-field class="w-full">
-                                <mat-label>{{ 'supplier.add.detailLabel' | transloco }}</mat-label>
-                                <textarea matInput [placeholder]="'กรอกรายละเอียด'" [rows]="5"
-                                    formControlName="detail"></textarea>
-
-
-                            </mat-form-field>
-                        </div>
+                  
+                    <!-- ปุ่ม -->
+                    <div mat-dialog-actions class="flex justify-end mt-6">
+                      <button class="px-6 ml-3" mat-flat-button color="primary" (click)="Submit()">
+                        {{ 'supplier.add.submitButton' | transloco }}
+                      </button>
+                      <button class="px-6 ml-3" mat-flat-button color="warn" (click)="backTo()">
+                        {{ 'supplier.add.cancelButton' | transloco }}
+                      </button>
                     </div>
-
-
-                    <div mat-dialog-actions class="flex justify-end mt-2">
-                        <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit()">
-                            <!-- ตกลง -->
-                            {{ 'supplier.add.submitButton' | transloco }}
-                        </button>
-                        <button class="px-6 ml-3" mat-flat-button [color]="'warn'" (click)="backTo()">
-                            <!-- ยกเลิก -->
-                            {{ 'supplier.add.cancelButton' | transloco }}
-                        </button>
-                    </div>
-                </div>
+                  
+                  </div>
+                  
             </div>
         </div>
     </form>

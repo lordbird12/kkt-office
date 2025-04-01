@@ -31,6 +31,7 @@ import { PictureComponent } from '../../picture/picture.component';
 import { timeInterval } from 'rxjs';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
     selector: 'employee-list',
@@ -55,7 +56,8 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
-        TranslocoModule
+        TranslocoModule,
+        MatMenuModule
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
