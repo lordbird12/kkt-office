@@ -64,19 +64,6 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 })
 export class EditComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    fixedSubscriptInput: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
-    dynamicSubscriptInput: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
-    fixedSubscriptInputWithHint: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
-    dynamicSubscriptInputWithHint: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
-
     item1Data: any = [];
     item2Data: any = [];
     itemSupplier: any = [];
@@ -132,7 +119,6 @@ export class EditComponent implements OnInit {
             sub_category_product_id: ['', Validators.required],
             name: [''],
             detail: [''],
-            // qty: [0],
             sale_price: [0],
             cost: [0],
             type: [''],
@@ -191,100 +177,107 @@ export class EditComponent implements OnInit {
         this.products.removeAt(index);
     }
     async ngOnInit(): Promise<void> {
-        
-        const resp = await lastValueFrom(
+        try {
+          // Load initial data
+          const initResp = await lastValueFrom(
             forkJoin({
-                category: this._Service.getCategories(),
-                itemsupplier: this._Service.getSuppliers(),
-                itemarea: this._Service.getArea(),
-                unit: this._Service.getUnit(),
+              category: this._Service.getCategories(),
+              itemsupplier: this._Service.getSuppliers(),
+              itemarea: this._Service.getArea(),
+              unit: this._Service.getUnit(),
             })
-        );
-        this.CategoryData = resp.category.data;
-        this.itemSupplier = resp.itemsupplier.data;
-        this.itemArea = resp.itemarea.data;
-        this.Unit = resp.unit.data;
-        this.maxProductsLength = this.Unit.length;
-        console.log(this.itemArea);
-        this.itemArea.shelf = this.itemArea[0].shelfs;
-        this.activatedRoute.params.subscribe(async (params) => {
-            console.log(params);
+          );
+      
+          this.CategoryData = initResp.category.data;
+          this.itemSupplier = initResp.itemsupplier.data;
+          this.itemArea = initResp.itemarea.data;
+          this.Unit = initResp.unit.data;
+          this.maxProductsLength = this.Unit.length;
+      
+          // this.itemArea[0].shelfs หรือ field ในตัว array item ต้องชัดเจนว่าเอาอะไร
+        //   if (this.itemArea?.length > 0) {
+        //     this.itemArea[0].shelf = this.itemArea[0].shelfs; // ถ้าจะใช้งานแบบนี้
+        //   }
+      
+          this.activatedRoute.params.subscribe(async (params) => {
             const id = params.id;
-     
+            if (!id) return;
+      
             try {
-                const itemResponse = await this._Service
-                    .getById(id)
-                    .toPromise();
-                this.item = itemResponse;
-               
-                console.log(this.item, 'data');
-                const selectedCategoryId = this.item.category_product_id;
-                const selectedShelf = this.item.shelve_id;
-                const selectedFloor = this.item.floor_id;
-                // Assuming you have a service method to fetch sub-categories based on the selected category
-                const resp = await lastValueFrom(
-                    forkJoin({
-                        subcategory:
-                            this._Service.getSubCategories(selectedCategoryId),
-                        shelf: this._Service.getChannel(
-                            selectedShelf,
-                            selectedFloor
-                        ),
-                        floor: this._Service.getFloor(selectedShelf),
-                    })
+              // Load item by ID
+              this.item = await this._Service.getById(id).toPromise();
+      
+              const selectedCategoryId = this.item.category_product_id;
+      
+              const subResp = await lastValueFrom(
+                forkJoin({
+                  subcategory: this._Service.getSubCategories(selectedCategoryId),
+                })
+              );
+              this.SubCategoryData = subResp.subcategory.data;
+      
+              // Set main form
+              this.formData.patchValue({
+                ...this.item,
+                category_product_id: +this.item?.category_product_id,
+                sub_category_product_id: +this.item?.sub_category_product_id,
+                supplier_id: +this.item?.supplier_id,
+                area_id: this.item?.area?.id,
+                shelve_id: +this.item?.shelve_id,
+                floor_id: +this.item?.floor_id,
+                channel_id: +this.item?.channel_id,
+                stock_status: +this.item?.stock_status,
+                more_address: this.item?.more_address,
+                image: '',
+              });
+      
+              // Process product_units using for...of
+              for (const element of this.item.product_units) {
+                const unitResp = await lastValueFrom(
+                  forkJoin({
+                    floor: this._Service.getFloor(element?.area_id),
+                    shelf: this._Service.getChannel(
+                      element?.shelve_id,
+                      element?.floor_id
+                    ),
+                  })
                 );
-                this.SubCategoryData = resp.subcategory.data;
-                this.itemFloor = resp.floor.data;
-                this.itemChannel = resp.shelf.data;
-
-                this.formData.patchValue({
-                    ...this.item,
-                    category_product_id: +this.item?.category_product_id,
-                    sub_category_product_id: +this.item?.sub_category_product_id,
-                    supplier_id: +this.item?.supplier_id,
-                    area_id: this.item?.area?.id,
-                    shelve_id: +this.item?.shelve_id,
-                    floor_id: +this.item?.floor_id,
-                    channel_id: +this.item?.channel_id,
-                    stock_status: +this.item?.stock_status,
-                    more_address: this.item?.more_address,
-                    image: '',
+      
+                const a = this._formBuilder.group({
+                  qty: element.qty,
+                  unit_id: +element.unit_id,
+                  area_id: element?.area_id,
+                  shelve_id: element?.shelve_id,
+                  floor_id: element?.floor_id,
+                  channel_id: element?.channel_id,
+                  type: element?.type,
+                  lot: element?.lot,
                 });
-                this.item.product_units.forEach((element) => {
-                  
-                    let unitIdNumber = Number(element.unit_id);
-                    const a = this._formBuilder.group({
-                        qty: element.qty,
-                        unit_id: unitIdNumber,
-                        area_id: element?.area_id,
-                        shelve_id: element?.shelve_id,
-                        floor_id: element?.floor_id,
-                        channel_id: element?.channel_id,
-                        type: element?.type,
-                        lot: element?.lot,
-                    });
-                    this.products.push(a);
-                });
-                this.formRaw.patchValue({
-                    product_id: id,
-                });
-                this.item?.raws.forEach((element) => {
-                    const a = this._formBuilder.group({
-                        product_id: +element.product.id,
-                        qty: element.qty,
-                        detail: element.detail,
-                    });
-                    this.raws.push(a);
-                });
-                console.log(this.formData.value, 'last Form');
-                
-                this._changeDetectorRef.markForCheck()
-                
+                this.products.push(a);
+              }
+      
+              // Patch raw data
+              this.formRaw.patchValue({ product_id: id });
+              for (const element of this.item.raws) {
+                const a = this._formBuilder.group({
+                    product_id: +element.product.id,
+                    qty: element.qty,
+                    detail: element.detail,
+                  });
+                  this.raws.push(a);
+              }
+              this._changeDetectorRef.markForCheck();
+      
+              console.log(this.formData.value, 'last Form');
             } catch (error) {
-                console.error('An error occurred:', error);
+              console.error('An error occurred while loading item:', error);
             }
-        });
-    }
+          });
+        } catch (error) {
+          console.error('An error occurred while loading initial data:', error);
+        }
+      }
+      
 
     get raws() {
         return this.formRaw.get('raws') as FormArray;
@@ -305,14 +298,13 @@ export class EditComponent implements OnInit {
     /**
      * After view init
      */
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
 
-    onchange(event: any) {
-        console.log(event);
-        
-        this.itemShelve = this.itemArea.filter((item) => item.id === event.value);
+    onchange(event: any, i: number) {
+        const data = this.itemArea.find((item) => item.id === event.value);
+        this.itemShelve[i] = data.shelfs;
         console.log(this.itemShelve);
-        
+
     }
 
     /**
@@ -329,13 +321,15 @@ export class EditComponent implements OnInit {
             this.SubCategoryData = resp.data;
         });
     }
-    onShelfSelected(event: any): void {
+    onShelfSelected(event: any, i): void {
         this.selectedShelfId = event.value;
         console.log('selectshelf', this.selectedShelfId);
         this._Service.getFloor(this.selectedShelfId).subscribe((resp) => {
-            this.itemFloor = resp.data;
+            this.itemFloor[i] = resp.data;
             console.log('itemfloor', this.itemFloor);
         });
+
+
     }
     isUnitAlreadySelected(unitId: string, currentIndex: number): boolean {
         for (let i = 0; i < this.products.length; i++) {
@@ -350,14 +344,13 @@ export class EditComponent implements OnInit {
 
         return false;
     }
-    onfloorSelected(event: any): void {
+    onfloorSelected(event: any, i): void {
         const selectedfloorId = event.value;
-        console.log('selectfloor', selectedfloorId);
 
         this._Service
             .getChannel(this.selectedShelfId, selectedfloorId)
             .subscribe((resp) => {
-                this.itemChannel = resp.data;
+                this.itemChannel[i] = resp.data;
                 console.log('itemchannel', this.itemChannel);
             });
     }
@@ -420,12 +413,12 @@ export class EditComponent implements OnInit {
         // });
     }
     Cancel(): void {
-        this._router.navigateByUrl('admin/product/list').then(() => {});
+        this._router.navigateByUrl('admin/product/list').then(() => { });
     }
 
 
     Submit(): void {
-        if(this.langues == 'tr'){
+        if (this.langues == 'tr') {
             const confirmation = this._fuseConfirmationService.open({
                 title: 'แก้ไขข้อมูล',
                 message: 'คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
@@ -453,7 +446,7 @@ export class EditComponent implements OnInit {
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/product/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
                         error: (err: any) => {
                             console.log(err);
@@ -484,9 +477,9 @@ export class EditComponent implements OnInit {
                     });
                 }
             });
-    
+
         }
-        else if(this.langues=='en'){
+        else if (this.langues == 'en') {
             const confirmation = this._fuseConfirmationService.open({
                 title: 'Edit Data',
                 message: 'Do you want to edit the data ?',
@@ -514,7 +507,7 @@ export class EditComponent implements OnInit {
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/product/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
                         error: (err: any) => {
                             console.log(err);
@@ -545,14 +538,14 @@ export class EditComponent implements OnInit {
                     });
                 }
             });
-    
+
         }
- 
-        
+
+
     }
-    
+
     RawSubmit(): void {
-        if(this.langues == 'tr'){
+        if (this.langues == 'tr') {
             const confirmation = this._fuseConfirmationService.open({
                 title: 'แก้ไขข้อมูล',
                 message: 'คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
@@ -581,9 +574,9 @@ export class EditComponent implements OnInit {
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/product/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
-    
+
                         error: (err: any) => {
                             console.log(err);
                             this.formData.enable();
@@ -614,7 +607,7 @@ export class EditComponent implements OnInit {
                 }
             });
         }
-        else if(this.langues=='en'){
+        else if (this.langues == 'en') {
             const confirmation = this._fuseConfirmationService.open({
                 title: 'Edit Data',
                 message: 'Do you want to edit the data ?',
@@ -643,9 +636,9 @@ export class EditComponent implements OnInit {
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/product/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
-    
+
                         error: (err: any) => {
                             console.log(err);
                             this.formData.enable();
@@ -676,7 +669,7 @@ export class EditComponent implements OnInit {
                 }
             });
         }
-        
+
 
     }
 
