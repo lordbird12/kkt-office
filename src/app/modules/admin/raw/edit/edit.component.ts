@@ -39,7 +39,7 @@ import { categories } from 'app/mock-api/apps/ecommerce/inventory/data';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 @Component({
-    selector: 'edit-product',
+    selector: 'edit-raw',
     templateUrl: './edit.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,

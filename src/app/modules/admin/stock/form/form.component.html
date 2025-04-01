@@ -100,7 +100,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div> -->
-                        <div class="md:w-2/6 px-3 mb-6 md:mb-0">
+                        <div class="md:w-3/6 px-3 mb-6 md:mb-0">
 
                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                 <mat-label>{{ 'stock.form.product' | transloco }}</mat-label>
@@ -123,7 +123,7 @@
                                 <input matInput formControlName="qty" [placeholder]="'stock.form.no' | transloco">
                             </mat-form-field>
                         </div>
-                        <div class=" flex flex-row gap-3 md:w-1/6 px-3">
+                        <!-- <div class=" flex flex-row gap-3 md:w-1/6 px-3">
                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                 <mat-label>{{ 'stock.form.lot' | transloco }}</mat-label>
                                 <input matInput formControlName="lot" [placeholder]=" 'stock.form.lot' | transloco ">
@@ -135,8 +135,8 @@
                                 <input matInput formControlName="type"
                                     [placeholder]=" 'stock.form.format' | transloco ">
                             </mat-form-field>
-                        </div>
-                        <div class=" flex flex-row gap-3 md:w-1/6 px-3">
+                        </div> -->
+                        <div class=" flex flex-row gap-3 md:w-2/6 px-3">
                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                 <mat-label>{{ 'stock.form.unit' | transloco }}</mat-label>
                                 <mat-select [formControlName]="'unit_id'" required>

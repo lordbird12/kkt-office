@@ -38,7 +38,7 @@ import { FormUnitDialogComponent } from '../../unit/form-dialog/form-dialog.comp
 import { UnitProductComponent } from '../../unit/unit-product/form-dialog.component';
 
 @Component({
-    selector: 'form-product',
+    selector: 'form-product-factories',
     templateUrl: './form.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,

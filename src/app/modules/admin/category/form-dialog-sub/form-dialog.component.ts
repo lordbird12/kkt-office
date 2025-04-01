@@ -33,7 +33,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 @Component({
-    selector: 'form-dialog',
+    selector: 'form-dialog-cagetory',
     templateUrl: './form-dialog.component.html',
     styleUrls: ['./form-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,

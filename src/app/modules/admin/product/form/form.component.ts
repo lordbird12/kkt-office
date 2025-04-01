@@ -41,7 +41,7 @@ import { Location } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { environment } from 'environments/environment.development';
 @Component({
-    selector: 'form-product',
+    selector: 'form-product-product',
     templateUrl: './form.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,

@@ -32,7 +32,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import moment from 'moment';
 
 @Component({
-    selector: 'form-product',
+    selector: 'form-product-report',
     templateUrl: './form.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,

@@ -22,7 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 @Component({
-    selector: 'app-edit-dialog',
+    selector: 'app-edit-dialog-employee',
     templateUrl: './edit-dialog.component.html',
     styleUrls: ['./edit-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,

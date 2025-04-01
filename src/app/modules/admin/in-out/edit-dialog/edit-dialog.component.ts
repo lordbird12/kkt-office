@@ -31,7 +31,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
-    selector: 'app-edit-dialog',
+    selector: 'app-edit-dialog-in-out',
     templateUrl: './edit-dialog.component.html',
     styleUrls: ['./edit-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,

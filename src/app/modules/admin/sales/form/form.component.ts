@@ -36,7 +36,7 @@ import { FormUnitDialogComponent } from '../../unit/form-dialog/form-dialog.comp
 import { UnitProductComponent } from '../../unit/unit-product/form-dialog.component';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 @Component({
-    selector: 'form-product',
+    selector: 'form-product-sales',
     templateUrl: './form.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,

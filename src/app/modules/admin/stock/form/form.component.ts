@@ -3,7 +3,6 @@ import { NgClass } from '@angular/common';
 import {
     ChangeDetectorRef,
     Component,
-    OnInit,
     ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -36,12 +35,11 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { FormDialogComponent } from '../../product/form-dialog/form-dialog.component';
-import { FormUnitDialogComponent } from '../../unit/form-dialog/form-dialog.component';
 import { UnitProductComponent } from '../../unit/unit-product/form-dialog.component';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 @Component({
-    selector: 'form-product',
+    selector: 'form-product-stock',
     templateUrl: './form.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
@@ -68,18 +66,6 @@ export class FormComponent {
     addForm: FormGroup;
     ProductControl = new FormControl('');
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    fixedSubscriptInput: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
-    dynamicSubscriptInput: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
-    fixedSubscriptInputWithHint: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
-    dynamicSubscriptInputWithHint: FormControl = new FormControl('', [
-        Validators.required,
-    ]);
     filteredOptions: Observable<{ id: string; name: string; }[]>[] = [];
     selectedProduct: string = '';
     productData: any[] = [];
@@ -113,15 +99,6 @@ export class FormComponent {
             source: '',
             products: this._formBuilder.array([]),
         });
-        // this._service.getOrder().subscribe((resp: any) => {
-        //     this.order = resp.data;
-        // });
-        // this._service.getCategories().subscribe((resp: any) => {
-        //     this.category = resp.data;
-        // });
-        // this._service.getUnit().subscribe((resp: any) => {
-        //     this.unitdata = resp.data;
-        // });
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
         this.lang = translocoService.getActiveLang();
         this.langues = localStorage.getItem('lang');
@@ -141,7 +118,6 @@ export class FormComponent {
 
         this.order = initialData[0].data;
         this.category = initialData[1].data;
-        // this.unitdata = initialData[2].data;
         this.productData = initialData[2].data;
         // this.GetProduct();
         this.filteredOptions[0] = this.ProductControl.valueChanges.pipe(

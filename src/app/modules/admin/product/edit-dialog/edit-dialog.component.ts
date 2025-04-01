@@ -33,7 +33,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 @Component({
-    selector: 'app-edit-dialog',
+    selector: 'app-edit-dialog-product',
     templateUrl: './edit-dialog.component.html',
     styleUrls: ['./edit-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,

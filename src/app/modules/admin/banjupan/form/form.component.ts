@@ -40,7 +40,7 @@ import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 @Component({
-    selector: 'form-product',
+    selector: 'form-product-banjupan',
     templateUrl: './form.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
