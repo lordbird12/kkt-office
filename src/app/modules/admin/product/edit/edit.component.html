@@ -307,6 +307,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="-mx-3 md:flex mb-6">
+                        <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                            <div class="grid grid-cols-3 gap-4 mt-4">
+                                <div *ngFor="let img of formData.get('images')?.value; let i = index">
+                                  <img [src]="url_env + img" class="w-full h-auto rounded-md shadow-md"/>
+                                  <button (click)="onRemoveImagePC(i)" class="bg-red-500 text-white px-2 py-1 mt-2 rounded-md">
+                                    ลบรูป 
+                                  </button>
+                                  
+                                </div>
+                              </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

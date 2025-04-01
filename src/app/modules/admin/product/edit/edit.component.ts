@@ -37,6 +37,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { Subscription, forkJoin, lastValueFrom } from 'rxjs';
 import { categories } from 'app/mock-api/apps/ecommerce/inventory/data';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { environment } from 'environments/environment.development';
 
 @Component({
     selector: 'edit-product',
@@ -97,6 +98,8 @@ export class EditComponent implements OnInit {
     uploadPic: FormGroup;
     Unit: any = [];
     Lines: any[] = [];
+    images: any[] = [];
+    url_env: string = environment.baseURL
     /**
      * Constructor
      */
@@ -113,6 +116,7 @@ export class EditComponent implements OnInit {
 
     ) {
         const id = this.activatedRoute.snapshot.paramMap.get('id');
+        this.Id = this.activatedRoute.snapshot.paramMap.get('id');
         this.formData = this._formBuilder.group({
             id: '',
             category_product_id: [''],
@@ -122,7 +126,6 @@ export class EditComponent implements OnInit {
             sale_price: [0],
             cost: [0],
             type: [''],
-            images: [],
             channel_id: [''],
             area_id: [''],
             shelve_id: [''],
@@ -133,6 +136,7 @@ export class EditComponent implements OnInit {
             supplier_id: [''],
             stock_status: [0],
             products: this._formBuilder.array([]),
+            images: this._formBuilder.array([]) // เริ่มว่าง
         });
         this.uploadPic = this._formBuilder.group({
             image: '',
@@ -178,109 +182,130 @@ export class EditComponent implements OnInit {
     }
     async ngOnInit(): Promise<void> {
         try {
-          // Load initial data
-          const initResp = await lastValueFrom(
-            forkJoin({
-              category: this._Service.getCategories(),
-              itemsupplier: this._Service.getSuppliers(),
-              itemarea: this._Service.getArea(),
-              unit: this._Service.getUnit(),
-            })
-          );
-      
-          this.CategoryData = initResp.category.data;
-          this.itemSupplier = initResp.itemsupplier.data;
-          this.itemArea = initResp.itemarea.data;
-          this.Unit = initResp.unit.data;
-          this.maxProductsLength = this.Unit.length;
-      
-          // this.itemArea[0].shelfs หรือ field ในตัว array item ต้องชัดเจนว่าเอาอะไร
-        //   if (this.itemArea?.length > 0) {
-        //     this.itemArea[0].shelf = this.itemArea[0].shelfs; // ถ้าจะใช้งานแบบนี้
-        //   }
-      
-          this.activatedRoute.params.subscribe(async (params) => {
-            const id = params.id;
-            if (!id) return;
-      
-            try {
-              // Load item by ID
-              this.item = await this._Service.getById(id).toPromise();
-      
-              const selectedCategoryId = this.item.category_product_id;
-      
-              const subResp = await lastValueFrom(
+            // Load initial data
+            const initResp = await lastValueFrom(
                 forkJoin({
-                  subcategory: this._Service.getSubCategories(selectedCategoryId),
+                    category: this._Service.getCategories(),
+                    itemsupplier: this._Service.getSuppliers(),
+                    itemarea: this._Service.getArea(),
+                    unit: this._Service.getUnit(),
                 })
-              );
-              this.SubCategoryData = subResp.subcategory.data;
-      
-              // Set main form
-              this.formData.patchValue({
-                ...this.item,
-                category_product_id: +this.item?.category_product_id,
-                sub_category_product_id: +this.item?.sub_category_product_id,
-                supplier_id: +this.item?.supplier_id,
-                area_id: this.item?.area?.id,
-                shelve_id: +this.item?.shelve_id,
-                floor_id: +this.item?.floor_id,
-                channel_id: +this.item?.channel_id,
-                stock_status: +this.item?.stock_status,
-                more_address: this.item?.more_address,
-                image: '',
-              });
-      
-              // Process product_units using for...of
-              for (const element of this.item.product_units) {
-                const unitResp = await lastValueFrom(
-                  forkJoin({
-                    floor: this._Service.getFloor(element?.area_id),
-                    shelf: this._Service.getChannel(
-                      element?.shelve_id,
-                      element?.floor_id
-                    ),
-                  })
-                );
-      
-                const a = this._formBuilder.group({
-                  qty: element.qty,
-                  unit_id: +element.unit_id,
-                  area_id: element?.area_id,
-                  shelve_id: element?.shelve_id,
-                  floor_id: element?.floor_id,
-                  channel_id: element?.channel_id,
-                  type: element?.type,
-                  lot: element?.lot,
-                });
-                this.products.push(a);
-              }
-      
-              // Patch raw data
-              this.formRaw.patchValue({ product_id: id });
-              for (const element of this.item.raws) {
-                const a = this._formBuilder.group({
-                    product_id: +element.product.id,
-                    qty: element.qty,
-                    detail: element.detail,
-                  });
-                  this.raws.push(a);
-              }
-              this._changeDetectorRef.markForCheck();
-      
-              console.log(this.formData.value, 'last Form');
-            } catch (error) {
-              console.error('An error occurred while loading item:', error);
-            }
-          });
-        } catch (error) {
-          console.error('An error occurred while loading initial data:', error);
-        }
-      }
-      
+            );
 
+            this.CategoryData = initResp.category.data;
+            this.itemSupplier = initResp.itemsupplier.data;
+            this.itemArea = initResp.itemarea.data;
+            this.Unit = initResp.unit.data;
+            this.maxProductsLength = this.Unit.length;
+
+            // this.itemArea[0].shelfs หรือ field ในตัว array item ต้องชัดเจนว่าเอาอะไร
+            //   if (this.itemArea?.length > 0) {
+            //     this.itemArea[0].shelf = this.itemArea[0].shelfs; // ถ้าจะใช้งานแบบนี้
+            //   }
+
+            this.activatedRoute.params.subscribe(async (params) => {
+                const id = params.id;
+                if (!id) return;
+
+                try {
+                    // Load item by ID
+                    this.item = await this._Service.getById(id).toPromise();
+
+                    const selectedCategoryId = this.item.category_product_id;
+
+                    const subResp = await lastValueFrom(
+                        forkJoin({
+                            subcategory: this._Service.getSubCategories(selectedCategoryId),
+                        })
+                    );
+                    this.SubCategoryData = subResp.subcategory.data;
+                    this.images = this.item?.images
+                    // Set main form
+                    this.formData.patchValue({
+                        ...this.item,
+                        category_product_id: +this.item?.category_product_id,
+                        sub_category_product_id: +this.item?.sub_category_product_id,
+                        supplier_id: +this.item?.supplier_id,
+                        area_id: this.item?.area?.id,
+                        shelve_id: +this.item?.shelve_id,
+                        floor_id: +this.item?.floor_id,
+                        channel_id: +this.item?.channel_id,
+                        stock_status: +this.item?.stock_status,
+                        more_address: this.item?.more_address,
+                    });
+
+                    // ดึง FormArray
+                    // ดึง path เฉพาะหลัง /images/
+                    const imagePaths: string[] = this.item?.images.map(img => '/images/' + img.image.split('/images/')[1]);
+                    // แปลงเป็น FormControls
+                    const imageFormControls = imagePaths.map(path => this._formBuilder.control(path));
+
+                    // เอา FormArray ใหม่มาใส่
+                    this.formData.setControl('images', this._formBuilder.array(imageFormControls));
+
+                    // Process product_units using for...of
+                    for (const element of this.item.product_units) {
+                        const unitResp = await lastValueFrom(
+                            forkJoin({
+                                floor: this._Service.getFloor(element?.area_id),
+                                shelf: this._Service.getChannel(
+                                    element?.shelve_id,
+                                    element?.floor_id
+                                ),
+                            })
+                        );
+
+                        const a = this._formBuilder.group({
+                            qty: element.qty,
+                            unit_id: +element.unit_id,
+                            area_id: element?.area_id,
+                            shelve_id: element?.shelve_id,
+                            floor_id: element?.floor_id,
+                            channel_id: element?.channel_id,
+                            type: element?.type,
+                            lot: element?.lot,
+                        });
+                        this.products.push(a);
+                    }
+
+                    // Patch raw data
+                    this.formRaw.patchValue({ product_id: id });
+                    for (const element of this.item.raws) {
+                        const a = this._formBuilder.group({
+                            product_id: +element.product.id,
+                            qty: element.qty,
+                            detail: element.detail,
+                        });
+                        this.raws.push(a);
+                    }
+                    this._changeDetectorRef.markForCheck();
+
+                    console.log(this.formData.value, 'last Form');
+                } catch (error) {
+                    console.error('An error occurred while loading item:', error);
+                }
+            });
+        } catch (error) {
+            console.error('An error occurred while loading initial data:', error);
+        }
+    }
+
+    get imagesFormArray(): FormArray {
+        return this.formData.get('images') as FormArray;
+    }
     get raws() {
         return this.formRaw.get('raws') as FormArray;
+    }
+
+    onRemoveImagePC(index: number) {
+        if (index > -1) {
+            this.images.splice(index, 1); // ลบจาก array ธรรมดา
+            this.files.splice(index, 1);  // ลบจาก array ธรรมดา
+
+            // ลบจาก FormArray ด้วย
+            const imagesFormArray = this.formData.get('images') as FormArray;
+            imagesFormArray.removeAt(index);
+        }
     }
 
     addRaw() {
@@ -442,7 +467,7 @@ export class EditComponent implements OnInit {
             });
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
-                    this._Service.Updatedata(this.formData.value).subscribe({
+                    this._Service.Updatedata(this.formData.value, this.Id).subscribe({
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/product/list')
@@ -503,7 +528,7 @@ export class EditComponent implements OnInit {
             });
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
-                    this._Service.Updatedata(this.formData.value).subscribe({
+                    this._Service.Updatedata(this.formData.value, this.Id).subscribe({
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/product/list')

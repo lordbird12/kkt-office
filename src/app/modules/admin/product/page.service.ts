@@ -210,9 +210,9 @@ export class Service {
                 })
             );
     }
-    Updatedata(formData: FormData): Observable<any> {
+    Updatedata(formData: any, id: number): Observable<any> {
         return this._httpClient
-            .post(environment.baseURL + '/api/update_product', formData)
+            .put(environment.baseURL + '/api/product/' + id, formData)
             .pipe(
                 switchMap((response: any) => {
                     return of(response.data);
