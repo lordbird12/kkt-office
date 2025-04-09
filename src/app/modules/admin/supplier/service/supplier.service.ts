@@ -21,7 +21,6 @@ export class SupplierService {
             .post(
                 environment.baseURL + '/api/supplier_page',
                 dataTablesParameters,
-                this.httpOptionsFormdata
             )
             .pipe(
                 switchMap((response: any) => {
