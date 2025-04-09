@@ -16,6 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { DataTablesModule } from 'angular-datatables';
 import { FuseCardComponent } from '@fuse/components/card';
 import { TranslocoModule } from '@ngneat/transloco';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -60,6 +61,8 @@ import { TranslocoModule } from '@ngneat/transloco';
         MatDialogModule,
         FuseCardComponent,
         TranslocoModule,
+        MatMenuModule
+
 
     ],
 })

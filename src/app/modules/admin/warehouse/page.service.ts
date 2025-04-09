@@ -32,7 +32,7 @@ export class PageService {
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient) { }
 
     httpOptionsFormdata = {
         headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
@@ -58,7 +58,7 @@ export class PageService {
 
     update(data: FormData): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/update_area' ,data)
+            .post<any>(environment.baseURL + '/api/update_area', data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -69,7 +69,7 @@ export class PageService {
 
     updateShelf(data: FormData): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/update_shelf' ,data)
+            .post<any>(environment.baseURL + '/api/update_shelf', data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -139,7 +139,6 @@ export class PageService {
             .post(
                 environment.baseURL + '/api/area_page',
                 dataTablesParameters,
-                this.httpOptionsFormdata
             )
             .pipe(
                 switchMap((response: any) => {
@@ -190,6 +189,7 @@ export class PageService {
                 })
             );
     }
+    
     getFloor(id: any): Observable<any> {
         return this._httpClient
             .get<any>(environment.baseURL + '/api/floor/' + id)
@@ -199,6 +199,7 @@ export class PageService {
                 })
             );
     }
+
     newChannel(data: any): Observable<any> {
         return this._httpClient
             .post<any>(environment.baseURL + '/api/channel', data)
@@ -208,7 +209,8 @@ export class PageService {
                 })
             );
     }
-       getChannel(id: any): Observable<any> {
+
+    getChannel(id: any): Observable<any> {
         return this._httpClient
             .get<any>(environment.baseURL + '/api/channel/' + id)
             .pipe(

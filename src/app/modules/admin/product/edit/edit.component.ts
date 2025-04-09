@@ -219,7 +219,7 @@ export class EditComponent implements OnInit {
                         category_product_id: +this.item?.category_product_id,
                         sub_category_product_id: +this.item?.sub_category_product_id,
                         supplier_id: +this.item?.supplier_id,
-                        area_id: this.item?.area?.id,
+                        area_id: +this.item?.area?.id,
                         shelve_id: +this.item?.shelve_id,
                         floor_id: +this.item?.floor_id,
                         channel_id: +this.item?.channel_id,
@@ -237,7 +237,14 @@ export class EditComponent implements OnInit {
                     this.formData.setControl('images', this._formBuilder.array(imageFormControls));
 
                     // Process product_units using for...of
-                    for (const element of this.item.product_units) {
+                    for (const  [i, element] of this.item.product_units.entries()) {
+                        const item = {
+                            value: element?.area_id ?? null,  // เพิ่มเช็คค่า null หรือ undefined
+                            index: i                         // หากต้องการเพิ่ม index ไว้ใช้งาน
+                        };
+                        console.log(item, 'item');
+                        
+                        this.onchange(item, i);
 
                         const a = this._formBuilder.group({
                             qty: element.qty,
@@ -251,7 +258,7 @@ export class EditComponent implements OnInit {
                         });
                         this.products.push(a);
                     }
-
+                    this._changeDetectorRef.markForCheck();
                     // Patch raw data
                     this.formRaw.patchValue({ product_id: id });
                     for (const element of this.item.raws) {
@@ -310,7 +317,9 @@ export class EditComponent implements OnInit {
     ngAfterViewInit(): void { }
 
     onchange(event: any, i: number) {
-        const data = this.itemArea.find((item) => item.id === event.value);
+        console.log(event.value);
+        
+        const data = this.itemArea.find((item) => item.id === +event.value);
         this.itemShelve[i] = data.shelfs;
         console.log(this.itemShelve);
 

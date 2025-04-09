@@ -172,7 +172,6 @@ export class ListComponent implements OnInit, AfterViewInit {
                 { data: 'No' },
                 { data: 'name' },
                 { data: 'detail' },
-                // { data: 'shevle' },
                 { data: 'picture' },
                 { data: 'create_by' },
                 { data: 'created_at' },
