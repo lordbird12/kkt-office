@@ -94,6 +94,7 @@ export class FormComponent {
     filteredOptions: Observable<{ id: string; name: string }[]>[] = [];
     id: any
     itemData: any;
+    originalTotalPrice: number = 0;
     /**
      * Constructor
      */
@@ -111,52 +112,76 @@ export class FormComponent {
     ) {
         this.unitdata = this._activatedRoute.snapshot.data.units.data
         console.log(this.unitdata);
-        
+
         this.addForm = this._formBuilder.group({
             date: '',
-            total_price: '',
-            price_vat: '',
-            adjust_discount: '',
-            discount: '',
+            total_price: 0,
+            price_vat: 0,
+            vat: 'N',
+            percent_vat: 0,
+            adjust_discount: 0,
+            discount: 0,
             client_name: '',
             client_phone: '',
             client_email: '',
+            client_address: '',
             products: this._formBuilder.array([]),
         });
         this.id = this._activatedRoute.snapshot.params.id;
-        if(this.id) {
-            this._service.getById(this.id).subscribe((resp: any)=>{
-                this.status = 'EDIT'
-                this.itemData = resp.data;
-                this.addForm.patchValue({
-                    date: this.itemData?.date,
-                    total_price: this.itemData?.total_price,
-                    price_vat: this.itemData?.price_vat,
-                    adjust_discount: this.itemData?.adjust_discount,
-                    discount: this.itemData?.discount,
-                    client_name: this.itemData?.client?.name,
-                    client_phone: this.itemData?.client?.phone,
-                    client_email: this.itemData?.client?.email,   
-                })
-                if (this.itemData.order_lists.length > 0 ) {
-                    for (let index = 0; index < this.itemData.order_lists.length; index++) {
-                        const element = this.itemData.order_lists[index];
-                        const a = this._formBuilder.group({
-                            product_id: element?.product_id,
-                            qty: element?.qty,
-                            cost: element?.cost,
-                            price: element?.price,
-                            product_name: element?.product?.name,
-                            unit_id: +element?.unit_id,
-                        });
-                        this.products.push(a);
-                    }
-                    this._changeDetectorRef.markForCheck()
+        if (this.id) {
+            this._service.getById(this.id).subscribe((resp: any) => {
+              this.status = 'EDIT';
+              this.itemData = resp.data;
+              console.log(this.itemData);
+          
+              // Patch ข้อมูลก่อน
+              this.addForm.patchValue({
+                date: this.itemData?.date,
+                total_price: this.itemData?.total_price,
+                price_vat: this.itemData?.price_vat,
+                percent_vat: this.itemData?.percent_vat,
+                vat: this.itemData?.vat,
+                adjust_discount: this.itemData?.adjust_discount,
+                discount: this.itemData?.discount,
+                client_name: this.itemData?.client_name,
+                client_phone: this.itemData?.client_phone,
+                client_email: this.itemData?.client_email,
+                client_address: this.itemData?.client_address,
+              });
+              let totalPrice = 0; // <-- เพิ่มตัวแปรเก็บผลรวม
+              // Patch order_lists
+              if (this.itemData.order_lists.length > 0) {
+                for (let index = 0; index < this.itemData.order_lists.length; index++) {
+                  const element = this.itemData.order_lists[index];
+                  const a = this._formBuilder.group({
+                    product_id: element?.product_id,
+                    qty: element?.qty,
+                    cost: element?.cost,
+                    price: element?.price,
+                    product_name: element?.product?.name,
+                    unit_id: +element?.unit_id,
+                    promotion_id: +element?.promotion_id,
+                  });
+                  this.products.push(a);
+                  totalPrice += +element?.price || 0; // <-- บวก price เข้า total
                 }
-            })
-        }
-        
-     
+                
+                this._changeDetectorRef.markForCheck();
+              }
+          
+              this.originalTotalPrice = +totalPrice || 0;
+              // Subscribe การเปลี่ยนค่า adjust_discount
+              this.addForm.get('adjust_discount')?.valueChanges.subscribe((adjustDiscount) => {
+                  const adjust = +adjustDiscount || 0;
+                  const newTotal = this.originalTotalPrice - adjust;
+
+                  this.addForm.get('total_price')?.setValue(newTotal.toFixed(2), { emitEvent: false });
+              });
+            });
+          }
+          
+    
+
         this.lang = translocoService.getActiveLang();
         this.langues = localStorage.getItem('lang');
     }
@@ -176,7 +201,7 @@ export class FormComponent {
     /**
      * After view init
      */
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
 
     /**
      * On destroy
@@ -247,15 +272,15 @@ export class FormComponent {
     }
 
     onpush(event: any, i, data: any) {
-        
+
         if (event.option.value === 0) {
-            this.ProductAdd(i,data)
+            this.ProductAdd(i, data)
         }
-        
+
         const foundItem = this.productData.find(
             (item) => item.name === event.option.value
         );
-        
+
         if (foundItem) {
             console.log('data', foundItem);
             data.patchValue({
@@ -276,7 +301,7 @@ export class FormComponent {
     }
 
     onSubmit(): void {
-        if(this.langues=='tr'){
+        if (this.langues == 'tr') {
             const dialogRef = this._fuseConfirmationService.open({
                 title: 'บันทึกข้อมูล',
                 message: 'คุณต้องการบันทึกข้อมูลใช่หรือไม่ ?',
@@ -298,7 +323,7 @@ export class FormComponent {
                 },
                 dismissible: true,
             });
-    
+
             dialogRef.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     let formValue = this.addForm.value;
@@ -307,7 +332,7 @@ export class FormComponent {
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/sales/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
                         error: (err: any) => {
                             this._fuseConfirmationService.open({
@@ -337,7 +362,7 @@ export class FormComponent {
                 }
             });
         }
-        else if(this.langues=='en'){
+        else if (this.langues == 'en') {
             const dialogRef = this._fuseConfirmationService.open({
                 title: 'Save data',
                 message: 'Do you want to save the data ?',
@@ -359,7 +384,7 @@ export class FormComponent {
                 },
                 dismissible: true,
             });
-    
+
             dialogRef.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     let formValue = this.addForm.value;
@@ -368,7 +393,7 @@ export class FormComponent {
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/sales/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
                         error: (err: any) => {
                             this._fuseConfirmationService.open({
@@ -402,7 +427,7 @@ export class FormComponent {
     }
 
     onSubmitEdit(): void {
-        if(this.langues=='tr'){
+        if (this.langues == 'tr') {
             const dialogRef = this._fuseConfirmationService.open({
                 title: 'บันทึกข้อมูล',
                 message: 'คุณต้องการบันทึกข้อมูลใช่หรือไม่ ?',
@@ -424,7 +449,7 @@ export class FormComponent {
                 },
                 dismissible: true,
             });
-    
+
             dialogRef.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     let formValue = this.addForm.value;
@@ -433,7 +458,7 @@ export class FormComponent {
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/sales/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
                         error: (err: any) => {
                             this._fuseConfirmationService.open({
@@ -463,7 +488,7 @@ export class FormComponent {
                 }
             });
         }
-        else if(this.langues=='en'){
+        else if (this.langues == 'en') {
             const dialogRef = this._fuseConfirmationService.open({
                 title: 'Save data',
                 message: 'Do you want to save the data ?',
@@ -485,7 +510,7 @@ export class FormComponent {
                 },
                 dismissible: true,
             });
-    
+
             dialogRef.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     let formValue = this.addForm.value;
@@ -494,7 +519,7 @@ export class FormComponent {
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/sales/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
                         error: (err: any) => {
                             this._fuseConfirmationService.open({
@@ -552,50 +577,50 @@ export class FormComponent {
         value.value.price = total;
     }
 
-    ProductAdd(i,data): void {
+    ProductAdd(i, data): void {
         this.dialog
             .open(FormDialogComponent, {
                 width: '80%',
                 height: '90%',
                 autoFocus: false,
-             
+
             })
             .afterClosed()
             .subscribe((foundItem) => {
-                if(foundItem) {
+                if (foundItem) {
                     console.log('data', foundItem);
-            data.patchValue({
-                cost: 100,
-                price: 0,
-                qty: 0,
-                unit_id: '',
-            });
+                    data.patchValue({
+                        cost: 100,
+                        price: 0,
+                        qty: 0,
+                        unit_id: '',
+                    });
 
-            const productFormGroup = this.products.at(i) as FormGroup;
-            productFormGroup.patchValue({
-                product_name: foundItem.name,
-                product_id: foundItem.id,
-            });
-            this.unitdata[i] = foundItem.units;
-            console.log(this.unitdata[i]);
+                    const productFormGroup = this.products.at(i) as FormGroup;
+                    productFormGroup.patchValue({
+                        product_name: foundItem.name,
+                        product_id: foundItem.id,
+                    });
+                    this.unitdata[i] = foundItem.units;
+                    console.log(this.unitdata[i]);
                 }
             });
     }
 
-    UnitAdd(i,data): void {
+    UnitAdd(i, data): void {
         this.dialog
             .open(UnitProductComponent, {
                 width: '40%',
                 height: 'auto',
                 autoFocus: false,
-                data : data.value
-             
+                data: data.value
+
             })
             .afterClosed()
             .subscribe((foundItem) => {
-                if(foundItem) {
+                if (foundItem) {
 
-                    
+
                 }
             });
     }

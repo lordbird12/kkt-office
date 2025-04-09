@@ -86,7 +86,17 @@
                         </mat-form-field>
                     </div>
                 </div>
+                <div class="-mx-3 md:flex mb-6 mt-3">
+                    <div class="md:w-full px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>{{ 'sales.form.address' | transloco }}</mat-label>
+                            <input matInput [placeholder]=" 'sales.form.address' | transloco "
+                                formControlName="client_address">
+                            <!-- <mat-hint>This is a hint text</mat-hint> -->
+                        </mat-form-field>
+                    </div>
 
+                </div>
             </form>
         </div>
         <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
@@ -139,19 +149,6 @@
                         </div>
                         <div class="md:w-1/6 px-3 mb-6 md:mb-0">
                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label>{{ 'sales.form.price' | transloco }}</mat-label>
-                                <input matInput [placeholder]=" 'sales.form.price' | transloco " formControlName="cost">
-                            </mat-form-field>
-                        </div>
-                        <div class="md:w-1/6 px-3 mb-6 md:mb-0">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label>{{ 'sales.form.sale' | transloco }}</mat-label>
-                                <input matInput [placeholder]=" 'sales.form.sale' | transloco " formControlName="price"
-                                    (change)="testfunction($event)">
-                            </mat-form-field>
-                        </div>
-                        <div class="md:w-1/6 px-3 mb-6 md:mb-0">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                 <mat-label>{{ 'sales.form.unit' | transloco }}</mat-label>
                                 <mat-select [formControlName]="'unit_id'" required>
                                     <mat-option [value]="0" (click)="UnitAdd(i,item)">
@@ -161,18 +158,27 @@
                                     <mat-option *ngFor="let unit of unitdata"
                                         [value]="unit.id">{{unit.name}}</mat-option>
                                 </mat-select>
-
                             </mat-form-field>
-                            <!-- <button class="px-6 ml-3 mt-6" mat-flat-button [color]="'warn'" (click)="removeArray(i)">
-                                ลบ
-                            </button> -->
                         </div>
-                        <div class="md:w-1/6 px-3 mb-6 md:mb-0 flex justify-end">
-                            <button class=" px-6 mt-7" mat-flat-button [color]="'warn'" (click)="removeArray(i)"
-                                *ngIf="status === 'NEW'">
-                                <!-- ลบ -->
-                                {{ 'sales.form.delete' | transloco }}
-                            </button>
+                        <div class="md:w-1/6 px-3 mb-6 md:mb-0">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'sales.form.price' | transloco }}</mat-label>
+                                <input matInput [placeholder]=" 'sales.form.price' | transloco " formControlName="cost">
+                            </mat-form-field>
+                        </div>
+                        <div class="md:w-1/6 px-3 mb-6 md:mb-0">
+                            <div class="flex flex-row gap-2">
+
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>{{ 'sales.form.sale' | transloco }}</mat-label>
+                                    <input matInput [placeholder]=" 'sales.form.sale' | transloco "
+                                        formControlName="price" (change)="testfunction($event)">
+                                </mat-form-field>
+                                <button class=" px-6 mt-7" mat-flat-button [color]="'warn'" (click)="removeArray(i)">
+                                    <!-- ลบ -->
+                                    {{ 'sales.form.delete' | transloco }}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </ng-container>
@@ -202,7 +208,6 @@
                             <!-- <mat-hint>This is a hint text</mat-hint> -->
                         </mat-form-field>
                     </div>
-
                 </div>
                 <div class="flex flex-col mt-2">
                     <div class="flex text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"

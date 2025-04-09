@@ -16,7 +16,7 @@
                         </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="md:w-full px-3" *ngIf="addForm.get('status').value == 'Ordered' && data.discount > 0">
+                    <div class="md:w-full px-3" *ngIf="(addForm.get('status').value === 'Ordered' || addForm.get('status').value === 'Approve') && data.discount > 0">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                             <mat-label>{{ 'order.update_status.adjust_discount' | transloco }}</mat-label>
                             <input matInput [placeholder]="'' | transloco" formControlName="adjust_discount" type="number">
