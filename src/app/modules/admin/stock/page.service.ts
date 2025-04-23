@@ -201,6 +201,15 @@ export class PageService {
                 })
             );
     }
+    getByIdOrder(id: any): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/orders/' + id)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
     getCategories(): Observable<any> {
         return this._httpClient
             .get<any>(environment.baseURL + '/api/get_category_product')

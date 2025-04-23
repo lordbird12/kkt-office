@@ -819,5 +819,42 @@ export class FormComponent {
 
 
     }
+    selectData(event: any) {
+        this._service.getByIdOrder(event.value).subscribe((resp:any) => {
+            console.log(resp.data);
+         
+            for (let index = 0; index < resp.data.order_lists.length; index++) {
+                const element = resp.data.order_lists[index];
+            
+                // หา product จาก productData
+                const selectedProduct = this.productData.find(product => product.name === element?.product?.name);
+            
+                const productControl = new FormControl(selectedProduct?.name || '');
+                if (selectedProduct) {
+                    this.unitdata[index] = selectedProduct.units;
+                    console.log(this.unitdata);
+                    const productFormGroup = this._formBuilder.group({
+                        type: '',
+                        product_id: selectedProduct?.id || element?.product_id,
+                        product_name: productControl,
+                        qty: element?.qty,
+                        unit_id: +element?.unit_id,
+                        lot: '',
+                    });
+                
+                    this.products.push(productFormGroup); // ดันเข้า FormArray ก่อน
+                    console.log(this.addForm.value);
+                    
+                    this._changeDetectorRef.markForCheck()
+                }
+  
+            
+                // หาก selectedProduct มี units ให้เก็บใน unitdata
+           
+            }
+
+       
+        })
+    }
 
 }

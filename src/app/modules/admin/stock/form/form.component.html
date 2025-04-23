@@ -67,7 +67,7 @@
                     <div class="md:w-1/4 px-3 mb-6 md:mb-0">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                             <mat-label>{{ 'stock.form.buy' | transloco }}</mat-label>
-                            <mat-select formControlName="order_id">
+                            <mat-select formControlName="order_id" (selectionChange)="selectData($event)">
                                 <mat-option value="">เลือกคำสั่งซื้อ</mat-option>
                                 <mat-option *ngFor="let ord of order;" [value]="ord.id">{{ord.code}}</mat-option>
                             </mat-select>
@@ -123,19 +123,6 @@
                                 <input matInput formControlName="qty" [placeholder]="'stock.form.no' | transloco">
                             </mat-form-field>
                         </div>
-                        <!-- <div class=" flex flex-row gap-3 md:w-1/6 px-3">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label>{{ 'stock.form.lot' | transloco }}</mat-label>
-                                <input matInput formControlName="lot" [placeholder]=" 'stock.form.lot' | transloco ">
-                            </mat-form-field>
-                        </div>
-                        <div class=" flex flex-row gap-3 md:w-1/6 px-3">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label>{{ 'stock.form.format' | transloco }}</mat-label>
-                                <input matInput formControlName="type"
-                                    [placeholder]=" 'stock.form.format' | transloco ">
-                            </mat-form-field>
-                        </div> -->
                         <div class=" flex flex-row gap-3 md:w-2/6 px-3">
                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                 <mat-label>{{ 'stock.form.unit' | transloco }}</mat-label>
