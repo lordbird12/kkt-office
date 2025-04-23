@@ -1,0 +1,26 @@
+<div class="flex flex-col sm:flex-row items-start justify-between mb-4 ">
+    <div class="text-lg font-medium">ยอดขาย</div>
+    <mat-button-toggle-group [(ngModel)]="viewMode" (change)="updateChart()">
+      <mat-button-toggle value="year">รายปี</mat-button-toggle>
+      <mat-button-toggle value="week">รายสัปดาห์</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  
+  <div class="border p-4 rounded bg-white shadow">
+    <apx-chart
+      *ngIf="chartOptions"
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [dataLabels]="chartOptions.dataLabels"
+      [stroke]="chartOptions.stroke"
+      [grid]="chartOptions.grid"
+      [tooltip]="chartOptions.tooltip"
+      [yaxis]="chartOptions.yaxis"
+      [legend]="chartOptions.legend"
+      [plotOptions]="chartOptions.plotOptions"
+      [labels]="chartOptions.labels"
+      [colors]="chartOptions.colors"
+    ></apx-chart>
+  </div>
+  

@@ -50,6 +50,17 @@ export class ProjectService {
     //     );
     //   }
 
+    dashboard(data: any): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/dashboard', data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+    
+
     getDatas(): Observable<any> {
         return this._httpClient.get(environment.baseURL + '/api/dashboard').pipe(
             tap((response: any) => {

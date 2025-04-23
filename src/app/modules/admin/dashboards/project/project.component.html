@@ -22,44 +22,7 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-            <!-- Project selector -->
-            <!-- <div
-                class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default"
-                matRipple
-                [matMenuTriggerFor]="projectsMenu">
-                <div class="flex items-center">
-                    <div class="overflow-hidden">
-                        <div class="font-medium leading-6 truncate">{{selectedProject}}</div>
-                    </div>
-                    <div class="flex items-center justify-center pl-2">
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_mini:chevron-down'"></mat-icon>
-                    </div>
-                </div>
-                <mat-menu
-                    #projectsMenu="matMenu"
-                    [xPosition]="'before'">
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject='ACME Corp. Backend App'">ACME Corp. Backend App
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject='ACME Corp. Frontend App'">ACME Corp. Frontend App
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject='Creapond'">Creapond
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject='Withinpixels'">Withinpixels
-                    </button>
-                </mat-menu>
-            </div> -->
         </div>
     </div>
 
@@ -77,7 +40,7 @@
                             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate">{{
-                                        'dashboard.PurchaseOrder' | transloco }}</div>
+                                        'คำสั่งซื้อ' | transloco }}</div>
                                     <div class="ml-2 -mt-2 -mr-3">
                                         <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
                                             <mat-icon class="icon-size-5"
@@ -92,10 +55,10 @@
                                 </div>
                                 <div class="flex flex-col items-center mt-2">
                                     <div
-                                        class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">{{factory}}</div>
+                                        class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">{{itemdata?.graph?.waiting}}</div>
                                     <!-- <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Due Tasks</div> -->
                                     <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
-                                        <div class="text-md font-medium truncate">{{ 'dashboard.Completed' | transloco
+                                        <div class="text-md font-medium truncate">{{ 'รายการ' | transloco
                                             }}</div>
                                         <!-- <div class="ml-1.5 text-lg font-semibold">13</div> -->
                                     </div>
@@ -105,7 +68,7 @@
                             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate">{{
-                                        'dashboard.Quotation' | transloco }}</div>
+                                         'คำสั่งซื้อ' | transloco }}</div>
                                     <div class="ml-2 -mt-2 -mr-3">
                                         <button mat-icon-button [matMenuTriggerFor]="overdueMenu">
                                             <mat-icon class="icon-size-5"
@@ -120,10 +83,10 @@
                                 </div>
                                 <div class="flex flex-col items-center mt-2">
                                     <div
-                                        class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">{{in}}</div>
+                                        class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">{{itemdata?.graph?.unaction}}</div>
                                     <!-- <div class="text-lg font-medium text-red-600 dark:text-red-500">Tasks</div> -->
                                     <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
-                                        <div class="text-md font-medium truncate">{{ 'dashboard.Fromyesterday' |
+                                        <div class="text-md font-medium truncate">{{ 'รายการ' |
                                             transloco }}</div>
                                         <!-- <div class="ml-1.5 text-lg font-semibold">9</div> -->
                                     </div>
@@ -133,7 +96,7 @@
                             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate">{{
-                                        'dashboard.BillSale' | transloco }}</div>
+                                       'คำสั่งซื้อ'| transloco }}</div>
                                     <div class="ml-2 -mt-2 -mr-3">
                                         <button mat-icon-button [matMenuTriggerFor]="issuesMenu">
                                             <mat-icon class="icon-size-5"
@@ -148,10 +111,10 @@
                                 </div>
                                 <div class="flex flex-col items-center mt-2">
                                     <div
-                                        class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">{{out}}</div>
+                                        class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">{{itemdata?.graph?.waiting}}</div>
                                     <!-- <div class="text-lg font-medium text-amber-600 dark:text-amber-500">Open</div> -->
                                     <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
-                                        <div class="text-md font-medium truncate">{{ 'dashboard.Closedtoday' | transloco
+                                        <div class="text-md font-medium truncate">{{ 'รายการ' | transloco
                                             }}</div>
                                         <!-- <div class="ml-1.5 text-lg font-semibold">19</div> -->
                                     </div>
@@ -161,7 +124,7 @@
                             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate">{{
-                                        'dashboard.BillingAmount' | transloco }}</div>
+                                         'คำสั่งซื้อ' | transloco }}</div>
                                     <div class="ml-2 -mt-2 -mr-3">
                                         <button mat-icon-button [matMenuTriggerFor]="featuresMenu">
                                             <mat-icon class="icon-size-5"
@@ -176,10 +139,10 @@
                                 </div>
                                 <div class="flex flex-col items-center mt-2">
                                     <div
-                                        class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">{{orders}}</div>
+                                        class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">{{itemdata?.graph?.complete}}</div>
                                     <!-- <div class="text-lg font-medium text-green-600 dark:text-green-500">Proposals</div> -->
                                     <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
-                                        <div class="text-md font-medium truncate">{{ 'dashboard.Implemented' | transloco
+                                        <div class="text-md font-medium truncate">{{  'รายการ' | transloco
                                             }}</div>
                                         <!-- <div class="ml-1.5 text-lg font-semibold">16</div> -->
                                     </div>
@@ -187,23 +150,15 @@
                             </div>
                             <!-- Github issues summary -->
                             <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                                <div class="flex flex-col sm:flex-row items-start justify-between">
-                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">{{ 'dashboard.WeeklySales' | transloco }}</div>
-                                    <div class="mt-3 sm:mt-0 sm:ml-2">
-                                        <mat-button-toggle-group value="this-week" #githubIssuesWeekSelector="matButtonToggleGroup">
-                                            <mat-button-toggle value="last-week"></mat-button-toggle>
-                                            <mat-button-toggle value="this-week">{{ 'dashboard.Current' | transloco }}</mat-button-toggle>
-                                        </mat-button-toggle-group>
-                                    </div>
-                                </div>
                                 <div class="grid grid-cols-1 lg:grid-cols-5 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
                                     <!-- New vs. Closed (60% width) -->
                                     <div class="flex flex-col flex-auto lg:col-span-3">
                                         <div class="flex flex-col flex-auto">
-                                            <apx-chart class="flex-auto w-full h-80" [chart]="chartGithubIssues.chart" [colors]="chartGithubIssues.colors" [dataLabels]="chartGithubIssues.dataLabels" [grid]="chartGithubIssues.grid" [labels]="chartGithubIssues.labels" [legend]="chartGithubIssues.legend"
+                                            <!-- <apx-chart class="flex-auto w-full h-80" [chart]="chartGithubIssues.chart" [colors]="chartGithubIssues.colors" [dataLabels]="chartGithubIssues.dataLabels" [grid]="chartGithubIssues.grid" [labels]="chartGithubIssues.labels" [legend]="chartGithubIssues.legend"
                                                 [plotOptions]="chartGithubIssues.plotOptions" [series]="chartGithubIssues.series[githubIssuesWeekSelector.value]" [states]="chartGithubIssues.states" [stroke]="chartGithubIssues.stroke" [tooltip]="chartGithubIssues.tooltip"
                                                 [xaxis]="chartGithubIssues.xaxis" [yaxis]="chartGithubIssues.yaxis">
-                                            </apx-chart>
+                                            </apx-chart>  -->
+                                            <app-dashboard-week></app-dashboard-week>
                                         </div>
                                     </div>
                                     <!-- Overview (40% width) -->
@@ -213,22 +168,22 @@
                                             <!-- New issues -->
                                             <div class="col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-indigo-100 text-indigo-800 dark:bg-white dark:bg-opacity-5 dark:text-indigo-400">
                                                 <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
-                                                    {{material}}
+                                                    {{itemdata?.bests?.best_saller}}
                                                 </div>
-                                                <div class="mt-1 text-sm sm:text-lg font-medium">{{ 'dashboard.NewIssues' | transloco }}</div>
+                                                <div class="mt-1 text-sm sm:text-lg font-medium">{{ 'ยอดขายสูงสุด/รายการ' | transloco }}</div>
                                             </div>
                                             <!-- Closed -->
                                             <div class="col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-green-100 text-green-800 dark:bg-white dark:bg-opacity-5 dark:text-green-500">
                                                 <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
-                                                    {{products}}
+                                                    {{itemdata?.bests?.best_sale_item_qty}}
                                                 </div>
-                                                <div class="mt-1 text-sm sm:text-lg font-medium">{{ 'dashboard.Closed' | transloco }}</div>
+                                                <div class="mt-1 text-sm sm:text-lg font-medium">{{ 'จำนวนสินค้าขายดีสุด' | transloco }}</div>
                                             </div>
                                             <div class="col-span-4 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-yellow-100 text-yellow-800 dark:bg-white dark:bg-opacity-5 dark:text-green-500">
                                                 <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
-                                                    {{packaging}}
+                                                    {{itemdata?.bests?.best_outstock}}
                                                 </div>
-                                                <div class="mt-1 text-sm sm:text-lg font-medium">{{ 'dashboard.Fixed' | transloco }}</div>
+                                                <div class="mt-1 text-sm sm:text-lg font-medium">{{ 'สินค้าหมดเร็วสุด' | transloco }}</div>
                                             </div>
                                             <!-- Fixed -->
                                             <!-- <div class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">

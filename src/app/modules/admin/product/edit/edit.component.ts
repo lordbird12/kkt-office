@@ -94,6 +94,7 @@ export class EditComponent implements OnInit {
     Unit: any = [];
     Lines: any[] = [];
     images: any[] = [];
+    imagesPanaroma: any[] = [];
     /**
      * Constructor
      */
@@ -123,6 +124,7 @@ export class EditComponent implements OnInit {
             shelve_id: [''],
             more_address: [''],
             floor_id: [''],
+            panorama_images: [],
             min: [0],
             max: [0],
             supplier_id: [''],
@@ -416,6 +418,26 @@ export class EditComponent implements OnInit {
         }
     }
 
+    async uploadFilePanorama(file: File) {
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+            // ตัวอย่างการส่งไปยัง API (เปลี่ยน URL ตาม backend ของคุณ)
+            const formData1 = new FormData();
+            formData1.append('image', file);
+            formData1.append('path', 'images/assets/');
+            this._Service.uploadImg(formData1).subscribe((resp) => {
+
+                this.imagesPanaroma.push(resp); // อัปเดตรายการ images
+                console.log(this.imagesPanaroma);
+                this._changeDetectorRef.markForCheck();
+
+            })
+        } catch (error) {
+            console.error('Upload failed:', error);
+        }
+    }
+
 
 
     onRemove(event) {
@@ -457,6 +479,8 @@ export class EditComponent implements OnInit {
 
 
     Submit(): void {
+        console.log(this.imagePreviews);
+        
         if (this.langues == 'tr') {
             const confirmation = this._fuseConfirmationService.open({
                 title: 'แก้ไขข้อมูล',
@@ -482,7 +506,13 @@ export class EditComponent implements OnInit {
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     let formValue = this.formData.value
-                    formValue.images = this.images
+                    if(this.imagesPanaroma) {
+                        formValue.panorama_images = this.imagesPanaroma
+                    }
+                    if(this.images) {
+                        formValue.images = this.images
+                    }
+                    
                     this._Service.Updatedata(formValue, this.Id).subscribe({
                         next: () => {
                             this._router
@@ -544,6 +574,8 @@ export class EditComponent implements OnInit {
             });
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
+                    let formValue = this.formData.value
+                    formValue.pro
                     this._Service.Updatedata(this.formData.value, this.Id).subscribe({
                         next: () => {
                             this._router
@@ -713,163 +745,55 @@ export class EditComponent implements OnInit {
 
 
     }
-
-
-
-
-
-
-    // Submit(): void {
-    //     console.log(this.formData.value);
-    //     // const end =  moment(this.addForm.value.register_date).format('YYYY-MM-DD')
-    //     // console.log(end)
-    //     // this.addForm.patchValue({
-    //     //   register_date:end
-    //     // })
-    //     const confirmation = this._fuseConfirmationService.open({
-    //         title: 'แก้ไขข้อมูล',
-    //         message: 'คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
-    //         icon: {
-    //             show: false,
-    //             name: 'heroicons_outline:exclamation',
-    //             color: 'warning',
-    //         },
-    //         actions: {
-    //             confirm: {
-    //                 show: true,
-    //                 label: 'ตกลง',
-    //                 color: 'primary',
-    //             },
-    //             cancel: {
-    //                 show: true,
-    //                 label: 'ยกเลิก',
-    //             },
-    //         },
-    //         dismissible: true,
-    //     });
-
-    //     // Subscribe to the confirmation dialog closed action
-    //     confirmation.afterClosed().subscribe((result) => {
-    //         // If the confirm button pressed...
-    //         if (result === 'confirmed') {
-    //             // const formData = new FormData();
-    //             // Object.entries(this.formData.value).forEach(
-    //             //     ([key, value]: any[]) => {
-    //             //         formData.append(key, value);
-    //             //     }
-    //             // );
-
-    //             // for (var i = 0; i < this.files.length; i++) {
-    //             //     formData.append('images[]', this.files[i]);
-    //             // }
-    //             this._Service.Updatedata(this.formData.value).subscribe({
-    //                 next: (resp: any) => {
-    //                     this._router
-    //                         .navigateByUrl('admin/product/list')
-    //                         .then(() => {});
-    //                 },
-
-    //                 error: (err: any) => {
-    //                     console.log(err);
-    //                     this.formData.enable();
-    //                     this._fuseConfirmationService.open({
-    //                         title: 'เกิดข้อผิดพลาด',
-    //                         message: err.error.message,
-    //                         icon: {
-    //                             show: true,
-    //                             name: 'heroicons_outline:exclamation',
-    //                             color: 'warning',
-    //                         },
-    //                         actions: {
-    //                             confirm: {
-    //                                 show: false,
-    //                                 label: 'ตกลง',
-    //                                 color: 'primary',
-    //                             },
-    //                             cancel: {
-    //                                 show: false,
-    //                                 label: 'ยกเลิก',
-    //                             },
-    //                         },
-    //                         dismissible: true,
-    //                     });
-    //                     console.log(err.error.message);
-    //                 },
-    //             });
-    //         }
-    //     });
-    //     console.log(this.formData.value);
-    // }
-
-    // RawSubmit(): void {
-    //     // const end =  moment(this.addForm.value.register_date).format('YYYY-MM-DD')
-    //     // console.log(end)
-    //     // this.addForm.patchValue({
-    //     //   register_date:end
-    //     // })
-    //     const confirmation = this._fuseConfirmationService.open({
-    //         title: 'แก้ไขข้อมูล',
-    //         message: 'คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ?',
-    //         icon: {
-    //             show: false,
-    //             name: 'heroicons_outline:exclamation',
-    //             color: 'warning',
-    //         },
-    //         actions: {
-    //             confirm: {
-    //                 show: true,
-    //                 label: 'ตกลง',
-    //                 color: 'primary',
-    //             },
-    //             cancel: {
-    //                 show: true,
-    //                 label: 'ยกเลิก',
-    //             },
-    //         },
-    //         dismissible: true,
-    //     });
-
-    //     // Subscribe to the confirmation dialog closed action
-    //     confirmation.afterClosed().subscribe((result) => {
-    //         // If the confirm button pressed...
-    //         if (result === 'confirmed') {
-    //             const formValue = this.formRaw.value;
-    //             this._Service.Updatedata(formValue).subscribe({
-    //                 next: (resp: any) => {
-    //                     this._router
-    //                         .navigateByUrl('admin/product/list')
-    //                         .then(() => {});
-    //                 },
-
-    //                 error: (err: any) => {
-    //                     console.log(err);
-    //                     this.formData.enable();
-    //                     this._fuseConfirmationService.open({
-    //                         title: 'เกิดข้อผิดพลาด',
-    //                         message: err.error.message,
-    //                         icon: {
-    //                             show: true,
-    //                             name: 'heroicons_outline:exclamation',
-    //                             color: 'warning',
-    //                         },
-    //                         actions: {
-    //                             confirm: {
-    //                                 show: false,
-    //                                 label: 'ตกลง',
-    //                                 color: 'primary',
-    //                             },
-    //                             cancel: {
-    //                                 show: false,
-    //                                 label: 'ยกเลิก',
-    //                             },
-    //                         },
-    //                         dismissible: true,
-    //                     });
-    //                     console.log(err.error.message);
-    //                 },
-    //             });
-    //         }
-    //     });
-    //     console.log(this.formData.value);
-    // }
+    imagePreviews: string[] = [];
+    selectedFiles: File[] = [];
+    isDragging = false;
+    
+    onFileChangePanorama(event: Event) {
+      const input = event.target as HTMLInputElement;
+      if (input.files) {
+        this.handleFiles(input.files);
+      }
+    }
+    
+    onDrop(event: DragEvent) {
+      event.preventDefault();
+      this.isDragging = false;
+    
+      if (event.dataTransfer?.files) {
+        this.handleFiles(event.dataTransfer.files);
+      }
+    }
+    
+    onDragOver(event: DragEvent) {
+      event.preventDefault();
+      this.isDragging = true;
+    }
+    
+    onDragLeave(event: DragEvent) {
+      this.isDragging = false;
+    }
+    
+    handleFiles(fileList: FileList) {
+      Array.from(fileList).forEach((file) => {
+        this.selectedFiles.push(file);
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.imagePreviews.push(e.target.result);
+        };
+        reader.readAsDataURL(file);
+        this.uploadFilePanorama(file)
+      });
+    }
+    
+    removeImage(img: string) {
+      const index = this.imagePreviews.indexOf(img);
+      if (index !== -1) {
+        this.imagePreviews.splice(index, 1);
+        this.imagesPanaroma.splice(index, 1);
+        this.selectedFiles.splice(index, 1);
+        console.log(this.imagesPanaroma);
+        
+      }
+    }
 }
