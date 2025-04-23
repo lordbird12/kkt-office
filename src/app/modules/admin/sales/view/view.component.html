@@ -40,8 +40,9 @@
                 </div>
                 <div class="col-span-2 text-lg font-semibold">
                     <span class="text-gray-700 font-semibold">{{ 'sales.form.status' | transloco }}: </span>
-                    <span class="text-gray-900 bg-slate-100 px-2 py-1 rounded-lg">{{
-                        getStatusName(this.itemData?.status) }}</span>
+                    <span [ngClass]="getStatusColor(itemData?.status)" class="px-2 py-1 rounded-lg">
+                        {{ getStatusName(itemData?.status) }}
+                    </span>
                 </div>
                 <div>
                     <span class="text-gray-700 font-semibold">{{ 'sales.form.date' | transloco }}: </span>
@@ -64,7 +65,7 @@
                     <span class="text-gray-900">{{ this.itemData?.client_address ?? '-' }}</span>
                 </div>
             </div>
-            <div class="bg-green-50 my-5 rounded-md">
+            <div class="bg-green-50 my-5 rounded-md" *ngIf="promotionStatus">
                 <div class="p-5 space-y-3">
                     <div class="text-xl font-bold tracking-tight text-green-700">
                         {{ 'โปรโมชั่น' | transloco }}

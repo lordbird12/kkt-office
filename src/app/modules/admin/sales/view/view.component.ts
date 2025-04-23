@@ -65,31 +65,13 @@ import { UpdateDialogComponent } from '../update-status/update-dialog.component'
 export class ViewOrderComponent {
     status: string = 'NEW'
     statusOrder: any[] = [
-        {
-            value: 'Ordered',
-            name: 'รอดำเนินการ'
-        },
-        {
-            value: 'Approve',
-            name: 'อนุมัติ'
-        },
-        {
-            value: 'Recived',
-            name: 'รอจัดส่ง'
-        },
-        {
-            value: 'Finish',
-            name: 'จัดส่ง'
-        },
-        {
-            value: 'ToClient',
-            name: 'ได้รับสินค้า'
-        },
-        {
-            value: 'Cancel',
-            name: 'ยกเลิก'
-        },
-    ]
+        { value: 'Ordered', name: 'รอดำเนินการ', color: 'bg-yellow-100 text-yellow-800' },
+        { value: 'Approve', name: 'อนุมัติ', color: 'bg-green-100 text-green-800' },
+        { value: 'Recived', name: 'รอจัดส่ง', color: 'bg-blue-100 text-blue-800' },
+        { value: 'Finish', name: 'จัดส่ง', color: 'bg-indigo-100 text-indigo-800' },
+        { value: 'ToClient', name: 'ได้รับสินค้า', color: 'bg-teal-100 text-teal-800' },
+        { value: 'Cancel', name: 'ยกเลิก', color: 'bg-red-100 text-red-800' },
+    ];
     addForm: FormGroup;
     ProductControl = new FormControl('');
     formFieldHelpers: string[] = ['fuse-mat-dense'];
@@ -101,6 +83,7 @@ export class ViewOrderComponent {
     id: any
     promotion: any
     itemData: any = {};
+    promotionStatus : boolean = false
     /**
      * Constructor
      */
@@ -129,9 +112,9 @@ export class ViewOrderComponent {
                 if (itemWithPromotion) {
                   const promotionId = itemWithPromotion.promotion_id;
                   this._service.getPromotion(promotionId).subscribe((resp:any) => {
+                    this.promotionStatus = true
                     this.promotion = resp.data
-                    console.log(this.promotion);
-                    
+                    this._changeDetectorRef.markForCheck()
                   })
                   
                 }
@@ -565,6 +548,11 @@ export class ViewOrderComponent {
     getStatusName(value: string): string {
         const foundStatus = this.statusOrder.find(s => s.value === value);
         return foundStatus ? foundStatus.name : '-';
+    }
+
+    getStatusColor(value: string): string {
+        const foundStatus = this.statusOrder.find(s => s.value === value);
+        return foundStatus ? foundStatus.color : 'bg-gray-200 text-gray-800';
     }
 
     getUnitName(value: string): string {
