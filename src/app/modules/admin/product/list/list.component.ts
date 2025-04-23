@@ -202,68 +202,68 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         };
     }
     delete(itemid: any) {
-       if(this.langues=='tr'){
-        const confirmation = this._fuseConfirmationService.open({
-            title: 'ลบข้อมูล',
-            message: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
-            icon: {
-                show: true,
-                name: 'heroicons_outline:exclamation-triangle',
-                color: 'warning',
-            },
-            actions: {
-                confirm: {
+        if (this.langues == 'tr') {
+            const confirmation = this._fuseConfirmationService.open({
+                title: 'ลบข้อมูล',
+                message: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
+                icon: {
                     show: true,
-                    label: 'Remove',
-                    color: 'warn',
+                    name: 'heroicons_outline:exclamation-triangle',
+                    color: 'warning',
                 },
-                cancel: {
+                actions: {
+                    confirm: {
+                        show: true,
+                        label: 'Remove',
+                        color: 'warn',
+                    },
+                    cancel: {
+                        show: true,
+                        label: 'Cancel',
+                    },
+                },
+                dismissible: true,
+            });
+            confirmation.afterClosed().subscribe((result) => {
+                if (result === 'confirmed') {
+                    this._service.delete(itemid).subscribe((resp) => {
+                        this.rerender();
+                    });
+                }
+                error: (err: any) => { };
+            });
+        }
+        else if (this.langues == 'en') {
+            const confirmation = this._fuseConfirmationService.open({
+                title: 'Delete Data',
+                message: ' Do you want to delete the data ?',
+                icon: {
                     show: true,
-                    label: 'Cancel',
+                    name: 'heroicons_outline:exclamation-triangle',
+                    color: 'warning',
                 },
-            },
-            dismissible: true,
-        });
-        confirmation.afterClosed().subscribe((result) => {
-            if (result === 'confirmed') {
-                this._service.delete(itemid).subscribe((resp) => {
-                    this.rerender();
-                });
-            }
-            error: (err: any) => {};
-        });
-       }
-       else if(this.langues=='en'){
-        const confirmation = this._fuseConfirmationService.open({
-            title: 'Delete Data',
-            message: ' Do you want to delete the data ?',
-            icon: {
-                show: true,
-                name: 'heroicons_outline:exclamation-triangle',
-                color: 'warning',
-            },
-            actions: {
-                confirm: {
-                    show: true,
-                    label: 'Remove',
-                    color: 'warn',
+                actions: {
+                    confirm: {
+                        show: true,
+                        label: 'Remove',
+                        color: 'warn',
+                    },
+                    cancel: {
+                        show: true,
+                        label: 'Cancel',
+                    },
                 },
-                cancel: {
-                    show: true,
-                    label: 'Cancel',
-                },
-            },
-            dismissible: true,
-        });
-        confirmation.afterClosed().subscribe((result) => {
-            if (result === 'confirmed') {
-                this._service.delete(itemid).subscribe((resp) => {
-                    this.rerender();
-                });
-            }
-            error: (err: any) => {};
-        });
-       }
+                dismissible: true,
+            });
+            confirmation.afterClosed().subscribe((result) => {
+                if (result === 'confirmed') {
+                    this._service.delete(itemid).subscribe((resp) => {
+                        this.rerender();
+                    });
+                }
+                error: (err: any) => { };
+            });
+        }
     }
 
     showPicture(imgObject: any): void {
@@ -286,7 +286,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             .open(DialogImportForm, {
                 width: '600px',
                 height: 'auto',
-                
+
                 autoFocus: false,
                 data: {
                     type: 'Product'

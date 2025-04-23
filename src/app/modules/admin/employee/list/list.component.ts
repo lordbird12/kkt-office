@@ -36,6 +36,7 @@ import { tap } from 'rxjs';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { DialogImportForm } from '../../product/dialog-import/dialog.component';
 
 @Component({
     selector: 'employee-list',
@@ -263,6 +264,24 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
     }
 }
+
+    openDialogImort(imgObject: any): void {
+        this.dialog
+            .open(DialogImportForm, {
+                width: '600px',
+                height: 'auto',
+
+                autoFocus: false,
+                data: {
+                    type: 'Client'
+                },
+            })
+            .afterClosed()
+            .subscribe(() => {
+                // Go up twice because card routes are setup like this; "card/CARD_ID"
+                // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
+            });
+    }
  
     // delete(itemid: any) {
     //     const confirmation = this._fuseConfirmationService.open({

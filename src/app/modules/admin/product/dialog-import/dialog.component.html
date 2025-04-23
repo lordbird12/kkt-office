@@ -12,20 +12,18 @@
             <button mat-icon-button matSuffix>
               <mat-icon>attach_file</mat-icon>
             </button>
-            <input type="text" readonly matInput />
-            <input type="file" hidden #file_name (change)="onSelects(file_name.files)"
-              accept="image/jpeg, image/png, application/pdf" />
-            <mat-error>กรุณาเลือกไฟล์</mat-error>
+            <input #filenameInput type="text" readonly matInput />
+            <input type="file" hidden #file_name (change)="onSelects(file_name.files)" accept=".xlsx,.xls" />
+            <mat-error *ngIf="fileError">{{ fileError }}</mat-error>
           </mat-form-field>
         </div>
-     
       </div>
     </div>
   </div>
 </div>
 
 <div mat-dialog-actions class="flex justify-end space-x-4">
-  <button class="px-6" mat-flat-button [color]="'primary'" (click)="onClose()">
+  <button class="px-6" mat-flat-button [color]="'primary'" (click)="Submit()">
     นำเข้า
   </button>
   <button class="px-6" mat-flat-button [color]="'warn'" (click)="onClose()">

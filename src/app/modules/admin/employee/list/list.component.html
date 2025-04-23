@@ -14,8 +14,17 @@
                     {{'employee.list.employee' | transloco }}
                 </h2>
                 <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'"
-                        (click)="addElement()">
+                    <button class="px-6 ml-3 bg-green-700 text-white" mat-flat-button *ngIf="!hiddenSave()"
+                        (click)="excelExport()">
+                        <mat-icon svgIcon="mat_solid:file_download"></mat-icon>
+                        &nbsp;{{ 'product.list.exportExcel' | transloco }}
+                    </button>
+                    <button class="px-6 ml-3" mat-flat-button color="accent" *ngIf="!hiddenSave()"
+                        (click)="openDialogImort()">
+                        <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+                        &nbsp;{{ 'นำเข้า' | transloco }}
+                    </button>
+                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="addElement()">
                         <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
                         &nbsp;
                         <!-- เพิ่มพนักงาน -->
@@ -48,8 +57,7 @@
                             <button mat-icon-button *ngIf="!hiddenEdit()" (click)="editElement(item)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button *ngIf="!hiddenDelete()"
-                                (click)="delete(item.id)">
+                            <button mat-icon-button *ngIf="!hiddenDelete()" (click)="delete(item.id)">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </td>
