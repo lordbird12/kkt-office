@@ -32,6 +32,7 @@ import { timeInterval } from 'rxjs';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatMenuModule } from '@angular/material/menu';
+import { DialogImportForm } from '../dialog-import/dialog.component';
 
 @Component({
     selector: 'employee-list',
@@ -271,6 +272,24 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 autoFocus: false,
                 data: {
                     imgSelected: imgObject,
+                },
+            })
+            .afterClosed()
+            .subscribe(() => {
+                // Go up twice because card routes are setup like this; "card/CARD_ID"
+                // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
+            });
+    }
+
+    openDialogImort(imgObject: any): void {
+        this.dialog
+            .open(DialogImportForm, {
+                width: '600px',
+                height: 'auto',
+                
+                autoFocus: false,
+                data: {
+                    type: 'Product'
                 },
             })
             .afterClosed()

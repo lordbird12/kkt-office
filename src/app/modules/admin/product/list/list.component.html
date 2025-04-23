@@ -18,11 +18,16 @@
                         <mat-icon svgIcon="mat_solid:file_download"></mat-icon>
                         &nbsp;{{ 'product.list.exportExcel' | transloco }}
                     </button>
-                    <button class="px-6 ml-3" mat-flat-button color="primary" *ngIf="!hiddenSave()"
-                        (click)="addElement()">
+                    <button class="px-6 ml-3" mat-flat-button color="accent" *ngIf="!hiddenSave()"
+                        (click)="openDialogImort()">
                         <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
-                        &nbsp;{{ 'product.list.addProduct' | transloco }}
+                        &nbsp;{{ 'นำเข้า' | transloco }}
                     </button>
+                    <button class="px-6 ml-3" mat-flat-button color="primary" *ngIf="!hiddenSave()"
+                    (click)="addElement()">
+                    <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+                    &nbsp;{{ 'product.list.addProduct' | transloco }}
+                </button>
                 </div>
             </div>
         </div>

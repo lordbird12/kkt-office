@@ -114,6 +114,20 @@ export class Service {
                 })
             );
     }
+
+    uploadImport(img: FormData, path: string): Observable<any> {
+        return this._httpClient
+            .post(
+                environment.baseURL + '/api/' + path,
+                img,
+                this.httpOptionsFormdata
+            )
+            .pipe(
+                switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
     getCategories(): Observable<any> {
         return this._httpClient
             .get<any>(environment.baseURL + '/api/get_category_product')

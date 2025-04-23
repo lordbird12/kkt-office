@@ -169,12 +169,12 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
         const value = this._formBuilder.group({
             qty: '', //จำนวน
             unit_id: '', //หน่วยนับ
-            // area_id: [''], //โรงเก็บ
-            // shelve_id: [''], //ตู้เก็บของ
-            // floor_id: [''],  //ช่องเก็บของ
-            // channel_id: [''], //ชั้นเก็บของ
-            // type: [''], //รูปแบบสินค้า
-            // lot: [''], //เลขล็อต
+            area_id: [''], //โรงเก็บ
+            shelve_id: [''], //ตู้เก็บของ
+            floor_id: [''],  //ช่องเก็บของ
+            channel_id: [''], //ชั้นเก็บของ
+            type: [''], //รูปแบบสินค้า
+            lot: [''], //เลขล็อต
         });
 
         this.products.push(value);
