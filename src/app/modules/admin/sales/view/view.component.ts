@@ -85,6 +85,10 @@ export class ViewOrderComponent {
             value: 'ToClient',
             name: 'ได้รับสินค้า'
         },
+        {
+            value: 'Cancel',
+            name: 'ยกเลิก'
+        },
     ]
     addForm: FormGroup;
     ProductControl = new FormControl('');
@@ -95,6 +99,7 @@ export class ViewOrderComponent {
     unitdata: any[] = [];
     filteredOptions: Observable<{ id: string; name: string }[]>[] = [];
     id: any
+    promotion: any
     itemData: any = {};
     /**
      * Constructor
@@ -113,21 +118,32 @@ export class ViewOrderComponent {
     ) {
         this.unitdata = this._activatedRoute.snapshot.data.units.data
         this.id = this._activatedRoute.snapshot.params.id;
-        if(this.id) {
-            this._service.getById(this.id).subscribe((resp: any)=>{
+        if (this.id) {
+            this._service.getById(this.id).subscribe((resp: any) => {
                 this.status = 'EDIT'
                 this.itemData = resp.data;
-                console.log(this.itemData);
-                
+                const orderLists = this.itemData?.order_lists || [];
+
+                const itemWithPromotion = orderLists.find(item => item.promotion_id != null);
+              
+                if (itemWithPromotion) {
+                  const promotionId = itemWithPromotion.promotion_id;
+                  this._service.getPromotion(promotionId).subscribe((resp:any) => {
+                    this.promotion = resp.data
+                    console.log(this.promotion);
+                    
+                  })
+                  
+                }
                 this.addForm.patchValue({
                     date: this.itemData?.date,
                     total_price: this.itemData?.total_price,
                     client_name: this.itemData?.client?.name,
                     client_phone: this.itemData?.client?.phone,
-                    client_email: this.itemData?.client?.email,   
+                    client_email: this.itemData?.client?.email,
                 })
-    
-                if (this.itemData?.order_lists.length > 0 ) {
+
+                if (this.itemData?.order_lists.length > 0) {
                     for (let index = 0; index < this.itemData.order_lists.length; index++) {
                         const element = this.itemData.order_lists[index];
                         const a = this._formBuilder.group({
@@ -144,8 +160,8 @@ export class ViewOrderComponent {
                 this._changeDetectorRef.markForCheck()
             })
         }
-        
-        
+
+
         this.addForm = this._formBuilder.group({
             date: '',
             total_price: '',
@@ -162,16 +178,16 @@ export class ViewOrderComponent {
 
     ngOnInit(): void {
 
-        if(this.status === 'EDIT') {
+        if (this.status === 'EDIT') {
             this.addForm.patchValue({
                 date: this.itemData?.date,
                 total_price: this.itemData?.total_price,
                 client_name: this.itemData?.clent?.name,
                 client_phone: this.itemData?.phone,
-                client_email: this.itemData?.email,   
+                client_email: this.itemData?.email,
             })
 
-            if (this.itemData.order_lists.length > 0 ) {
+            if (this.itemData.order_lists.length > 0) {
                 for (let index = 0; index < this.itemData.order_lists.length; index++) {
                     const element = this.itemData.order_lists[index];
                     const a = this._formBuilder.group({
@@ -197,7 +213,7 @@ export class ViewOrderComponent {
     /**
      * After view init
      */
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
 
     /**
      * On destroy
@@ -268,15 +284,15 @@ export class ViewOrderComponent {
     }
 
     onpush(event: any, i, data: any) {
-        
+
         if (event.option.value === 0) {
-            this.ProductAdd(i,data)
+            this.ProductAdd(i, data)
         }
-        
+
         const foundItem = this.productData.find(
             (item) => item.name === event.option.value
         );
-        
+
         if (foundItem) {
             console.log('data', foundItem);
             data.patchValue({
@@ -297,7 +313,7 @@ export class ViewOrderComponent {
     }
 
     onSubmit(): void {
-        if(this.langues=='tr'){
+        if (this.langues == 'tr') {
             const dialogRef = this._fuseConfirmationService.open({
                 title: 'บันทึกข้อมูล',
                 message: 'คุณต้องการบันทึกข้อมูลใช่หรือไม่ ?',
@@ -319,7 +335,7 @@ export class ViewOrderComponent {
                 },
                 dismissible: true,
             });
-    
+
             dialogRef.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     let formValue = this.addForm.value;
@@ -328,7 +344,7 @@ export class ViewOrderComponent {
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/sales/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
                         error: (err: any) => {
                             this._fuseConfirmationService.open({
@@ -358,7 +374,7 @@ export class ViewOrderComponent {
                 }
             });
         }
-        else if(this.langues=='en'){
+        else if (this.langues == 'en') {
             const dialogRef = this._fuseConfirmationService.open({
                 title: 'Save data',
                 message: 'Do you want to save the data ?',
@@ -380,7 +396,7 @@ export class ViewOrderComponent {
                 },
                 dismissible: true,
             });
-    
+
             dialogRef.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     let formValue = this.addForm.value;
@@ -389,7 +405,7 @@ export class ViewOrderComponent {
                         next: (resp: any) => {
                             this._router
                                 .navigateByUrl('admin/sales/list')
-                                .then(() => {});
+                                .then(() => { });
                         },
                         error: (err: any) => {
                             this._fuseConfirmationService.open({
@@ -447,81 +463,81 @@ export class ViewOrderComponent {
         value.value.price = total;
     }
 
-    ProductAdd(i,data): void {
+    ProductAdd(i, data): void {
         this.dialog
             .open(FormDialogComponent, {
                 width: '80%',
                 height: '90%',
                 autoFocus: false,
-             
+
             })
             .afterClosed()
             .subscribe((foundItem) => {
-                if(foundItem) {
+                if (foundItem) {
                     console.log('data', foundItem);
-            data.patchValue({
-                cost: 100,
-                price: 0,
-                qty: 0,
-                unit_id: '',
-            });
+                    data.patchValue({
+                        cost: 100,
+                        price: 0,
+                        qty: 0,
+                        unit_id: '',
+                    });
 
-            const productFormGroup = this.products.at(i) as FormGroup;
-            productFormGroup.patchValue({
-                product_name: foundItem.name,
-                product_id: foundItem.id,
-            });
-            this.unitdata[i] = foundItem.units;
-            console.log(this.unitdata[i]);
+                    const productFormGroup = this.products.at(i) as FormGroup;
+                    productFormGroup.patchValue({
+                        product_name: foundItem.name,
+                        product_id: foundItem.id,
+                    });
+                    this.unitdata[i] = foundItem.units;
+                    console.log(this.unitdata[i]);
                 }
             });
     }
 
-    UnitAdd(i,data): void {
+    UnitAdd(i, data): void {
         this.dialog
             .open(UnitProductComponent, {
                 width: '40%',
                 height: 'auto',
                 autoFocus: false,
-                data : data.value
-             
+                data: data.value
+
             })
             .afterClosed()
             .subscribe((foundItem) => {
-                if(foundItem) {
+                if (foundItem) {
 
-                    
+
                 }
             });
     }
 
     updateStatus(data): void {
-        
+
         this.dialog
             .open(UpdateDialogComponent, {
                 width: '40%',
                 height: 'auto',
                 autoFocus: false,
-                data : data
-             
+                data: data
+
             })
             .afterClosed()
             .subscribe((foundItem) => {
-                if(foundItem) {
-                    this._service.getById(this.id).subscribe((resp: any)=>{
+                if (foundItem) {
+                    this._service.getById(this.id).subscribe((resp: any) => {
                         this.status = 'EDIT'
                         this.itemData = resp.data;
                         console.log(this.itemData);
-                        
+
                         this.addForm.patchValue({
                             date: this.itemData?.date,
                             total_price: this.itemData?.total_price,
                             client_name: this.itemData?.client?.name,
                             client_phone: this.itemData?.client?.phone,
-                            client_email: this.itemData?.client?.email,   
+                            client_email: this.itemData?.client?.email,
                         })
-            
-                        if (this.itemData?.order_lists.length > 0 ) {
+
+                        if (this.itemData?.order_lists.length > 0) {
                             for (let index = 0; index < this.itemData.order_lists.length; index++) {
                                 const element = this.itemData.order_lists[index];
                                 const a = this._formBuilder.group({
@@ -537,7 +553,7 @@ export class ViewOrderComponent {
                         }
                         this._changeDetectorRef.markForCheck()
                     })
-                    
+
                 }
             });
     }
@@ -559,6 +575,6 @@ export class ViewOrderComponent {
     editElement(element: any) {
         this._router.navigateByUrl('admin/sales/edit/' + element)
     }
- 
+
 
 }

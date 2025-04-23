@@ -1,6 +1,7 @@
 <div class="flex flex-col flex-auto min-w-0">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
@@ -8,17 +9,20 @@
                     {{ id ? ('sales.form.buysee' | transloco) : ('sales.form.buy' | transloco) }}
                 </h2>
                 <div class="flex justify-end mt-6 gap-2">
-                    <button class="px-6 py-2 rounded-lg text-white" mat-flat-button [color]="'primary'" (click)="updateStatus(this.itemData)" *ngIf="shouldHighlightRow(this.itemData)">
+                    <button class="px-6 py-2 rounded-lg text-white" mat-flat-button [color]="'primary'"
+                        (click)="updateStatus(this.itemData)" *ngIf="shouldHighlightRow(this.itemData)">
                         {{ 'sales.form.approve' | transloco }}
                     </button>
-                    <button class="px-6 py-2 rounded-lg text-white" mat-flat-button [color]="'primary'" (click)="updateStatus(this.itemData)" *ngIf="!shouldHighlightRow(this.itemData)">
-                       อัพเดทสถานะ
+                    <button class="px-6 py-2 rounded-lg text-white" mat-flat-button [color]="'primary'"
+                        (click)="updateStatus(this.itemData)" *ngIf="!shouldHighlightRow(this.itemData)">
+                        อัพเดทสถานะ
                     </button>
-                    <button class="px-6 py-2 rounded-lg text-white" mat-flat-button [color]="'accent'" (click)="editElement(this.itemData?.id)">
+                    <button class="px-6 py-2 rounded-lg text-white" mat-flat-button [color]="'accent'"
+                        (click)="editElement(this.itemData?.id)">
                         {{ 'sales.form.edit' | transloco }}
                     </button>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -36,7 +40,8 @@
                 </div>
                 <div class="col-span-2 text-lg font-semibold">
                     <span class="text-gray-700 font-semibold">{{ 'sales.form.status' | transloco }}: </span>
-                    <span class="text-gray-900 bg-slate-100 px-2 py-1 rounded-lg">{{ getStatusName(this.itemData?.status) }}</span>
+                    <span class="text-gray-900 bg-slate-100 px-2 py-1 rounded-lg">{{
+                        getStatusName(this.itemData?.status) }}</span>
                 </div>
                 <div>
                     <span class="text-gray-700 font-semibold">{{ 'sales.form.date' | transloco }}: </span>
@@ -59,8 +64,55 @@
                     <span class="text-gray-900">{{ this.itemData?.client_address ?? '-' }}</span>
                 </div>
             </div>
+            <div class="bg-green-50 my-5 rounded-md">
+                <div class="p-5 space-y-3">
+                    <div class="text-xl font-bold tracking-tight text-green-700">
+                        {{ 'โปรโมชั่น' | transloco }}
+                    </div>
+            
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2 text-sm text-gray-700">
+                        <div>
+                            <span class="font-semibold">รหัสโปรโมชัน:</span>
+                            {{ promotion?.code }}
+                        </div>
+            
+                        <div>
+                            <span class="font-semibold">ประเภท:</span>
+                            {{ promotion?.type === 'free' ? 'แถมฟรี' : 'ลดราคา' }}
+                        </div>
+            
+                        <div>
+                            <span class="font-semibold">สถานะ:</span>
+                            {{ promotion?.status }}
+                        </div>
+            
+                        <div>
+                            <span class="font-semibold">ซื้อขั้นต่ำ:</span>
+                            {{ promotion?.min_qty_buy }} ชิ้น
+                        </div>
+            
+                        <div>
+                            <span class="font-semibold">สินค้าที่ซื้อ:</span>
+                            {{ promotion?.product?.name ?? '-' }}
+                        </div>
+            
+                        <div *ngIf="promotion.type === 'free'">
+                            <span class="font-semibold">สินค้าแถม:</span>
+                            {{ promotion?.product_free?.name ?? '-' }}
+                        </div>
+            
+                        <div class="sm:col-span-2 lg:col-span-3">
+                            <span class="font-semibold">ช่วงเวลา:</span>
+                            {{ promotion?.start_date | date:'dd/MM/yyyy' }} - 
+                            {{ promotion?.end_date | date:'dd/MM/yyyy' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
         </div>
-        
+
         <!-- รายการสินค้า -->
         <div class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4">
             <span class="text-xl font-bold tracking-tight text-gray-500">
@@ -78,24 +130,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of itemData?.order_lists || []" class="border-b">
+                        <tr *ngFor="let item of itemData?.order_lists || []" class="border-b"
+                            [ngClass]="{ 'bg-yellow-100 text-red-700 font-semibold': item.price === 0 }">
                             <td class="p-2">{{ item.product?.name ?? '-' }}</td>
                             <td class="p-2 text-right">{{ item.qty }}</td>
-                            <td class="p-2 text-right">{{ getUnitName(item.unit_id)}}</td>
-                            <td class="p-2 text-right">{{ (item.cost | number : '1.2') ?? 0 }}</td>
-                            <td class="p-2 text-right">{{ (item.price | number : '1.2') ?? 0  }}</td>
+                            <td class="p-2 text-right">{{ getUnitName(item.unit_id) }}</td>
+                            <td class="p-2 text-right">{{ (item.cost | number: '1.2') ?? 0 }}</td>
+                            <td class="p-2 text-right">{{ (item.price | number: '1.2') ?? 0 }}</td>
                         </tr>
+
                     </tbody>
                 </table>
             </div>
         </div>
-        
+
         <!-- Summary -->
         <div class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 flex justify-end md:w-full text-lg">
             <div class="grid grid-rows-3 gap-4 w-1/3">
                 <div class="flex flex-row justify-between">
                     <span class="text-gray-700 font-semibold">{{ 'sales.form.discount' | transloco }}:</span>
-                    <span class="text-gray-900">{{ (this.itemData?.discount| number : '1.2') ?? 0  }}</span>
+                    <span class="text-gray-900">{{ (this.itemData?.discount| number : '1.2') ?? 0 }}</span>
                 </div>
                 <div class="flex flex-row justify-between">
                     <span class="text-gray-700 font-semibold">{{ 'sales.form.vat' | transloco }}:</span>
@@ -107,14 +161,16 @@
                 </div>
                 <div class="flex flex-row justify-between">
                     <span class="text-gray-700 font-semibold">{{ 'sales.form.all' | transloco }}:</span>
-                    <span class="text-gray-900 font-bold text-xl">{{ (this.itemData?.total_price | number : '1.2') ?? 0 }}</span>
+                    <span class="text-gray-900 font-bold text-xl">{{ (this.itemData?.total_price | number : '1.2') ?? 0
+                        }}</span>
                 </div>
             </div>
         </div>
-        
+
         <!-- Actions -->
         <div class="flex justify-end mt-6">
-            <button class="px-6 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600" (click)="location.back()">
+            <button class="px-6 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600"
+                (click)="location.back()">
                 {{ 'sales.form.cancel' | transloco }}
             </button>
         </div>
