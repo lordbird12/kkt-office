@@ -169,12 +169,12 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
         const value = this._formBuilder.group({
             qty: '', //จำนวน
             unit_id: '', //หน่วยนับ
-            area_id: [''], //โรงเก็บ
-            shelve_id: [''], //ตู้เก็บของ
-            floor_id: [''],  //ช่องเก็บของ
-            channel_id: [''], //ชั้นเก็บของ
-            type: [''], //รูปแบบสินค้า
-            lot: [''], //เลขล็อต
+            // area_id: [''], //โรงเก็บ
+            // shelve_id: [''], //ตู้เก็บของ
+            // floor_id: [''],  //ช่องเก็บของ
+            // channel_id: [''], //ชั้นเก็บของ
+            // type: [''], //รูปแบบสินค้า
+            // lot: [''], //เลขล็อต
         });
 
         this.products.push(value);
@@ -451,8 +451,8 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             });
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
-                    let formValue  = this.formData.value
-                    formValue.panorama_images = this.images
+                    let formValue = this.formData.value
+                    // formValue.panorama_images = this.images
                     formValue.images = this.images
                     this._Service.Savedata(formValue).subscribe({
                         next: (resp: any) => {
@@ -492,7 +492,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             });
         }
         else if (this.langues == 'en') {
-            
+
             const confirmation = this._fuseConfirmationService.open({
                 title: 'Add data',
                 message: 'Do you want to add data ?',
@@ -516,7 +516,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             });
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
-                    let formValue  = this.formData.value
+                    let formValue = this.formData.value
                     formValue.panorama_images = this.images
                     formValue.images = this.images
                     this._Service.Savedata(formValue).subscribe({
@@ -584,7 +584,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             this.uploadFile(file);
         }
     }
-    url_env : string = environment.baseURL + '/'
+    url_env: string = environment.baseURL + '/'
     images: string[] = []; // เก็บ URL รูปภาพที่อัปโหลด
     async uploadFile(file: File) {
         const formData = new FormData();
@@ -593,9 +593,9 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             // ตัวอย่างการส่งไปยัง API (เปลี่ยน URL ตาม backend ของคุณ)
             const formData1 = new FormData();
             formData1.append('image', file);
-            formData1.append('path', 'asset/images/');
+            formData1.append('path', 'images/assets/');
             this._Service.uploadImg(formData1).subscribe((resp) => {
-              
+
                 this.images.push(resp); // อัปเดตรายการ images
                 console.log(this.images);
                 this._changeDetectorRef.markForCheck();
@@ -608,10 +608,10 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
 
     onRemoveImagePC(index: number) {
         if (index > -1) {
-          this.images.splice(index, 1); // ลบรูปออกจาก images[]
-          this.files.splice(index, 1);  // ลบไฟล์ออกจาก files[]
+            this.images.splice(index, 1); // ลบรูปออกจาก images[]
+            this.files.splice(index, 1);  // ลบไฟล์ออกจาก files[]
         }
-      }
+    }
 
 
 }

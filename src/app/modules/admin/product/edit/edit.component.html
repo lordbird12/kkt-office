@@ -293,7 +293,7 @@
                             <div class="border-t border-gray-200">
                                 <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                                     <div class=" flex flex-wrap justify-start">
-                                        <ngx-dropzone (change)="onSelects($event)"
+                                        <ngx-dropzone (change)="onSelect1($event)"
                                             class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                             <ngx-dropzone-label>{{'banjupan.form.image' | transloco
                                                 }}</ngx-dropzone-label>
@@ -337,7 +337,6 @@
                             <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="addRaw()">
                                 <!-- เพิ่ม -->
                                 {{ 'product.edit.add' | transloco }}
-
                             </button>
                         </div>
                     </div>

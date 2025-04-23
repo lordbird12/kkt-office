@@ -94,7 +94,6 @@ export class EditComponent implements OnInit {
     Unit: any = [];
     Lines: any[] = [];
     images: any[] = [];
-    url_env: string = environment.baseURL
     /**
      * Constructor
      */
@@ -212,17 +211,24 @@ export class EditComponent implements OnInit {
                         })
                     );
                     this.SubCategoryData = subResp.subcategory.data;
-                    this.images = this.item?.images
+                    // this.images = this.item?.images
+                    this.item?.images.forEach((img) => {
+                        const imageUrl = img.image;
+                        const parts = imageUrl.split('/images/');
+                        if (parts.length > 1) {
+                            this.images.push('images/' + parts[1]);
+                        }
+                    });
                     // Set main form
                     this.formData.patchValue({
                         ...this.item,
                         category_product_id: +this.item?.category_product_id,
                         sub_category_product_id: +this.item?.sub_category_product_id,
                         supplier_id: +this.item?.supplier_id,
-                        area_id: +this.item?.area?.id,
-                        shelve_id: +this.item?.shelve_id,
-                        floor_id: +this.item?.floor_id,
-                        channel_id: +this.item?.channel_id,
+                        // area_id: +this.item?.area?.id,
+                        // shelve_id: +this.item?.shelve_id,
+                        // floor_id: +this.item?.floor_id,
+                        // channel_id: +this.item?.channel_id,
                         stock_status: +this.item?.stock_status,
                         more_address: this.item?.more_address,
                     });
@@ -237,22 +243,33 @@ export class EditComponent implements OnInit {
                     this.formData.setControl('images', this._formBuilder.array(imageFormControls));
 
                     // Process product_units using for...of
-                    for (const  [i, element] of this.item.product_units.entries()) {
+                    for (const [i, element] of this.item.product_units.entries()) {
                         const item = {
                             value: element?.area_id ?? null,  // เพิ่มเช็คค่า null หรือ undefined
                             index: i                         // หากต้องการเพิ่ม index ไว้ใช้งาน
                         };
                         console.log(item, 'item');
-                        
+
                         this.onchange(item, i);
+                        this._Service.getFloor(+element?.shelve_id).subscribe((resp) => {
+                            this.itemFloor[i] = resp.data;
+                            console.log('itemfloor', this.itemFloor);
+                            this._Service
+                                .getChannel(+element?.shelve_id, +element?.floor_id)
+                                .subscribe((resp) => {
+                                    this.itemChannel[i] = resp.data;
+                                    console.log('itemchannel', this.itemChannel);
+                                });
+                        });
+
 
                         const a = this._formBuilder.group({
                             qty: element.qty,
                             unit_id: +element.unit_id,
-                            area_id: element?.area_id,
-                            shelve_id: element?.shelve_id,
-                            floor_id: element?.floor_id,
-                            channel_id: element?.channel_id,
+                            area_id: +element?.area_id,
+                            shelve_id: +element?.shelve_id,
+                            floor_id: +element?.floor_id,
+                            channel_id: +element?.channel_id,
                             type: element?.type,
                             lot: element?.lot,
                         });
@@ -318,7 +335,7 @@ export class EditComponent implements OnInit {
 
     onchange(event: any, i: number) {
         console.log(event.value);
-        
+
         const data = this.itemArea.find((item) => item.id === +event.value);
         this.itemShelve[i] = data.shelfs;
         console.log(this.itemShelve);
@@ -370,29 +387,36 @@ export class EditComponent implements OnInit {
                 console.log('itemchannel', this.itemChannel);
             });
     }
-    onSelects(event) {
-        console.log(event);
-        this.files.push(...event.addedFiles);
-        // Trigger Image Preview
-        setTimeout(() => {
-            this._changeDetectorRef.detectChanges();
-        }, 150);
+    filesPC: { [key: number]: File } = {}; // แยกไฟล์แต่ละแถว
 
-        this.uploadPic.patchValue({
-            image: this.files[0],
-        });
-        const formData = new FormData();
-        Object.entries(this.uploadPic.value).forEach(([key, value]: any[]) => {
-            formData.append(key, value);
-        });
-        this._Service.uploadImg(formData).subscribe((resp) => {
-            console.log(resp, 'img');
-            this.formData.patchValue({
-                images: resp,
-            });
-            console.log(this.formData.value);
-        });
+
+    onSelect1(event: any) {
+        for (let file of event.addedFiles) {
+            this.uploadFile(file);
+        }
     }
+    url_env: string = environment.baseURL + '/'
+    async uploadFile(file: File) {
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+            // ตัวอย่างการส่งไปยัง API (เปลี่ยน URL ตาม backend ของคุณ)
+            const formData1 = new FormData();
+            formData1.append('image', file);
+            formData1.append('path', 'images/assets/');
+            this._Service.uploadImg(formData1).subscribe((resp) => {
+
+                this.images.push(resp); // อัปเดตรายการ images
+                console.log(this.images);
+                this._changeDetectorRef.markForCheck();
+
+            })
+        } catch (error) {
+            console.error('Upload failed:', error);
+        }
+    }
+
+
 
     onRemove(event) {
         console.log('1', event);
@@ -457,7 +481,9 @@ export class EditComponent implements OnInit {
             });
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
-                    this._Service.Updatedata(this.formData.value, this.Id).subscribe({
+                    let formValue = this.formData.value
+                    formValue.images = this.images
+                    this._Service.Updatedata(formValue, this.Id).subscribe({
                         next: () => {
                             this._router
                                 .navigateByUrl('admin/product/list')

@@ -25,8 +25,11 @@
             <!-- MatTab สำหรับเลือกสถานะ -->
             <mat-tab-group [(selectedIndex)]="selectedStatusIndex" (selectedIndexChange)="onStatusChange($event)">
                 <mat-tab label="ทั้งหมด"></mat-tab>
-                <mat-tab *ngFor="let s of status; let i = index" [label]="s.name"></mat-tab>
-            </mat-tab-group>
+                <mat-tab *ngFor="let s of status; let i = index"
+                         [label]="s.name"
+                         [attr.data-status]="s.value">
+                </mat-tab>
+              </mat-tab-group>
         </div>
     
         <div class="flex flex-col flex-auto p-5 sm:overflow-y-auto">

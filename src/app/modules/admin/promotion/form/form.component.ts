@@ -64,6 +64,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 export class FormComponent implements OnInit {
     addForm: FormGroup;
     MenuList: any = [];
+    productData: any = [];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     fixedSubscriptInput: FormControl = new FormControl('', [
         Validators.required,
@@ -103,9 +104,14 @@ export class FormComponent implements OnInit {
         
         this.lang = translocoService.getActiveLang();
         this.langues = localStorage.getItem('lang');
+        this._Service.getProduct().subscribe((resp: any) => {
+            this.productData = resp.data
+        });
     }
     langues: any;
     lang: String;
+
+    
 
     ngOnInit(): void { }
 
@@ -121,7 +127,7 @@ export class FormComponent implements OnInit {
     }
 
     backTo() {
-        this._router.navigate(['admin/customer/list']);
+        this._router.navigate(['admin/promotion/list']);
     }
 
     onSubmit(): void {
@@ -154,7 +160,7 @@ export class FormComponent implements OnInit {
 
                     this._Service.create(formValue).subscribe({
                         next: (resp: any) => {
-                            this._router.navigate(['/admin/customer/list']);
+                            this._router.navigate(['/admin/promotion/list']);
                         },
                         error: (err: any) => {
                             this.addForm.enable();
@@ -212,7 +218,7 @@ export class FormComponent implements OnInit {
 
                     this._Service.create(formValue).subscribe({
                         next: (resp: any) => {
-                            this._router.navigate(['/admin/customer/list']);
+                            this._router.navigate(['/admin/promotion/list']);
                         },
                         error: (err: any) => {
                             this.addForm.enable();

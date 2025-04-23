@@ -79,6 +79,7 @@ export class EditComponent implements OnInit {
     ]);
     Id: any;
     itemData: any;
+    productData: any = [];
     /**
      * Constructor
      */
@@ -104,6 +105,9 @@ export class EditComponent implements OnInit {
         });
         this.lang = translocoService.getActiveLang();
         this.langues = localStorage.getItem('lang');
+        this._Service.getProduct().subscribe((resp: any) => {
+            this.productData = resp.data
+        });
     }
     langues: any;
     lang: String;

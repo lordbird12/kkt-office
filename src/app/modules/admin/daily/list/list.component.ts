@@ -21,9 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
-import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { PictureComponent } from '../../picture/picture.component';
@@ -68,7 +66,6 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _service: PageService,
         private _router: Router,
         private translocoService: TranslocoService
-
     ) {
         this.lang = translocoService.getActiveLang();
         this.langues = localStorage.getItem('lang');
@@ -83,21 +80,15 @@ export class ListComponent implements OnInit, AfterViewInit {
             this.languageUrl = 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/en-gb.json'; // Thai language URL
         }
         this.loadTable();
-        // this._service.getPosition().subscribe((resp: any) => {
-        //     this.positions = resp.data;
-        // });
     }
 
     ngAfterViewInit(): void {
         this._changeDetectorRef.detectChanges();
     }
 
-    // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
         this._router.navigateByUrl('admin/sales/edit/' + element)
     }
-
-
 
     hiddenEdit() {
         const getpermission = JSON.parse(localStorage.getItem('permission'));

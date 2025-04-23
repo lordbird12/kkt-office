@@ -1,0 +1,14 @@
+::ng-deep .mat-tab-label[data-status="Ordered"] {
+    background-color: #FEF3C7; /* bg-yellow-100 */
+    color: #92400E;           /* text-yellow-800 */
+  }
+  
+  ::ng-deep .mat-tab-label[data-status="Approve"] {
+    background-color: #D1FAE5; /* bg-green-100 */
+    color: #065F46;           /* text-green-800 */
+  }
+  
+  ::ng-deep .mat-tab-label[data-status="Recived"] {
+    background-color: #FECACA; /* bg-red-100 */
+    color: #7F1D1D;           /* text-red-800 */
+  }

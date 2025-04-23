@@ -32,7 +32,7 @@ export class PageService {
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient) { }
 
     httpOptionsFormdata = {
         headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
@@ -48,7 +48,17 @@ export class PageService {
 
     create(data: any): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/client', data)
+            .post<any>(environment.baseURL + '/api/promotion', data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
+    getProduct(): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_product')
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -58,7 +68,7 @@ export class PageService {
 
     update(data: any, id: any): Observable<any> {
         return this._httpClient
-            .put<any>(environment.baseURL + '/api/client/' + id, data)
+            .put<any>(environment.baseURL + '/api/promotion/' + id, data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -68,7 +78,7 @@ export class PageService {
 
     delete(id: any): Observable<any> {
         return this._httpClient.delete<any>(
-            environment.baseURL + '/api/client/' + id,
+            environment.baseURL + '/api/promotion/' + id,
             { headers: this.httpOptionsFormdata.headers }
         );
     }
@@ -82,6 +92,7 @@ export class PageService {
                 })
             );
     }
+
     getPermission(): Observable<any> {
         return this._httpClient
             .get<any>(environment.baseURL + '/api/get_permission')

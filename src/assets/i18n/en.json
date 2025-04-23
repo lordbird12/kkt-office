@@ -2,11 +2,11 @@
     "welcome-back": "Welcome back",
     "Project": "Project",
     "Analytics": "Analytics",
-    "dashboard":{
+    "dashboard": {
         "Homepage": "Homepage",
         "Welcome": "Welcome Admin",
         "noti": "You have 15 notifications.",
-        "Completed" : "Completed",
+        "Completed": "Completed",
         "PurchaseOrder": "Purchase Order",
         "Quotation": "Quotation",
         "BillSale": "Bill Sale",
@@ -21,17 +21,16 @@
         "Fromyesterday": "From yesterday",
         "Closedtoday": "Closed today",
         "Implemented": "Implemented",
-        "nvc":"New vs Closed",
+        "nvc": "New vs Closed",
         "NewIssues": "material",
         "Closed": "products",
         "Fixed": "packaging",
-        "noFix":"Won't Fix",
+        "noFix": "Won't Fix",
         "Reopened": "Re-opened",
         "NeedsTriage": "Needs Triage"
-      },
+    },
     "information": "Employee information",
-    "footer":"La-Ong-Herbal",
-
+    "footer": "La-Ong-Herbal",
     "banjupan": {
         "list": {
             "Packinglist": "Packing list",
@@ -73,8 +72,8 @@
             "selectShelf": "Select Shelf",
             "additionalBinDetails": "Additional Bin Details",
             "image": "Select Image",
-            "stock":"Manage product stock",
-            "subadd":"Add unit list",
+            "stock": "Manage product stock",
+            "subadd": "Add unit list",
             "nounit": "Quantity",
             "type_array": "Templete",
             "unit": "Unit",
@@ -85,8 +84,8 @@
             "selectsuppliers": "Select Suppliers"
         }
     },
-    "employee":{
-        "list":{
+    "employee": {
+        "list": {
             "employee": "Employee",
             "addemployee": "Add Employee",
             "manage": "Manage",
@@ -97,7 +96,6 @@
             "phone": "Phone Number",
             "createdBy": "Created By",
             "creationDate": "Creation Date"
-
         },
         "form": {
             "edit": "Edit employees",
@@ -129,7 +127,6 @@
             "cancel": "Cancel"
         }
     },
-
     "rights": {
         "list": {
             "rights": "Rights List",
@@ -141,7 +138,6 @@
             "creationDate": "Creation Date"
         }
     },
-
     "customer": {
         "list": {
             "title": "Customer List",
@@ -167,7 +163,6 @@
             "cancelButton": "Cancel"
         }
     },
-
     "supplier": {
         "list": {
             "title": "Supplier List",
@@ -200,7 +195,6 @@
             "cancelButton": "Cancel"
         }
     },
-
     "warehouse": {
         "list": {
             "title": "Warehouse List",
@@ -235,7 +229,7 @@
             "cancelButton": "Cancel",
             "overviewTab": "Overview",
             "listTab": "List View",
-            "store":"cabinet list",
+            "store": "cabinet list",
             "storelist": "Locker List",
             "addstore": "Add Locker",
             "no": "No.",
@@ -246,23 +240,22 @@
             "images": "Image",
             "sdate": "Created Date",
             "manage": "Manage",
-            "qtype":"Question group name",
-            "qname":"Question name",
+            "qtype": "Question group name",
+            "qname": "Question name",
             "aname": "Answer Name",
             "editstore": "Edit Locker",
             "namestore": "Edit Locker",
             "addfloor": "Add Floor",
             "nodata": "No Channel Data",
-            "namefloor":"Floor name",
-            "ok":"Confirm",
-            "cancel":"Cancel",
-            "new":"Add Chsnnel",
-            "nchannel":"Channel Name",
-            "editfloor":"Edit Floor",
-            "editchannel":"Edit Channel"
+            "namefloor": "Floor name",
+            "ok": "Confirm",
+            "cancel": "Cancel",
+            "new": "Add Chsnnel",
+            "nchannel": "Channel Name",
+            "editfloor": "Edit Floor",
+            "editchannel": "Edit Channel"
         }
     },
-
     "category": {
         "list": {
             "title": "Category List",
@@ -299,15 +292,14 @@
             "names": "Name",
             "creationDate": "Creation Date",
             "manage": "Manage",
-            "nodata":"No Data !",
-            "namecoede":"Name before code",
-            "editsubcategory":"Edit Subcategory",
-            "namesubcategory":"Name Subcategory",
-            "editsubcategorys":"Enter Prefix Code",
-            "namesubcategorys":"Enter SubCategory Name"
+            "nodata": "No Data !",
+            "namecoede": "Name before code",
+            "editsubcategory": "Edit Subcategory",
+            "namesubcategory": "Name Subcategory",
+            "editsubcategorys": "Enter Prefix Code",
+            "namesubcategorys": "Enter SubCategory Name"
         }
     },
-
     "product": {
         "list": {
             "title": "Product List",
@@ -324,16 +316,18 @@
             "image": "Image",
             "createdBy": "Created By",
             "creationDate": "Creation Date",
-            "noData": "No data available!"
+            "noData": "No data available!",
+            "category": "Category",
+            "sub_category": "Sub Category"
         },
-        "dialog":{
+        "dialog": {
             "code": "Ingredient Code",
             "name": "Ingredient Name",
             "no": "Quantity",
             "detail": "Details",
             "close": "Close"
         },
-        "edit":{
+        "edit": {
             "title": "Edit Product",
             "ok": "Save",
             "cancel": "Cancel",
@@ -345,7 +339,6 @@
             "delete": "Delete"
         }
     },
-
     "material": {
         "list": {
             "title": "Material List",
@@ -364,7 +357,6 @@
             "creationDate": "Creation Date"
         }
     },
-
     "unit": {
         "list": {
             "title": "Unit List",
@@ -374,11 +366,10 @@
             "code": "Code",
             "name": "Unit Name",
             "creationDate": "Creation Date",
-            "ok":"submit",
-            "cancel":"cancel"
+            "ok": "submit",
+            "cancel": "cancel"
         }
     },
-
     "order": {
         "list": {
             "title": "Order List",
@@ -400,7 +391,6 @@
             "status": "Status"
         }
     },
-
     "in-out": {
         "list": {
             "title": "Receive-Issue",
@@ -432,7 +422,6 @@
             "create_by": "Create By"
         }
     },
-
     "factories": {
         "list": {
             "title": "Production Orders List",
@@ -463,19 +452,18 @@
             "productNameLabel": "Material Name",
             "selectProductPlaceholder": "Select Product",
             "quantityLabel": "Quantity",
-            "number":"Quantity",
+            "number": "Quantity",
             "additionalDetailsLabel": "Additional Details",
-            "moredetails":"Fill in additional details",
+            "moredetails": "Fill in additional details",
             "selectProductLabel": "Select Product",
             "unitLabel": "Unit",
             "selectUnitOption": "Select Unit",
             "deleteButton": "Delete",
             "addButton": "Add Entry"
         }
-      },
-
-      "stock":{
-        "form":{
+    },
+    "stock": {
+        "form": {
             "inout": "In-Out",
             "ok": "Save",
             "cancel": "Cancel",
@@ -493,18 +481,17 @@
             "unit": "Unit",
             "delete": "Delete"
         }
-      },
-
-      "sales":{
-        "form":{
+    },
+    "sales": {
+        "form": {
             "buy": "Purchase Order",
-            "buysee":"Veiw Purchase Order",
-            "approve":"Approve",
-            "code":"Order No.",
-            "status":"Status",
-            "vat":"VAT",
-            "discount":"Discount",
-            "adjust_discount":"Discount Approve",
+            "buysee": "Veiw Purchase Order",
+            "approve": "Approve",
+            "code": "Order No.",
+            "status": "Status",
+            "vat": "VAT",
+            "discount": "Discount",
+            "adjust_discount": "Discount Approve",
             "cus": "Customer Information",
             "date": "Date",
             "name": "Customer Name",
@@ -523,14 +510,14 @@
             "cancel": "Cancel",
             "edit": "Edit",
             "address": "Address",
-             "product_list": "Product List"
+            "product_list": "Product List"
         },
-        "edit":{
+        "edit": {
             "add": "Add Unit",
             "unit": "Unit",
             "no": "Quantity",
             "lot": "Lot",
             "format": "Product Format"
         }
-      }
+    }
 }

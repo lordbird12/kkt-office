@@ -38,10 +38,8 @@
                         <th class="w-[10px]">{{ 'product.list.no' | transloco }}</th>
                         <th>{{ 'product.list.productName' | transloco }}</th>
                         <th>{{ 'product.list.quantity' | transloco }}</th>
-                        <th>{{ 'product.list.warehouse' | transloco }}</th>
-                        <th>{{ 'product.list.cabinet' | transloco }}</th>
-                        <th>{{ 'product.list.floor' | transloco }}</th>
-                        <th>{{ 'product.list.slot' | transloco }}</th>
+                        <th>{{ 'product.list.category' | transloco }}</th>
+                        <th>{{ 'product.list.sub_category' | transloco }}</th>
                         <th>{{ 'product.list.image' | transloco }}</th>
                         <th>{{ 'product.list.createdBy' | transloco }}</th>
                         <th>{{ 'product.list.creationDate' | transloco }}</th>
@@ -94,12 +92,9 @@
                             </div>
 
                         </td>
-                        <td>{{ item.area ? item.area.name : "-" }}</td>
-                        <td>{{ item.shelf ? item.shelf.name : "-" }}</td>
-                        <td>{{ item.floor ? item.floor.name : "-" }}</td>
-                        <td>{{ item.channel ? item.channel.name : "-" }} {{item.more_address ?
-                            "("+item.more_address+")":""}}
-                        </td>
+                        <td>{{ item.category_product ? item.category_product?.name : "-" }}</td>
+                        <td>{{ item.sub_category_product ? item.sub_category_product?.name : "-" }}</td>
+                  
                         <td>
                             <button mat-button (click)="showPicture(item.images[0].image)">
                                 <mat-icon>image</mat-icon>

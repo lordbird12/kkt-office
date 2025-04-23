@@ -93,6 +93,10 @@ export class UpdateDialogComponent implements OnInit {
             value: 'ToClient',
             name: 'ได้รับสินค้า'
         },
+        {
+            value: 'Cancel',
+            name: 'ยกเลิก'
+        },
     ]
 
     ngOnInit(): void {
@@ -102,7 +106,6 @@ export class UpdateDialogComponent implements OnInit {
             remark: '',
             adjust_discount: +this.data?.discount,
         });
-
     }
 
     onSaveClick(): void {

@@ -35,8 +35,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { UpdateDialogComponent } from '../update-status/update-dialog.component';
 
 @Component({
-    selector: 'employee-list',
+    selector: 'salse-list',
     templateUrl: './list.component.html',
+    styleUrls: ['./list.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
@@ -91,6 +92,10 @@ export class ListComponent implements OnInit, AfterViewInit {
         {
             value: 'ToClient',
             name: 'ได้รับสินค้า'
+        },
+        {
+            value: 'Cancel',
+            name: 'ยกเลิก'
         },
     ]
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
