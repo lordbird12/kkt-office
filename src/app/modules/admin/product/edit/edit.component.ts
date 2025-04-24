@@ -82,6 +82,7 @@ export class EditComponent implements OnInit {
 
     formData: FormGroup;
     formRaw: FormGroup;
+    formCom: FormGroup;
     CategoryData: [];
     SubCategoryData: any = [];
     warehouseData: any;
@@ -139,6 +140,10 @@ export class EditComponent implements OnInit {
         this.formRaw = this._formBuilder.group({
             product_id: id,
             raws: this._formBuilder.array([]),
+        });
+        this.formCom = this._formBuilder.group({
+            product_id: id,
+            commissions: this._formBuilder.array([]),
         });
         this._Service.getProduct().subscribe((resp: any) => {
             this.productData = resp.data.filter((item) => item.type === 'Raw');
@@ -307,6 +312,10 @@ export class EditComponent implements OnInit {
         return this.formRaw.get('raws') as FormArray;
     }
 
+    get commissions() {
+        return this.formCom.get('commissions') as FormArray;
+    }
+
     onRemoveImagePC(index: number) {
         if (index > -1) {
             this.images.splice(index, 1); // ลบจาก array ธรรมดา
@@ -329,6 +338,20 @@ export class EditComponent implements OnInit {
 
     removeArray(i: number): void {
         this.raws.removeAt(i);
+    }
+
+    addCommission() {
+        const a = this._formBuilder.group({
+            product_id: '', //ชื่อ unit
+            qty: '', //จำนวน
+            min: '', //ราคา
+            max: '', //ราคา
+        });
+        this.commissions.push(a);
+    }
+
+    removeCommission(i: number): void {
+        this.commissions.removeAt(i);
     }
     /**
      * After view init

@@ -331,12 +331,17 @@
     </form>
     <div class="flex-auto px-6 sm:p-10">
         <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
+            
             <div class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+                <span class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
+                    {{ 'เลือกรูป Panorama ' | transloco }}
+                </span>
                 <div class="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg text-center hover:bg-gray-100 cursor-pointer"
                     (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
                     [class.bg-blue-50]="isDragging" (click)="fileInput.click()">
                     <p class="text-gray-500">ลากรูปมาวางตรงนี้ หรือคลิกเพื่อเลือก</p>
-                    <input #fileInput type="file" accept="image/*" multiple hidden (change)="onFileChangePanorama($event)" />
+                    <input #fileInput type="file" accept="image/*" multiple hidden
+                        (change)="onFileChangePanorama($event)" />
                 </div>
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
@@ -420,5 +425,66 @@
             </div>
         </div>
     </form>
+    <form [formGroup]="formCom">
+        <div class="flex-auto px-6 sm:p-10">
+            <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
+                <div class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2"
+                    formArrayName="commissions">
+                    <div class="flex flex-row justify-between">
+                        <span
+                            class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
+                            <!-- ข้อมูลอะไหล่ -->
+                            {{ 'ตั้งค่าคอมมิชชั่น ' | transloco }}
+                        </span>
+                        <div
+                            class="flextext-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                            <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="addCommission()">
+                                <!-- เพิ่ม -->
+                                {{ 'product.edit.add' | transloco }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="-mx-3 md:flex mb-6" *ngFor="let item of commissions.controls; let i = index"
+                        [formGroupName]="i">
+                        <div class="md:w-1/4 px-3 mb-6 md:mb-0">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'จำนวนชั้นต่ำ' | transloco }}</mat-label>
+                                <input matInput [placeholder]="'จำนวนชั้นตำ่' | transloco" formControlName="minx">
+                            </mat-form-field>
+                        </div>
+                        <div class="md:w-1/4 px-3 mb-6 md:mb-0">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'จำนวนสูงสุด' | transloco }}</mat-label>
+                                <input matInput [placeholder]="'จำนวนชั้นตำ่' | transloco" formControlName="max">
+                            </mat-form-field>
+                        </div>
+                        <div class="md:w-1/4 px-3 mb-6 md:mb-0">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label>{{ 'ค่าคอม ฯ' | transloco }}</mat-label>
+                                <input matInput [placeholder]="'ค่าคอม ฯ' | transloco" formControlName="qty">
+                            </mat-form-field>
+                        </div>
+                        <div class="md:w-1/4 px-3 mb-6 md:mb-0 flex justify-end">
+                            <button class=" px-6 mt-7" mat-flat-button [color]="'warn'" (click)="removeCommission(i)">
+                                <!-- ลบ -->
+                                {{ 'product.edit.delete' | transloco }}
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="flex justify-end text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate mt-5">
+                        <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="RawSubmit()">
+                            <!-- บันทึก -->
+                            {{ 'product.edit.ok' | transloco }}
+                        </button>
+                        <button class="px-6 ml-3" mat-flat-button [color]="'warn'" (click)="Cancel()">
+                            <!-- ยกเลิก -->
+                            {{ 'product.edit.cancel' | transloco }}
+                        </button>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </form>
 </div>
