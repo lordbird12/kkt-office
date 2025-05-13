@@ -96,6 +96,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:home-modern',
                 link: '/admin/supplier/list',
             },
+             {
+                id: 'bank',
+                hidden: () => {
+                    const storedPermission = JSON.parse(
+                        localStorage.getItem('permission')
+                    );
+                    const menu = storedPermission?.find(
+                        (e) => e.menu_id === 10
+                    );
+                    if (menu?.view === 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                // title: 'ซัพพลายเออร์',
+                title: 'ธนาคาร',
+                type: 'basic',
+                icon: 'heroicons_outline:banknotes',
+                link: '/admin/bank/list',
+            },
         ],
     },
     {

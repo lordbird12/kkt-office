@@ -1,0 +1,117 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- Loader -->
+    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+    <!-- <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 flemin-w-0">
+
+        </div>
+    </div> -->
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="grid gap-4 w-full sm:grid-cols-1">
+
+            <form class="bg-card rounded-lg md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2" [formGroup]="form">
+                <div class="flex flex-row my-5 justify-between">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                        <!-- แก้ไขประเภทสินค้า -->
+                        {{'category.edit.title'| transloco}}
+                    </h2>
+                </div>
+                <div class="-mx-3 md:flex mb-5">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>{{'category.edit.name'| transloco}}</mat-label>
+                            <input matInput [placeholder]="'category.edit.description'| transloco" formControlName="prefix">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="-mx-3 md:flex mb-5">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>{{'category.edit.typename'| transloco}}</mat-label>
+                            <input matInput [placeholder]="'category.edit.enterDescription'| transloco" formControlName="name">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div class="flex justify-end mt-5">
+                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="update()">
+                        <!-- บันทึก -->
+                        {{'category.edit.saveButton'| transloco}}
+                    </button>
+                    <button class="px-6 ml-3" mat-flat-button [color]="'warn'" (click)="backTo()">
+                        <!-- ยกเลิก -->
+                        {{'category.edit.cancelButton'| transloco}}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-10 mb-10  bg-white">
+        <div class="flex flex-col flex-auto p-5 overflow-hidden sm:overflow-y-auto">
+            <div class="flex flex-row my-2 justify-between">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <!-- รายการหมวดหมู่ย่อย -->
+                    {{'category.edit.categoryList'| transloco}}
+                </h2>
+                <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="newSub(this.Id)">
+                        <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+                        &nbsp;
+                        <!-- เพิ่มหมวดหมู่ย่อย -->
+                        {{'category.edit.addCategoryButton'| transloco}}
+                    </button>
+                </div>
+            </div>
+            <table datatable [dtOptions]="dtOptions" class="table row-border hover">
+                <thead>
+                    <tr>
+                        <th>{{'category.edit.index'| transloco}}</th>
+                        <th>{{'category.edit.prefixCode'| transloco}}</th>
+                        <th>{{'category.edit.names'| transloco}}</th>
+                        <th>{{'category.edit.creationDate'| transloco}}</th>
+                        <th>{{'category.edit.manage'| transloco}}</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dataRow?.length != 0">
+                    <tr *ngFor="
+                            let item of dataRow;
+                            let i = index
+                        ">
+                        <td style="width: 5%">
+                            {{ pages.begin + (i + 1) }}
+                        </td>
+                        <td>{{ item.prefix }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>
+                            {{ item.created_at | date : "dd-MM-yyyy hh:mm a " }}
+                        </td>
+                        <td style="width: 15%">
+                            <button mat-button (click)="editSub(item)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-button (click)="deleteSub(item.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="dataRow?.length == 0">
+                    <tr>
+                        <td colspan="9" class="no-data-available text-center">
+                            <!-- ไม่มีข้อมูล ! -->
+                            {{'category.edit.nodata'| transloco}}
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
