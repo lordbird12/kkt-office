@@ -145,6 +145,8 @@
             "manage": "Manage",
             "no": "No.",
             "name": "Name",
+            "phone": "Phone",
+            "email": "Email",
             "createdBy": "Created By",
             "creationDate": "Creation Date"
         },
@@ -157,6 +159,8 @@
             "phonePlaceholder": "Enter contact number",
             "emailLabel": "Email",
             "emailPlaceholder": "Enter email",
+            "facebook": "Facebook",
+            "line": "Line",
             "addressLabel": "Address",
             "addressPlaceholder": "Enter customer address",
             "saveButton": "Save",

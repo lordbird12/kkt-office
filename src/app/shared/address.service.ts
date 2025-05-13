@@ -12,17 +12,18 @@ import {
 } from 'rxjs';
 import { environment } from 'environments/environment.development';
 import { DataTablesResponse } from 'app/shared/datatable.types';
+import { param } from 'jquery';
 const token = localStorage.getItem('accessToken') || null;
 
 @Injectable({ providedIn: 'root' })
-export class PageService {
+export class AddressService {
     // Private
     private _data: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient) { }
 
     httpOptionsFormdata = {
         headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
@@ -36,36 +37,40 @@ export class PageService {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    create(data: any): Observable<any> {
+
+    getProvince(): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/client', data)
+            .get<any>('https://docdelivery.dev-asha.com:8443/api/provinces')
             .pipe(
                 tap((result) => {
                     this._data.next(result);
                 })
             );
     }
-
-    update(data: any, id: any): Observable<any> {
+    getDistricts(provinceCode: any): Observable<any> {
         return this._httpClient
-            .put<any>(environment.baseURL + '/api/client/' + id, data)
+            .get<any>('https://docdelivery.dev-asha.com:8443/api/districts',
+                {
+                    params: {
+                        province_code: provinceCode
+                    }
+                }
+            )
             .pipe(
                 tap((result) => {
                     this._data.next(result);
                 })
             );
     }
-
-    delete(id: any): Observable<any> {
-        return this._httpClient.delete<any>(
-            environment.baseURL + '/api/client/' + id,
-            { headers: this.httpOptionsFormdata.headers }
-        );
-    }
-
-    getPosition(): Observable<any> {
+    getSubDistricts(districtCode: any): Observable<any> {
         return this._httpClient
-            .get<any>(environment.baseURL + '/api/positions')
+            .get<any>('https://docdelivery.dev-asha.com:8443/api/sub_districts',
+                {
+                    params: {
+                        district_code: districtCode
+                    }
+                }
+            )
             .pipe(
                 tap((result) => {
                     this._data.next(result);

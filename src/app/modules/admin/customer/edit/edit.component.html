@@ -7,7 +7,7 @@
             <div class="flex flex-row mt-2 justify-between">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     <!-- แก้ไขข้อมูลลูกค้า -->
-                    {{ 'customer.form.title' | transloco }}
+                    แก้ไขข้อมูลลูกค้า
                 </h2>
             </div>
         </div>
@@ -16,7 +16,8 @@
     <!-- Main -->
     <div class="flex-auto p-6 sm:p-10">
         <div class="grid gap-4 w-full sm:grid-cols-1">
-            <form class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2" [formGroup]="editForm">
+            <form class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2"
+                [formGroup]="editForm">
                 <span
                     class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
                     <!-- ข้อมูลลูกค้า -->
@@ -75,7 +76,8 @@
                     <div class="md:min-w-full px-3 mb-6 md:mb-0">
                         <mat-form-field class="w-full">
                             <mat-label>{{ 'customer.form.addressLabel' | transloco }}</mat-label>
-                            <textarea matInput [placeholder]="'กรอกข้อมูลที่อยู่'" [rows]="3" formControlName="address"></textarea>
+                            <textarea matInput [placeholder]="'กรอกข้อมูลที่อยู่'" [rows]="3"
+                                formControlName="address"></textarea>
                             <mat-icon class="icon-size-5" matPrefix>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                     aria-hidden="true" fit="" height="100%" width="100%"

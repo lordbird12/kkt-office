@@ -153,6 +153,8 @@
             "manage": "จัดการ",
             "no": "ลำดับ",
             "name": "ชื่อ",
+            "phone": "เบอร์ติดต่อ",
+            "email": "อีเมล",
             "createdBy": "สร้างโดย",
             "creationDate": "วันที่สร้าง"
         },
@@ -166,6 +168,8 @@
             "emailLabel": "อีเมล",
             "emailPlaceholder": "กรอกอีเมล",
             "addressLabel": "ที่อยู่",
+            "facebook": "Facebook",
+            "line": "Line",
             "addressPlaceholder": "กรอกที่อยู่ลูกค้า",
             "saveButton": "บันทึก",
             "cancelButton": "ยกเลิก"
