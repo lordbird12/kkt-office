@@ -33,10 +33,9 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { AddressService } from 'app/shared/address.service';
 import { AutocompleteDropdownComponent } from 'app/shared/autocomplete-dropdown/autocomplete-dropdown.component';
-import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @Component({
-    selector: 'form-employee',
+    selector: 'form-transport',
     templateUrl: './form.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
@@ -60,8 +59,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
         DataTablesModule,
         MatCheckboxModule,
         TranslocoModule,
-        AutocompleteDropdownComponent,
-        NgxDropzoneModule
+        AutocompleteDropdownComponent
     ],
 })
 export class FormComponent implements OnInit {
@@ -75,20 +73,6 @@ export class FormComponent implements OnInit {
     provinces: any[] = [ /* ดึงจาก API หรือข้อมูลส่วนกลาง */];
     districtControl = new FormControl(null);
     subdistrictControl = new FormControl(null);
-    transportData: any[] = [
-        {
-            id: 1,
-            name: 'รถบรรทุก',
-        },
-        {
-            id: 2,
-            name: 'รถตู้',
-        },
-        {
-            id: 3,
-            name: 'รถกระบะ',
-        }
-    ]
     /**
      * Constructor
      */
@@ -126,7 +110,6 @@ export class FormComponent implements OnInit {
     }
     langues: any;
     lang: String;
-    url: String;
 
     ngOnInit(): void { }
 
@@ -362,7 +345,7 @@ export class FormComponent implements OnInit {
         this._addressService.getDistricts(provinceId).subscribe((resp: any) => {
             this.districts = resp.data;
             console.log(this.districts);
-
+            
         })
     }
 
@@ -370,27 +353,5 @@ export class FormComponent implements OnInit {
         this._addressService.getSubDistricts(districtId).subscribe((resp: any) => {
             this.subdistricts = resp.data;
         })
-    }
-
-    files: File[] = [];
-    url_logo: string;
-    onSelect(event: { addedFiles: File[] }): void {
-        this.files.push(...event.addedFiles);
-
-        var reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.onload = (e: any) =>
-            this.url_logo = e.target.result;
-        const file = this.files[0];
-        this.addForm.patchValue({
-            image: file
-        });
-    }
-
-    onRemove(file: File): void {
-        const index = this.files.indexOf(file);
-        if (index >= 0) {
-            this.files.splice(index, 1);
-        }
     }
 }

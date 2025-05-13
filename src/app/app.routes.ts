@@ -265,10 +265,15 @@ export const appRoutes: Route[] = [
                         loadChildren: () =>
                             import('app/modules/admin/promotion/page.routes'),
                     },
-                      {
+                    {
                         path: 'bank',
                         loadChildren: () =>
                             import('app/modules/admin/bank/page.routes'),
+                    },
+                    {
+                        path: 'transport',
+                        loadChildren: () =>
+                            import('app/modules/admin/transport/page.routes'),
                     },
                 ],
             },

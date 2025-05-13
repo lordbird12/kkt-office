@@ -248,10 +248,6 @@ export class FormDialogComponent implements OnInit {
     onSelect(event: { addedFiles: File[] }): void {
         this.files.push(...event.addedFiles);
 
-        // this.addForm.patchValue({
-        //     image: this.files[0]
-        // })
-
         var reader = new FileReader();
         reader.readAsDataURL(this.files[0]);
         reader.onload = (e: any) =>

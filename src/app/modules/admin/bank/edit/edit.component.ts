@@ -26,7 +26,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { FormDialogComponent } from '../form-dialog-sub/form-dialog.component';
 import { PageService } from '../page.service';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -36,7 +35,6 @@ import { PictureComponent } from '../picture/picture.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { environment } from 'environments/environment.development';
-import { EditDialogComponent } from '../edit-dialog-sub/edit-dialog.component';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 @Component({
@@ -138,28 +136,7 @@ export class EditComponent implements OnInit, AfterViewInit {
 
         this._router.navigate(['admin/warehouse/edit/shelf/' + element]);
     }
-    addElement() {
-        const dialogRef = this.dialog.open(FormDialogComponent, {
-            width: '500px', // กำหนดความกว้างของ Dialog
-        });
 
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                //    console.log(result,'result')
-            }
-        });
-    }
-    addShelf() {
-        const dialogRef = this.dialog.open(FormDialogComponent, {
-            width: '500px', // กำหนดความกว้างของ Dialog
-        });
-
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                //    console.log(result,'result')
-            }
-        });
-    }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
     loadTable(): void {
@@ -383,37 +360,7 @@ export class EditComponent implements OnInit, AfterViewInit {
             dtInstance.ajax.reload();
         });
     }
-    newSub(data: any): void {
-        this.dialog
-            .open(FormDialogComponent, {
-                width: '350px',
-                autoFocus: false,
-                data: {
-                    data,
-                },
-            })
-            .afterClosed()
-            .subscribe(() => {
-                this.rerender();
-                this._changeDetectorRef.detectChanges();
-            });
-    }
 
-    editSub(data: any): void {
-        this.dialog
-            .open(EditDialogComponent, {
-                width: '350px',
-                autoFocus: false,
-                data: {
-                    data,
-                },
-            })
-            .afterClosed()
-            .subscribe(() => {
-                this.rerender();
-                this._changeDetectorRef.detectChanges();
-            });
-    }
 
     deleteSub(element: any) {
         if(this.langues=='tr'){

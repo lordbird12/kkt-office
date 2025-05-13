@@ -35,7 +35,6 @@
                     <div class="-mx-3 md:flex mb-6">
 
                         <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-
                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                 <mat-label>{{ 'banjupan.form.category' | transloco }}</mat-label>
                                 <mat-select [formControlName]="'category_product_id'" (selectionChange)="somethingChanged($event)">
@@ -53,7 +52,7 @@
                                 <mat-label>{{ 'banjupan.form.subcategory' | transloco }}</mat-label>
                                 <mat-select [formControlName]="'sub_category_product_id'">
                                     <mat-option [value]="''">
-                                        <span>{{'banjupan.form.selectproduct' | transloco }}</span>
+                                        <span>บริษัทขนส่ง</span>
                                     </mat-option>
                                     <mat-option *ngFor="let item of SubCategoryData" [value]="item.id">
                                         {{item.name}}
