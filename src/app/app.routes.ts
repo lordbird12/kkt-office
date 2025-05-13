@@ -275,6 +275,11 @@ export const appRoutes: Route[] = [
                         loadChildren: () =>
                             import('app/modules/admin/transport/page.routes'),
                     },
+                    {
+                        path: 'report-stock',
+                        loadChildren: () =>
+                            import('app/modules/admin/report-stock/page.routes'),
+                    },
                 ],
             },
         ],
