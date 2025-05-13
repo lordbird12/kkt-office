@@ -291,6 +291,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:clipboard-document-check',
                 link: '/admin/report/list',
             },
+               {
+                id: 'products.report-stock-out',
+                // title: 'รับเข้า-เบิกออก',
+                title: 'รายงานเบิกออกสินค้า' ,
+                hidden: () => {
+                    const storedPermission = JSON.parse(
+                        localStorage.getItem('permission')
+                    );
+                    const menu = storedPermission?.find(
+                        (e) => e.menu_id === 11
+                    );
+                    if (menu?.view === 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                type: 'basic',
+                icon: 'heroicons_outline:clipboard-document-check',
+                link: '/admin/report-stock/list',
+            },
         ],
     },
     {

@@ -26,7 +26,8 @@ import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 @Component({
     selector: 'list-report-stock',
     templateUrl: './list.component.html',
@@ -64,36 +65,36 @@ export class ListComponent implements OnInit, AfterViewInit {
         product_summary: [
             {
                 product_id: 'P001',
-                product_name: 'ถุงมือยางทางการแพทย์',
-                sku: 'GL-MED-01',
+                product_name: 'เตา JMOS-T รุ่น F4888',
+                sku: 'F4888',
                 total_quantity: 150,
-                unit: 'คู่',
+                unit: 'ชิ้น',
                 orders: [
-                    { order_id: 'ORD1001', quantity: 30 },
-                    { order_id: 'ORD1002', quantity: 50 },
-                    { order_id: 'ORD1005', quantity: 70 }
+                    { order_id: '#OR-00311', quantity: 30 },
+                    { order_id: '#OR-00311', quantity: 50 },
+                    { order_id: '#OR-00308', quantity: 70 }
                 ]
             },
             {
                 product_id: 'P002',
-                product_name: 'แอลกอฮอล์เจล 500ml',
-                sku: 'ALC500',
+                product_name: 'เตา JMOS รุ่น F4574',
+                sku: 'F4574',
                 total_quantity: 75,
-                unit: 'ขวด',
+                unit: 'ชิ้น',
                 orders: [
-                    { order_id: 'ORD1003', quantity: 25 },
-                    { order_id: 'ORD1006', quantity: 50 }
+                    { order_id: '#OR-00311', quantity: 25 },
+                    { order_id: '#OR-00309', quantity: 50 }
                 ]
             },
             {
                 product_id: 'P003',
-                product_name: 'หน้ากากอนามัย 3 ชั้น',
-                sku: 'MASK-3PLY',
+                product_name: 'เตา JMOS-T รุ่น JK922',
+                sku: 'JK922',
                 total_quantity: 200,
                 unit: 'ชิ้น',
                 orders: [
-                    { order_id: 'ORD1001', quantity: 100 },
-                    { order_id: 'ORD1004', quantity: 100 }
+                    { order_id: '#OR-00311', quantity: 100 },
+                    { order_id: '#OR-00309', quantity: 100 }
                 ]
             }
         ]
@@ -299,4 +300,50 @@ export class ListComponent implements OnInit, AfterViewInit {
     editElement(element: any) {
         this._router.navigate(['admin/transport/edit/' + element]);
     }
+
+    printPickList(): void {
+        const doc = new jsPDF();
+
+        // Title
+        doc.setFontSize(16);
+        doc.text('ใบจัดสินค้า (Pick List)', 14, 20);
+        doc.setFontSize(12);
+        doc.text(`วันที่: ${this.pickList.date}`, 14, 28);
+        doc.text(`รวมออเดอร์: ${this.pickList.total_orders} รายการ`, 14, 34);
+
+        // Prepare data for table
+        const tableBody: any[] = [];
+
+        this.pickList.product_summary.forEach((product, index) => {
+            const orderDetails = product.orders.map(o => `${o.order_id}: ${o.quantity} ${product.unit}`).join(', ');
+            tableBody.push([
+                index + 1,
+                product.product_name,
+                product.sku,
+                product.total_quantity,
+                product.unit,
+                orderDetails
+            ]);
+        });
+
+        // Create table
+        autoTable(doc, {
+            startY: 40,
+            head: [['#', 'ชื่อสินค้า', 'รหัสสินค้า', 'จำนวนรวม', 'หน่วย', 'ออเดอร์ที่เกี่ยวข้อง']],
+            body: tableBody,
+            styles: {
+                font: 'THSarabun', // หากต้องการภาษาไทย ต้องโหลดฟอนต์เข้า
+                fontSize: 11
+            },
+            headStyles: {
+                fillColor: [41, 128, 185],
+                textColor: [255, 255, 255]
+            },
+            margin: { left: 14, right: 14 }
+        });
+
+        // Save PDF
+        doc.save(`PickList-${this.pickList.date}.pdf`);
+    }
+
 }

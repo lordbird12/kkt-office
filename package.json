@@ -35,6 +35,8 @@
     "datatables.net-dt": "^1.11.3",
     "highlight.js": "11.8.0",
     "jquery": "^3.6.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "jszip": "^3.10.1",
     "lodash-es": "4.17.21",
     "luxon": "3.3.0",
