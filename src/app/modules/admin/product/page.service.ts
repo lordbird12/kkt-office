@@ -115,6 +115,20 @@ export class Service {
             );
     }
 
+    uploadFile(file: FormData): Observable<any> {
+        return this._httpClient
+            .post(
+                environment.baseURL + '/api/upload_file',
+                file,
+                this.httpOptionsFormdata
+            )
+            .pipe(
+                switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
+
     uploadImport(img: FormData, path: string): Observable<any> {
         return this._httpClient
             .post(

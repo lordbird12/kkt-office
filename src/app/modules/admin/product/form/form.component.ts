@@ -138,6 +138,9 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             cost: [0],
             type: [''],
             images: [],
+            video_url: '',
+            pdf_file: '',
+            pdf_file_name: '',
             panorama_images: [],
             area_id: [''], //โรงเก็บ
             shelve_id: [''], //ตู้เก็บของ
@@ -453,6 +456,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (result === 'confirmed') {
                     let formValue = this.formData.value
                     // formValue.panorama_images = this.images
+                    formValue.pdf_file = this.pdf_files
                     formValue.images = this.images
                     this._Service.Savedata(formValue).subscribe({
                         next: (resp: any) => {
@@ -579,32 +583,91 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
     filesPC: { [key: number]: File } = {}; // แยกไฟล์แต่ละแถว
 
 
+    pdf_files: string[] = [];
+    images: string[] = [];
+
     onSelect1(event: any) {
         for (let file of event.addedFiles) {
             this.uploadFile(file);
         }
     }
-    url_env: string = environment.baseURL + '/'
-    images: string[] = []; // เก็บ URL รูปภาพที่อัปโหลด
+
+    url_env: string = environment.baseURL + '/';
+
     async uploadFile(file: File) {
         const formData = new FormData();
         formData.append('file', file);
+
         try {
-            // ตัวอย่างการส่งไปยัง API (เปลี่ยน URL ตาม backend ของคุณ)
             const formData1 = new FormData();
             formData1.append('image', file);
             formData1.append('path', 'images/assets/');
+
             this._Service.uploadImg(formData1).subscribe((resp) => {
+                // ตรวจสอบ MIME type
+                if (file.type === 'application/pdf') {
+                    this.pdf_files.push(resp);
+                    console.log(this.pdf_files);
+                    
+                } else if (file.type.startsWith('image/')) {
+                    this.images.push(resp);
+                } else {
+                    console.warn('ไม่รองรับไฟล์ประเภทนี้:', file.type);
+                }
 
-                this.images.push(resp); // อัปเดตรายการ images
-                console.log(this.images);
+                console.log('Images:', this.images);
+                console.log('PDFs:', this.pdf_files);
                 this._changeDetectorRef.markForCheck();
+            });
 
-            })
         } catch (error) {
             console.error('Upload failed:', error);
         }
     }
+
+
+    filesPDF: File[] = [];
+
+    onSelectPDF(event: any) {
+        for (let file of event.addedFiles) {
+            this.filesPDF.push(...event.addedFiles);
+            this.uploadFilePdf(file);
+        }
+    }
+
+
+
+    async uploadFilePdf(file: File) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const formData1 = new FormData();
+            formData1.append('file', file);
+            formData1.append('path', 'file/assets/');
+
+            this._Service.uploadFile(formData1).subscribe((resp) => {
+                // ตรวจสอบ MIME type
+                if (file.type === 'application/pdf') {
+                    this.pdf_files.push(resp);
+                    console.log(this.pdf_files);
+                    
+                } else if (file.type.startsWith('image/')) {
+                    this.images.push(resp);
+                } else {
+                    console.warn('ไม่รองรับไฟล์ประเภทนี้:', file.type);
+                }
+
+                console.log('Images:', this.images);
+                console.log('PDFs:', this.pdf_files);
+                this._changeDetectorRef.markForCheck();
+            });
+
+        } catch (error) {
+            console.error('Upload failed:', error);
+        }
+    }
+
 
     onRemoveImagePC(index: number) {
         if (index > -1) {
@@ -612,6 +675,33 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             this.files.splice(index, 1);  // ลบไฟล์ออกจาก files[]
         }
     }
+    onRemovePDF(index: number) {
+        if (index > -1) {
+            this.filesPDF.splice(index, 1);  // ลบไฟล์ออกจาก files[]
+        }
+    }
+
+    selectedFileName: string | null = null;
+
+    async onFileSelected(fileList: FileList | null): Promise<void> {
+        if (fileList && fileList.length > 0) {
+            const file = fileList[0];
+            this.selectedFileName = file.name;
+            this.formData.get('pdf_file_name')?.setValue(file.name); // อัปเดตชื่อไฟล์ลง form control
+            const formData1 = new FormData();
+            formData1.append('file', file);
+            formData1.append('path', 'file/assets/');
+            this._Service.uploadFile(formData1).subscribe((resp: any) => {
+                const filePath = resp.path; // หรือ resp.data.path ถ้าอยู่ใน data
+                console.log('Uploaded file path:', filePath);
+                this.formData.patchValue({
+                    pdf_file: filePath
+                })
+            });
+        }
+    }
+
+
 
 
 }
