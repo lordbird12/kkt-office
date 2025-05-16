@@ -33,6 +33,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { environment } from 'environments/environment.development';
 import { MatDividerModule } from '@angular/material/divider';
 import { UpdateDialogComponent } from '../update-status/update-dialog.component';
+import { DialogBillsForm } from '../dialog-bills/dialog.component';
 
 @Component({
     selector: 'salse-list',
@@ -104,7 +105,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
         private _router: Router,
-        private translocoService: TranslocoService
+        private translocoService: TranslocoService,
+        private _serviceProduct: PageService
 
     ) {
         this.lang = translocoService.getActiveLang();
@@ -270,4 +272,22 @@ export class ListComponent implements OnInit, AfterViewInit {
                 }
             });
     }
+
+     openDialogBills(imgObject: any): void {
+            this.dialog
+                .open(DialogBillsForm, {
+                    width: '600px',
+                    height: 'auto',
+    
+                    autoFocus: false,
+                    data: {
+                        type: 'Product'
+                    },
+                })
+                .afterClosed()
+                .subscribe(() => {
+                    // Go up twice because card routes are setup like this; "card/CARD_ID"
+                    // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
+                });
+        }
 }

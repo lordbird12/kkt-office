@@ -10,6 +10,10 @@
                     {{ 'order.list.title' | transloco }}
                 </h2>
                 <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <button class="px-6 ml-3" mat-flat-button color="primary" *ngIf="!hiddenSave()" (click)="openDialogBills()">
+                        <mat-icon svgIcon="heroicons_outline:cloud-arrow-down"></mat-icon>
+                        &nbsp;{{ 'ใบคุมบิล' | transloco }}
+                    </button>
                     <button class="px-6 ml-3" mat-flat-button color="primary" *ngIf="!hiddenSave()" (click)="addElement()">
                         <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
                         &nbsp;{{ 'order.list.addOrder' | transloco }}

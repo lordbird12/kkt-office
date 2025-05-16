@@ -75,6 +75,16 @@ export class PageService {
             );
     }
 
+    downloadBills(data: any): Observable<any> {
+        return this._httpClient
+            .put<any>(environment.baseURL + '/api/bill_lists', data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
     delete(id: any): Observable<any> {
         return this._httpClient.delete<any>(
             environment.baseURL + '/api/employees/' + id,
