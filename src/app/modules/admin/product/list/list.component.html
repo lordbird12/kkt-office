@@ -46,6 +46,8 @@
                         <th>{{ 'product.list.category' | transloco }}</th>
                         <th>{{ 'product.list.sub_category' | transloco }}</th>
                         <th>{{ 'product.list.image' | transloco }}</th>
+                        <th>PDF</th>
+                        <th>VDO URL</th>
                         <th>{{ 'product.list.createdBy' | transloco }}</th>
                         <th>{{ 'product.list.creationDate' | transloco }}</th>
                     </tr>
@@ -99,12 +101,28 @@
                         </td>
                         <td>{{ item.category_product ? item.category_product?.name : "-" }}</td>
                         <td>{{ item.sub_category_product ? item.sub_category_product?.name : "-" }}</td>
-                  
                         <td>
-                            <button mat-button (click)="showPicture(item.images[0].image)">
-                                <mat-icon>image</mat-icon>
+                            <button mat-button 
+                                    (click)="showPicture(item.images[0]?.image)" 
+                                    [disabled]="!item.images?.[0]?.image">
+                              <mat-icon>image</mat-icon>
                             </button>
-                        </td>
+                          </td>
+                          <td>
+                            <button mat-button 
+                                    (click)="openPdfInNewTab(item.pdf_file)" 
+                                    [disabled]="!item.pdf_file">
+                              <mat-icon class="mr-2">download</mat-icon>
+                            </button>
+                          </td>
+                          <td>
+                            <button mat-button 
+                                    (click)="openVideo(item.video_url)" 
+                                    [disabled]="!item.video_url">
+                              <mat-icon svgIcon="heroicons_solid:video-camera"></mat-icon>
+                            </button>
+                          </td>
+                          
                         <td>{{ item.create_by ? item.create_by : "admin" }}</td>
                         <td>{{ item.created_at !== null ? item.created_at: "-"}}</td>
                     </tr>

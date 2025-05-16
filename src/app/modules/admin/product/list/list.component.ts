@@ -33,6 +33,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatMenuModule } from '@angular/material/menu';
 import { DialogImportForm } from '../dialog-import/dialog.component';
+import { environment } from 'environments/environment.development';
 
 @Component({
     selector: 'employee-list',
@@ -297,5 +298,34 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 // Go up twice because card routes are setup like this; "card/CARD_ID"
                 // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
             });
+    }
+
+    convertFile(data: any) {
+
+
+        return environment.baseURL + '/' + data
+    }
+
+    openPdfInNewTab(data: any): void {
+        const filePath = data
+        if (filePath) {
+            const url = data
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank';
+            link.download = ''; // หรือใส่ชื่อไฟล์ 'myfile.pdf' ก็ได้
+            link.click();
+        }
+    }
+    openVideo(data: any): void {
+        const filePath = data
+        if (filePath) {
+            const url = data
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank';
+            link.download = ''; // หรือใส่ชื่อไฟล์ 'myfile.pdf' ก็ได้
+            link.click();
+        }
     }
 }
