@@ -456,7 +456,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (result === 'confirmed') {
                     let formValue = this.formData.value
                     // formValue.panorama_images = this.images
-                    formValue.pdf_file = this.pdf_files
+                   
                     formValue.images = this.images
                     this._Service.Savedata(formValue).subscribe({
                         next: (resp: any) => {
@@ -690,7 +690,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             this.formData.get('pdf_file_name')?.setValue(file.name); // อัปเดตชื่อไฟล์ลง form control
             const formData1 = new FormData();
             formData1.append('file', file);
-            formData1.append('path', 'file/');
+            formData1.append('path', 'files/');
             this._Service.uploadFile(formData1).subscribe((resp: any) => {
                 const filePath = resp.path; // หรือ resp.data.path ถ้าอยู่ใน data
                 console.log('Uploaded file path:', filePath);

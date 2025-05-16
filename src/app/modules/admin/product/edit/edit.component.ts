@@ -834,10 +834,9 @@ export class EditComponent implements OnInit {
             this.formData.get('pdf_file_name')?.setValue(file.name); // อัปเดตชื่อไฟล์ลง form control
             const formData1 = new FormData();
             formData1.append('file', file);
-            formData1.append('path', 'file/');
+            formData1.append('path', 'files/');
             this._Service.uploadFile(formData1).subscribe((resp: any) => {
                 const filePath = resp.path; // หรือ resp.data.path ถ้าอยู่ใน data
-                console.log('Uploaded file path:', filePath);
                 this.formData.patchValue({
                     pdf_file: filePath
                 })
