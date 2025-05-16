@@ -294,6 +294,48 @@
                     </div>
                     <div class="-mx-3 md:flex mb-6">
                         <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                            <div
+                                class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>เลือกไฟล์ PDF</mat-label>
+                                    <!-- ปุ่มสำหรับเลือกไฟล์ -->
+                                    <button mat-icon-button matPrefix type="button" (click)="fileInput.click()">
+                                        <mat-icon>attach_file</mat-icon>
+                                    </button>
+                                    <!-- ช่องแสดงชื่อไฟล์ (readonly) -->
+                                    <input type="text" matInput readonly [formControlName]="'pdf_file_name'" />
+                                    <!-- ช่อง input แบบ file (ซ่อนอยู่) -->
+                                    <input type="file" hidden #fileInput accept="application/pdf"
+                                        (change)="onFileSelected(fileInput.files)" />
+                                    <mat-error *ngIf="formData.get('pdf_file_name')?.invalid">กรุณาเลือกรูป</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="-mx-3 md:flex mb-6">
+                        <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                            <button mat-raised-button color="primary" *ngIf="formData.get('pdf_file').value"
+                                (click)="openPdfInNewTab()" class="inline-flex items-center">
+                                <mat-icon class="mr-2">download</mat-icon>
+                                ดาวน์โหลด PDF
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="-mx-3 md:flex mb-6">
+                        <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                            <div
+                                class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label>VDO URL </mat-label>
+                                    <input matInput formControlName="video_url" [placeholder]="''">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="-mx-3 md:flex mb-6">
+                        <div class="md:min-w-full px-3 mb-6 md:mb-0">
                             <div class="border-t border-gray-200">
                                 <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                                     <div class=" flex flex-wrap justify-start">
@@ -332,7 +374,8 @@
     <div class="flex-auto px-6 sm:p-10">
         <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
             <div class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
-                <span class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
+                <span
+                    class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500">
                     {{ 'เลือกรูป Panorama ' | transloco }}
                 </span>
                 <div class="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg text-center hover:bg-gray-100 cursor-pointer"

@@ -131,7 +131,11 @@ export class EditComponent implements OnInit {
             supplier_id: [''],
             stock_status: [0],
             products: this._formBuilder.array([]),
-            images: this._formBuilder.array([]) // เริ่มว่าง
+            images: this._formBuilder.array([]), // เริ่มว่าง
+
+            pdf_file_name: '',
+            pdf_file: '',
+            video_url: '',
         });
         this.uploadPic = this._formBuilder.group({
             image: '',
@@ -238,6 +242,7 @@ export class EditComponent implements OnInit {
                         // channel_id: +this.item?.channel_id,
                         stock_status: +this.item?.stock_status,
                         more_address: this.item?.more_address,
+                        pdf_file_name: this.item?.pdf_file
                     });
 
                     // ดึง FormArray
@@ -503,7 +508,7 @@ export class EditComponent implements OnInit {
 
     Submit(): void {
         console.log(this.imagePreviews);
-        
+
         if (this.langues == 'tr') {
             const confirmation = this._fuseConfirmationService.open({
                 title: 'แก้ไขข้อมูล',
@@ -529,13 +534,13 @@ export class EditComponent implements OnInit {
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     let formValue = this.formData.value
-                    if(this.imagesPanaroma) {
+                    if (this.imagesPanaroma) {
                         formValue.panorama_images = this.imagesPanaroma
                     }
-                    if(this.images) {
+                    if (this.images) {
                         formValue.images = this.images
                     }
-                    
+
                     this._Service.Updatedata(formValue, this.Id).subscribe({
                         next: () => {
                             this._router
@@ -771,52 +776,90 @@ export class EditComponent implements OnInit {
     imagePreviews: string[] = [];
     selectedFiles: File[] = [];
     isDragging = false;
-    
+
     onFileChangePanorama(event: Event) {
-      const input = event.target as HTMLInputElement;
-      if (input.files) {
-        this.handleFiles(input.files);
-      }
+        const input = event.target as HTMLInputElement;
+        if (input.files) {
+            this.handleFiles(input.files);
+        }
     }
-    
+
     onDrop(event: DragEvent) {
-      event.preventDefault();
-      this.isDragging = false;
-    
-      if (event.dataTransfer?.files) {
-        this.handleFiles(event.dataTransfer.files);
-      }
+        event.preventDefault();
+        this.isDragging = false;
+
+        if (event.dataTransfer?.files) {
+            this.handleFiles(event.dataTransfer.files);
+        }
     }
-    
+
     onDragOver(event: DragEvent) {
-      event.preventDefault();
-      this.isDragging = true;
+        event.preventDefault();
+        this.isDragging = true;
     }
-    
+
     onDragLeave(event: DragEvent) {
-      this.isDragging = false;
+        this.isDragging = false;
     }
-    
+
     handleFiles(fileList: FileList) {
-      Array.from(fileList).forEach((file) => {
-        this.selectedFiles.push(file);
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.imagePreviews.push(e.target.result);
-        };
-        reader.readAsDataURL(file);
-        this.uploadFilePanorama(file)
-      });
+        Array.from(fileList).forEach((file) => {
+            this.selectedFiles.push(file);
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+                this.imagePreviews.push(e.target.result);
+            };
+            reader.readAsDataURL(file);
+            this.uploadFilePanorama(file)
+        });
     }
-    
+
     removeImage(img: string) {
-      const index = this.imagePreviews.indexOf(img);
-      if (index !== -1) {
-        this.imagePreviews.splice(index, 1);
-        this.imagesPanaroma.splice(index, 1);
-        this.selectedFiles.splice(index, 1);
-        console.log(this.imagesPanaroma);
-        
-      }
+        const index = this.imagePreviews.indexOf(img);
+        if (index !== -1) {
+            this.imagePreviews.splice(index, 1);
+            this.imagesPanaroma.splice(index, 1);
+            this.selectedFiles.splice(index, 1);
+            console.log(this.imagesPanaroma);
+
+        }
+    }
+
+    selectedFileName: string | null = null;
+
+    async onFileSelected(fileList: FileList | null): Promise<void> {
+        if (fileList && fileList.length > 0) {
+            const file = fileList[0];
+            this.selectedFileName = file.name;
+            this.formData.get('pdf_file_name')?.setValue(file.name); // อัปเดตชื่อไฟล์ลง form control
+            const formData1 = new FormData();
+            formData1.append('file', file);
+            formData1.append('path', 'file/');
+            this._Service.uploadFile(formData1).subscribe((resp: any) => {
+                const filePath = resp.path; // หรือ resp.data.path ถ้าอยู่ใน data
+                console.log('Uploaded file path:', filePath);
+                this.formData.patchValue({
+                    pdf_file: filePath
+                })
+            });
+        }
+    }
+
+    convertFile(data: any) {
+
+
+        return environment.baseURL + '/' + data
+    }
+
+    openPdfInNewTab(): void {
+        const filePath = this.formData.get('pdf_file')?.value;
+        if (filePath) {
+            const url = this.convertFile(filePath);
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank';
+            link.download = ''; // หรือใส่ชื่อไฟล์ 'myfile.pdf' ก็ได้
+            link.click();
+        }
     }
 }
