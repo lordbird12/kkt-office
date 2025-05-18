@@ -362,7 +362,6 @@
                                         class="bg-red-500 text-white px-2 py-1 mt-2 rounded-md">
                                         ลบรูป
                                     </button>
-
                                 </div>
                             </div>
                         </div>
@@ -371,7 +370,7 @@
             </div>
         </div>
     </form>
-    <div class="flex-auto px-6 sm:p-10">
+    <div class="flex-auto px-6">
         <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
             <div class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
                 <span
@@ -380,21 +379,10 @@
                 </span>
                 <div class="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg text-center hover:bg-gray-100 cursor-pointer"
                     (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
-                    [class.bg-blue-50]="isDragging" (click)="fileInput.click()">
+                    [class.bg-blue-50]="isDragging" (click)="inputPanorama.click()">
                     <p class="text-gray-500">ลากรูปมาวางตรงนี้ หรือคลิกเพื่อเลือก</p>
-                    <input #fileInput type="file" accept="image/*" multiple hidden
+                    <input #inputPanorama type="file" accept="image/*" multiple hidden
                         (change)="onFileChangePanorama($event)" />
-                </div>
-
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-                    <div *ngFor="let img of imagePreviews"
-                        class="relative w-full h-40 overflow-hidden rounded-lg border border-gray-200">
-                        <img [src]="img" alt="Preview" class="object-cover w-full h-full" />
-                        <button class="absolute top-1 right-1 bg-red-500 text-white text-xs px-2 py-0.5 rounded"
-                            (click)="removeImage(img)">
-                            ลบ
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

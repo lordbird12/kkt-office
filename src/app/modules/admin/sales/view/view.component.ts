@@ -67,6 +67,8 @@ export class ViewOrderComponent {
     statusOrder: any[] = [
         { value: 'Ordered', name: 'รอดำเนินการ', color: 'bg-yellow-100 text-yellow-800' },
         { value: 'Approve', name: 'อนุมัติ', color: 'bg-green-100 text-green-800' },
+        { value: 'WaitConfirmPay', name: 'รอตรวจสอบชำระเงิน', color: 'bg-blue-100 text-blue-800' },
+        { value: 'ConfirmPay', name: 'ชำระเงินแล้ว', color: 'bg-green-100 text-green-800' },
         { value: 'Recived', name: 'รอจัดส่ง', color: 'bg-blue-100 text-blue-800' },
         { value: 'Finish', name: 'จัดส่ง', color: 'bg-indigo-100 text-indigo-800' },
         { value: 'ToClient', name: 'ได้รับสินค้า', color: 'bg-teal-100 text-teal-800' },

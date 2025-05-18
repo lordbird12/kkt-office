@@ -5,9 +5,13 @@
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate" *ngIf="!customerId">
                     <!-- เพิ่มลูกค้า -->
-                    {{ 'customer.form.title' | transloco }}
+                    {{ 'เพิ่มลูกค้า' | transloco }}
+                </h2>
+                  <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate" *ngIf="customerId">
+                    <!-- เพิ่มลูกค้า -->
+                    {{ 'แก้ไขลูกค้า' | transloco }}
                 </h2>
             </div>
         </div>
@@ -82,7 +86,7 @@
                     <div class="md:w-1/2 px-3">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                             <mat-label>{{ 'customer.form.line' | transloco }}</mat-label>
-                            <input matInput [placeholder]="'Line'" formControlName="line">
+                            <input matInput [placeholder]="'Line'" formControlName="line_id">
                             <!-- <mat-hint>This is a hint text</mat-hint> -->
                         </mat-form-field>
                     </div>

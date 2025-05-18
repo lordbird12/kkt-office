@@ -84,6 +84,14 @@ export class ListComponent implements OnInit, AfterViewInit {
         },
         {
             value: 'Recived',
+            name: 'รอตรวจสอบชำระเงิน'
+        },
+        {
+            value: 'ConfirmPay',
+            name: 'ชำระเงินแล้ว'
+        },
+        {
+            value: 'Recived',
             name: 'รอจัดส่ง'
         },
         {

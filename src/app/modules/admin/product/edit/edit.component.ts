@@ -33,6 +33,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { Subscription, forkJoin, lastValueFrom } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { environment } from 'environments/environment.development';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
     selector: 'edit-product',
@@ -55,7 +56,8 @@ import { environment } from 'environments/environment.development';
         MatDatepickerModule,
         CommonModule,
         NgxDropzoneModule,
-        TranslocoModule
+        TranslocoModule,
+        MatCardModule
     ],
 })
 export class EditComponent implements OnInit {
@@ -454,10 +456,11 @@ export class EditComponent implements OnInit {
             const formData1 = new FormData();
             formData1.append('image', file);
             formData1.append('path', 'images/assets/');
+            formData1.append('original', 'Y');
             this._Service.uploadImg(formData1).subscribe((resp) => {
-
                 this.imagesPanaroma.push(resp); // อัปเดตรายการ images
                 console.log(this.imagesPanaroma);
+                
                 this._changeDetectorRef.markForCheck();
 
             })
@@ -808,6 +811,7 @@ export class EditComponent implements OnInit {
             const reader = new FileReader();
             reader.onload = (e: any) => {
                 this.imagePreviews.push(e.target.result);
+                // this.imagesPanaroma.push(e.target.result);
             };
             reader.readAsDataURL(file);
             this.uploadFilePanorama(file)
@@ -861,4 +865,30 @@ export class EditComponent implements OnInit {
             link.click();
         }
     }
+
+    selectedFiles1: File[] = [];
+    imagePreviews1: string[] = [];
+
+    onFileSelected1(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        if (!input.files?.length) return;
+
+        for (let i = 0; i < input.files.length; i++) {
+            const file = input.files[i];
+            this.selectedFiles1.push(file);
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                this.imagePreviews1.push(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    removeImage1(index: number): void {
+        this.selectedFiles1.splice(index, 1);
+        this.imagePreviews1.splice(index, 1);
+    }
+
+ 
 }

@@ -3,18 +3,21 @@
     <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <div class="flex flex-row mt-2 justify-between">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     {{ 'order.list.title' | transloco }}
                 </h2>
                 <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    <button class="px-6 ml-3" mat-flat-button color="primary" *ngIf="!hiddenSave()" (click)="openDialogBills()">
+                    <button class="px-6 ml-3" mat-flat-button color="primary" *ngIf="!hiddenSave()"
+                        (click)="openDialogBills()">
                         <mat-icon svgIcon="heroicons_outline:cloud-arrow-down"></mat-icon>
                         &nbsp;{{ 'ใบคุมบิล' | transloco }}
                     </button>
-                    <button class="px-6 ml-3" mat-flat-button color="primary" *ngIf="!hiddenSave()" (click)="addElement()">
+                    <button class="px-6 ml-3" mat-flat-button color="primary" *ngIf="!hiddenSave()"
+                        (click)="addElement()">
                         <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
                         &nbsp;{{ 'order.list.addOrder' | transloco }}
                     </button>
@@ -29,13 +32,11 @@
             <!-- MatTab สำหรับเลือกสถานะ -->
             <mat-tab-group [(selectedIndex)]="selectedStatusIndex" (selectedIndexChange)="onStatusChange($event)">
                 <mat-tab label="ทั้งหมด"></mat-tab>
-                <mat-tab *ngFor="let s of status; let i = index"
-                         [label]="s.name"
-                         [attr.data-status]="s.value">
+                <mat-tab *ngFor="let s of status; let i = index" [label]="s.name" [attr.data-status]="s.value">
                 </mat-tab>
-              </mat-tab-group>
+            </mat-tab-group>
         </div>
-    
+
         <div class="flex flex-col flex-auto p-5 sm:overflow-y-auto">
             <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
@@ -46,6 +47,7 @@
                         <th>{{ 'order.list.date' | transloco }}</th>
                         <th>{{ 'order.list.client' | transloco }}</th>
                         <th>{{ 'order.list.vat' | transloco }}</th>
+                        <th>{{ 'ประเภทส่วนลด' | transloco }}</th>
                         <th>{{ 'order.list.discount' | transloco }}</th>
                         <th>{{ 'order.list.total' | transloco }}</th>
                         <th>{{ 'order.list.status' | transloco }}</th>
@@ -54,34 +56,40 @@
                     </tr>
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
-                    <tr *ngFor="let item of dataRow; let i = index" [ngClass]="{'bg-yellow-100': shouldHighlightRow(item)}">
+                    <tr *ngFor="let item of dataRow; let i = index"
+                        [ngClass]="{'bg-yellow-100': shouldHighlightRow(item)}">
                         <td>
                             <button mat-icon-button [matMenuTriggerFor]="menu">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:cog-8-tooth'"></mat-icon>
-                              </button>
+                            </button>
                             <mat-menu #menu="matMenu">
                                 <button mat-menu-item *ngIf="!hiddenEdit()" (click)="editElement(item.id)">
-                                  <mat-icon [svgIcon]="'heroicons_solid:pencil-square'"></mat-icon>
-                                  <span>ดูรายละเอียด</span>
+                                    <mat-icon [svgIcon]="'heroicons_solid:pencil-square'"></mat-icon>
+                                    <span>ดูรายละเอียด</span>
                                 </button>
                                 <mat-divider></mat-divider>
                                 <button mat-menu-item (click)="updateStatus(item)">
-                                  <mat-icon [svgIcon]="'heroicons_solid:arrows-right-left'"></mat-icon>
-                                  <span>เปลี่ยนสถานะ</span>
+                                    <mat-icon [svgIcon]="'heroicons_solid:arrows-right-left'"></mat-icon>
+                                    <span>เปลี่ยนสถานะ</span>
+                                </button>
+                                <button mat-menu-item (click)="updateStatus(item)">
+                                    <mat-icon svgIcon="heroicons_solid:credit-card"></mat-icon>
+                                    <span>ข้อมูลการชำระ</span>
                                 </button>
                                 <mat-divider></mat-divider>
                                 <button mat-menu-item (click)="viewPDF(item.id)">
-                                  <mat-icon [svgIcon]="'heroicons_solid:document'"></mat-icon>
-                                  <span>ใบสั่งซื้อ</span>
+                                    <mat-icon [svgIcon]="'heroicons_solid:document'"></mat-icon>
+                                    <span>ใบสั่งซื้อ</span>
                                 </button>
-                             
-                              </mat-menu>
+
+                            </mat-menu>
                         </td>
                         <td>{{ pages.begin + (i + 1) }}</td>
                         <td>{{ item.code ? item.code : "-" }}</td>
                         <td>{{ (item.date ? item.date : "-") | date : 'dd/MM/yyyy' }}</td>
                         <td>{{ item.client ? item.client.name : "-" }}</td>
                         <td>{{ (item.price_vat ? item.price_vat : "-") | number : '1.2-2' }}</td>
+                        <td>{{ item.discount_type ? item.discount_type : "-"}}</td>
                         <td>{{ (item.discount ? item.discount : "-") | number : '1.2-2' }}</td>
                         <td>{{ (item.total_price ? item.total_price : "-") | number : '1.2-2' }}</td>
                         <td>{{ getStatusName(item.status) }}</td>
@@ -91,11 +99,12 @@
                 </tbody>
                 <tbody *ngIf="dataRow?.length == 0">
                     <tr>
-                        <td colspan="11" class="no-data-available text-center">{{ 'order.list.noData' | transloco }}</td>
+                        <td colspan="11" class="no-data-available text-center">{{ 'order.list.noData' | transloco }}
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    
+
 </div>

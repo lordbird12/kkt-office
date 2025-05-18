@@ -61,6 +61,14 @@
                     <span class="text-gray-900">{{ this.itemData?.client_email ?? '-'}}</span>
                 </div>
                 <div>
+                    <span class="text-gray-700 font-semibold">{{ 'Facebook' | transloco }}: </span>
+                    <span class="text-gray-900">{{ this.itemData?.facebook ?? '-'}}</span>
+                </div>
+                <div>
+                    <span class="text-gray-700 font-semibold">{{ 'Line' | transloco }}: </span>
+                    <span class="text-gray-900">{{ this.itemData?.line_id ?? '-'}}</span>
+                </div>
+                <div>
                     <span class="text-gray-700 font-semibold">{{ 'sales.form.address' | transloco }}: </span>
                     <span class="text-gray-900">{{ this.itemData?.client_address ?? '-' }}</span>
                 </div>
@@ -70,48 +78,48 @@
                     <div class="text-xl font-bold tracking-tight text-green-700">
                         {{ 'โปรโมชั่น' | transloco }}
                     </div>
-            
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2 text-sm text-gray-700">
                         <div>
                             <span class="font-semibold">รหัสโปรโมชัน:</span>
                             {{ promotion?.code }}
                         </div>
-            
+
                         <div>
                             <span class="font-semibold">ประเภท:</span>
                             {{ promotion?.type === 'free' ? 'แถมฟรี' : 'ลดราคา' }}
                         </div>
-            
+
                         <div>
                             <span class="font-semibold">สถานะ:</span>
                             {{ promotion?.status }}
                         </div>
-            
+
                         <div>
                             <span class="font-semibold">ซื้อขั้นต่ำ:</span>
                             {{ promotion?.min_qty_buy }} ชิ้น
                         </div>
-            
+
                         <div>
                             <span class="font-semibold">สินค้าที่ซื้อ:</span>
                             {{ promotion?.product?.name ?? '-' }}
                         </div>
-            
+
                         <div *ngIf="promotion.type === 'free'">
                             <span class="font-semibold">สินค้าแถม:</span>
                             {{ promotion?.product_free?.name ?? '-' }}
                         </div>
-            
+
                         <div class="sm:col-span-2 lg:col-span-3">
                             <span class="font-semibold">ช่วงเวลา:</span>
-                            {{ promotion?.start_date | date:'dd/MM/yyyy' }} - 
+                            {{ promotion?.start_date | date:'dd/MM/yyyy' }} -
                             {{ promotion?.end_date | date:'dd/MM/yyyy' }}
                         </div>
                     </div>
                 </div>
             </div>
-            
-            
+
+
         </div>
 
         <!-- รายการสินค้า -->

@@ -75,6 +75,7 @@ export class FormComponent implements OnInit {
     provinces: any[] = [ /* ดึงจาก API หรือข้อมูลส่วนกลาง */];
     districtControl = new FormControl(null);
     subdistrictControl = new FormControl(null);
+    customerId: any
     transportData: any[] = [
         {
             id: 1,
@@ -103,6 +104,7 @@ export class FormComponent implements OnInit {
         private _activatedRoute: ActivatedRoute,
     ) {
         this.provinces = this._activatedRoute.snapshot.data['provinces'].data;
+        this.customerId = this._activatedRoute.snapshot.params.id
         this.addForm = this._formBuilder.group({
             name: [''],
             email: [''],
@@ -119,7 +121,8 @@ export class FormComponent implements OnInit {
             remark: [null],
             zipcode: [null],
             facebook: [null],
-            line: [null],
+            line_id: [null],
+            status: [null],
         });
         this.lang = translocoService.getActiveLang();
         this.langues = localStorage.getItem('lang');
@@ -128,7 +131,17 @@ export class FormComponent implements OnInit {
     lang: String;
     url: String;
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        if (this.customerId) {
+            this._Service.getById(this.customerId).subscribe((resp: any) => {
+                console.log(resp.data);
+                this.addForm.patchValue({
+                    ...resp.data
+                })
+
+            })
+        }
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -172,36 +185,69 @@ export class FormComponent implements OnInit {
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     let formValue = this.addForm.value;
+                    if (this.customerId) {
+                        this._Service.update(formValue, this.customerId).subscribe({
+                            next: (resp: any) => {
+                                this._router.navigate(['/admin/customer/list']);
+                            },
+                            error: (err: any) => {
+                                this.addForm.enable();
+                                this._fuseConfirmationService.open({
+                                    title: 'กรุณาระบุข้อมูล',
+                                    message: err.error.message,
+                                    icon: {
+                                        show: true,
+                                        name: 'heroicons_outline:exclamation',
+                                        color: 'warning',
+                                    },
+                                    actions: {
+                                        confirm: {
+                                            show: false,
+                                            label: 'ยืนยัน',
+                                            color: 'primary',
+                                        },
+                                        cancel: {
+                                            show: false,
+                                            label: 'ยกเลิก',
+                                        },
+                                    },
+                                    dismissible: true,
+                                });
+                            },
+                        });
+                    } else {
+                         this._Service.create(formValue).subscribe({
+                            next: (resp: any) => {
+                                this._router.navigate(['/admin/customer/list']);
+                            },
+                            error: (err: any) => {
+                                this.addForm.enable();
+                                this._fuseConfirmationService.open({
+                                    title: 'กรุณาระบุข้อมูล',
+                                    message: err.error.message,
+                                    icon: {
+                                        show: true,
+                                        name: 'heroicons_outline:exclamation',
+                                        color: 'warning',
+                                    },
+                                    actions: {
+                                        confirm: {
+                                            show: false,
+                                            label: 'ยืนยัน',
+                                            color: 'primary',
+                                        },
+                                        cancel: {
+                                            show: false,
+                                            label: 'ยกเลิก',
+                                        },
+                                    },
+                                    dismissible: true,
+                                });
+                            },
+                        });
+                    }
 
-                    this._Service.create(formValue).subscribe({
-                        next: (resp: any) => {
-                            this._router.navigate(['/admin/customer/list']);
-                        },
-                        error: (err: any) => {
-                            this.addForm.enable();
-                            this._fuseConfirmationService.open({
-                                title: 'กรุณาระบุข้อมูล',
-                                message: err.error.message,
-                                icon: {
-                                    show: true,
-                                    name: 'heroicons_outline:exclamation',
-                                    color: 'warning',
-                                },
-                                actions: {
-                                    confirm: {
-                                        show: false,
-                                        label: 'ยืนยัน',
-                                        color: 'primary',
-                                    },
-                                    cancel: {
-                                        show: false,
-                                        label: 'ยกเลิก',
-                                    },
-                                },
-                                dismissible: true,
-                            });
-                        },
-                    });
+
                 }
             });
         }

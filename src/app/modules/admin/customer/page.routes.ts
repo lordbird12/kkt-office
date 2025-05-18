@@ -52,8 +52,9 @@ export default [
         children : [
             {
                 path     : 'edit/:id',
-                component: EditComponent,
+                component: FormComponent,
                 resolve  : {
+                    provinces    : () => inject(AddressService).getProvince(),
                     // brands    : () => inject(InventoryService).getBrands(),
                     // categories: () => inject(InventoryService).getCategories(),
                     // products  : () => inject(InventoryService).getProducts(),

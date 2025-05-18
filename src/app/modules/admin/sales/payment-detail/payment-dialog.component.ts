@@ -21,9 +21,9 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 @Component({
-    selector: 'update-dialog',
-    templateUrl: './update-dialog.component.html',
-    styleUrls: ['./update-dialog.component.scss'],
+    selector: 'payment-dialog',
+    templateUrl: './payment-dialog.component.html',
+    styleUrls: ['./payment-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
@@ -48,7 +48,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
         TranslocoModule
     ],
 })
-export class UpdateDialogComponent implements OnInit {
+export class PaymentDialogComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
     isLoading: boolean = false;
@@ -56,7 +56,7 @@ export class UpdateDialogComponent implements OnInit {
     permissions: any[];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
-    constructor(private dialogRef: MatDialogRef<UpdateDialogComponent>,
+    constructor(private dialogRef: MatDialogRef<PaymentDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
         private _service: PageService,
